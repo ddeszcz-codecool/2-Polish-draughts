@@ -1,7 +1,6 @@
-package main.java;
 
 public class Game {
-    Pawn pawn = new Pawn();
+    //Pawn pawn = new Pawn();
 
     void start(){
 
@@ -9,7 +8,7 @@ public class Game {
     public void playRound(){// Który gracz jest następny,oraz czy ktoś wygrał.
 
     }
-    public void verifyPawnCoordinates (){ //Sprawdza czy jest w zakresie i czy nie jest już zajęty i wywołuje metode tryToMakeMove
+    public void verifyPawnCoordinates (Pawn pawn){ //Sprawdza czy jest w zakresie i czy nie jest już zajęty i wywołuje metode tryToMakeMove
     pawn.tryToMakeMove();
     }
     public boolean checkForWinner(){//Sprawdza czy po rundzie ktoś wygrywa, oraz czy jest remis

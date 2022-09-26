@@ -1,10 +1,14 @@
-package main.java;
 
 public class Pawn {
 
     Color color;
     Coordinates position;
     boolean isCrowned = false;
+
+    Pawn(int x, int y, Color color ){
+        position = new Coordinates(x, y);
+        this.color = color;
+    }
 
     public boolean isCrowned(){ //Sprawdza czy pionek ma być koronowany?
         return isCrowned;
