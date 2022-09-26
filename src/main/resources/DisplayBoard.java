@@ -1,7 +1,7 @@
 public class DisplayBoard {
 
 // board size
-// static int n = 10;
+ static int n = 10;
 
     static String whitepiece = "(░)";
     static String blackpiece = "(▒)";
@@ -80,7 +80,7 @@ public class DisplayBoard {
 
     public static void main(String[] args) {
 //        DisplayBoard displayboard = new DisplayBoard();
-        ShowMeBoard(16);
+        ShowMeBoard(n);
     }
 
 
