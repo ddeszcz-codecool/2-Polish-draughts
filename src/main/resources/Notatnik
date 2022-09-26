@@ -1,0 +1,13 @@
+1. Tworzymy obiekt Game -> Tworzy Board
+
+2.Board tworzy rzędy i kolumny, na takich pozycjach tworzymy obiekty Pawn (przypisujemy im kolor)
+
+3.Pierwszy ruch ma biały (ruch(czy można), zbicie(czy można),
+    zostać królową(czy jest na odpowiedznim miejscu), error(brak ruchu)), sprawdzenie czy biały wygrał czy jest remis
+
+4.Ruch ma czarny (ruch(czy można), zbicie(czy można),zostać królową(czy jest na odpowiedznim miejscu),
+     error(brak ruchu)), sprawdzenie czy czarny wygrał czy jest remis
+
+5.Loop pkt.3 i 4
+
+6.Zakończenie gry
