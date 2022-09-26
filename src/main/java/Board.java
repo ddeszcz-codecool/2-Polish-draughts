@@ -11,7 +11,7 @@ public class Board {
     }
 
 
-    public String toString(){ //Tworzymy ....
+    public String toString(){ //Wyprintowanie szachownicy i pionków
 
         return null;
     }
