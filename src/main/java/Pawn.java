@@ -9,6 +9,7 @@ public class Pawn {
         position = new Coordinates(x, y);
         this.color = color;
     }
+    Pawn(){}
 
     public boolean isCrowned(){ //Sprawdza czy pionek ma być koronowany?
         return isCrowned;

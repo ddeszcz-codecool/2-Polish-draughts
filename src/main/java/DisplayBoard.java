@@ -1,7 +1,12 @@
 public class DisplayBoard {
+    DisplayBoard(Pawn[][] board){
+        paraBoard = board;
+    }
 
-// board size
- static int n = 10;
+    static Pawn [][] paraBoard;
+
+    // board size
+    static int n = paraBoard.length;
 
     static String whitepiece = "(░)";
     static String blackpiece = "(▒)";
@@ -20,9 +25,10 @@ public class DisplayBoard {
 
 
 
-    static int [][] paraBoard = new int [n][n];
+    //static int [][] paraBoard = new int [n][n];
 
-    public static void ShowMeBoard(int n) {
+
+    public void ShowMeBoard() {
         int xct, yct, fieldContent;
         System.out.print("      ");
         for (int iCol = 0; iCol < n; iCol++) {
@@ -47,7 +53,7 @@ public class DisplayBoard {
 // ==========================================================
 
                 System.out.print(blacksquare);
-                System.out.print(whitesquare); // this is always empty
+                System.out.print(determineFieldContent(iRow,iCol)); // this is always empty
             }
             System.out.print("\n");
             formatted = String.format("%3s", (iRow + 2)) + "  ";
@@ -66,7 +72,7 @@ public class DisplayBoard {
 //                        4: whitequeen
 // ==========================================================
 
-                System.out.print(whitesquare); // this is always empty
+                System.out.print(determineFieldContent(iRow,iCol)); // this is always empty
                 System.out.print(blacksquare); // th
 
             }
@@ -75,13 +81,24 @@ public class DisplayBoard {
 
 
     }
+    private String determineFieldContent(int row, int col){
+        if(paraBoard[row][col] == null){
+            return blacksquare;
+        }
 
-
-
-    public static void main(String[] args) {
-//        DisplayBoard displayboard = new DisplayBoard();
-        ShowMeBoard(n);
+        if(paraBoard[row][col].color == Color.BLACK){
+            return blackpiece;
+        }
+        else
+            return whitepiece;
     }
+
+
+//
+//    public static void main(String[] args) {
+////        DisplayBoard displayboard = new DisplayBoard();
+//        ShowMeBoard(n);
+//    }
 
 
 }
