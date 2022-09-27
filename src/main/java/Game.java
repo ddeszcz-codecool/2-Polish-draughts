@@ -1,4 +1,7 @@
+import java.util.InputMismatchException;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public class Game {
     Color currentPlayer = Color.WHITE;
@@ -6,7 +9,6 @@ public class Game {
 
     void start() {
         System.out.println("Hello !!");
-        System.out.println("What size do you want to play on ? ");
         board = new Board(askUserForBoardSize());
         board.toString();
 
@@ -28,7 +30,7 @@ public class Game {
             }
 
             if (checkForWinner()) {
-                    return false;
+                return false;
             }
 
             if (currentPlayer == Color.WHITE) {
@@ -77,7 +79,25 @@ public class Game {
     private int askUserForBoardSize() {
         Scanner scanner = new Scanner(System.in);
 
-        return 10;
+        while (true) {
+            System.out.println("What size do you want to play on ? ");
+            String size = scanner.nextLine().strip();
+            if (validateUserChoicePattern(size)) {
+                int boardSize = Integer.parseInt(size);
+                if (boardSize >= 10 && boardSize <= 20 && boardSize % 2 == 0)
+                    return boardSize;
+                else
+                    System.out.println("The board size entered is incorrect, try between 12 and 20 (only even numbers)");
+                continue;
+            }else
+                System.out.println("The input format incorrect, try numbers between 12 and 20 (only even numbers)");
+            continue;
+        }
+    }
+
+    private boolean validateUserChoicePattern(String userChoice) {
+        Pattern pattern = Pattern.compile("^[0-9]+$");
+        return pattern.matcher(userChoice).matches();
     }
 
     //validacja regexa + czy na polu jest pionek gracza + czy koordynat na boardzie
