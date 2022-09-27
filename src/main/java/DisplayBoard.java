@@ -9,8 +9,8 @@ public class DisplayBoard {
      String blackpiece = "( )";
      String whitequeen = "[░]";
      String blackqueen = "[▒]";
-     String whitesquare = "   ";
-     String blacksquare = "▓▓▓";
+     String blacksquare = "   ";
+     String whitesquare = "▓▓▓";
 // ===================================
 // blacksquares are playable
 // whitesquares are not
@@ -27,16 +27,12 @@ public class DisplayBoard {
         for (int iCol = 0; iCol < n; iCol++) {
             System.out.print(letters.charAt(iCol)+"  ");
         }
-
         System.out.print("\n");
 
-
-
-
-        for (int iRow = 0; iRow < n; iRow += 2) {
+        for (int iRow = 0; iRow < n; iRow++) {
             String formatted = String.format("%3s", (iRow + 1)) + "  ";
             System.out.print(formatted);
-            for (int iCol = 0; iCol < n; iCol += 2) {
+            for (int iCol = 1; iCol < n; iCol += 2) {
 
 // ==========================================================
 //      BLACKSQUARE CAN BE EMPTY OR CONTAIN A PAWN OR A QUEEN
@@ -49,15 +45,14 @@ public class DisplayBoard {
 //                        3: whitequeen
 //                        4: whitequeen
 // ==========================================================
-
-                System.out.print(blacksquare);
+                System.out.print(whitesquare);
                 System.out.print(determineFieldContent(iRow,iCol)); // this is always empty
             }
             System.out.print("\n");
-            formatted = String.format("%3s", (iRow + 2)) + "  ";
+            iRow++;
+            formatted = String.format("%3s", (iRow + 1)) + "  ";
             System.out.print(formatted);
             for (int iCol = 0; iCol < n; iCol += 2) {
-
 // ==========================================================
 //      BLACKSQUARE CAN BE EMPTY OR CONTAIN A PAWN OR A QUEEN
 //
@@ -69,9 +64,8 @@ public class DisplayBoard {
 //                        3: whitequeen
 //                        4: whitequeen
 // ==========================================================
-
                 System.out.print(determineFieldContent(iRow,iCol)); // this is always empty
-                System.out.print(blacksquare); // th
+                System.out.print(whitesquare); // th
 
             }
             System.out.print("\n");
@@ -81,7 +75,7 @@ public class DisplayBoard {
     }
     private String determineFieldContent(int row, int col){
         if(paraBoard[row][col] == null){
-            return whitesquare;
+            return blacksquare;
         }
 
         if(paraBoard[row][col].color == Color.BLACK){

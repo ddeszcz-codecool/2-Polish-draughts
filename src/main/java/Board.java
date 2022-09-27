@@ -8,16 +8,26 @@ class Board {
     Board(int n) {
         this.fields = new Pawn[n][n];
         setUpPawnsOnBoard();
+        print();
+    }
+
+    private void print(){
+        for(Pawn[] row:fields){
+            for(Pawn pawn: row){
+                System.out.print(pawn);
+            }
+            System.out.println();
+        }
     }
     private void setUpPawnsOnBoard() {
         int startingColumn;
 
         //for white pawns
         for (int i = fields.length - 1; i >= fields.length - innitPawnRows; i--) {
-            if (fields.length % 2 == 0)
-                startingColumn = 0;
-            else
+            if (i % 2 == 0)
                 startingColumn = 1;
+            else
+                startingColumn = 0;
             for (int j = startingColumn; j < fields[0].length; j += 2) {
                 fields[i][j] = new Pawn(i, j, Color.WHITE);
             }
@@ -26,10 +36,10 @@ class Board {
         //for black pawns
 
         for (int i = 0; i < innitPawnRows; i++) {
-            if (fields.length % 2 == 0)
-                startingColumn =0;
-            else
+            if (i % 2 == 0)
                 startingColumn = 1;
+            else
+                startingColumn = 0;
 
             for (int j = startingColumn; j < fields[0].length; j += 2) {
                 fields[i][j] = new Pawn(i, j, Color.BLACK);
@@ -59,4 +69,5 @@ class Board {
     public Pawn[][] getFields() {
         return fields;
     }
+
 }
