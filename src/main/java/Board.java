@@ -1,19 +1,19 @@
+class Board {
 
-public class Board {
 
+    final int innitPawnRows = 4;
     Pawn[][] fields;
-    int n = 10; //Zrobić wprowadzanie rozmiaru tablicy
+    DisplayBoard dis;
 
-    public Board(int n) {
-        fields = new Pawn[n][n]; //[rzędy],[kolumna]
-
+    Board(int n) {
+        this.fields = new Pawn[n][n];
+        setUpPawnsOnBoard();
     }
-
     private void setUpPawnsOnBoard() {
         int startingColumn;
 
         //for white pawns
-        for (int i = fields.length - 1; i > fields.length - 5; i--) {
+        for (int i = fields.length - 1; i >= fields.length - innitPawnRows; i--) {
             if (fields.length % 2 == 0)
                 startingColumn = 0;
             else
@@ -25,9 +25,9 @@ public class Board {
 
         //for black pawns
 
-        for (int i = 0; i <= 3; i++) {
+        for (int i = 0; i < innitPawnRows; i++) {
             if (fields.length % 2 == 0)
-                startingColumn = 0;
+                startingColumn =0;
             else
                 startingColumn = 1;
 
@@ -38,8 +38,9 @@ public class Board {
     }
 
     public String toString() { //Wyprintowanie szachownicy i pionków
-
-        return null;
+        dis = new DisplayBoard(fields);
+        dis.ShowMeBoard();
+        return "Hey";
     }
 
     public void removePawn(Pawn pawn) { //
@@ -55,4 +56,7 @@ public class Board {
         fields[currentX][currentY] = null;
     }
 
+    public Pawn[][] getFields() {
+        return fields;
+    }
 }

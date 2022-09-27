@@ -1,14 +1,15 @@
 
 public class Pawn {
 
-    Color color;
-    Coordinates position;
+    Color color = null;
+    Coordinates position = new Coordinates(0,0);
     boolean isCrowned = false;
 
     Pawn(int x, int y, Color color ){
         position = new Coordinates(x, y);
         this.color = color;
     }
+    Pawn(){}
 
     public boolean isCrowned(){ //Sprawdza czy pionek ma być koronowany?
         return isCrowned;
