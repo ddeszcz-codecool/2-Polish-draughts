@@ -23,6 +23,9 @@ public class Pawn {
     }                           //Sprawdzić czy masz obowiązkowe bicie???
 
 
-    public void tryToMakeMove() {// nawiązanie do ruchu z klasy Game
+    //sprawdza czy mozna sie ruszyc w dane coordynaty
+    //wykonuje ruch
+    public boolean tryToMakeMove(int[] newCoordinates, Board board) {
+        return true;
     }
 }

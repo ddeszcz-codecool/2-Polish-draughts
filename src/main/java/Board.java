@@ -43,7 +43,7 @@ class Board {
         return "Hey";
     }
 
-    public void removePawn(Pawn pawn) { //
+    public void removePawn(Pawn pawn) {
         fields[pawn.position.getX()][pawn.position.getY()] = null;
     }
 
