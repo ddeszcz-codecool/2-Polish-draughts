@@ -59,6 +59,7 @@ public class Game {
             return false;
         }
         int[] moveCoordinates = stringToCoordinates(placeToMove);
+        System.out.println(pawnCoordinates[0] + "   " + pawnCoordinates[1]);
 
         if (!board.fields[pawnCoordinates[0]][pawnCoordinates[1]].tryToMakeMove(moveCoordinates, board)) {
             System.out.println("Wrong move!");
@@ -82,6 +83,11 @@ public class Game {
 
     //validacja regexa + czy na polu jest pionek gracza + czy koordynat na boardzie
     private boolean validateUserChoosenPawnCoordinates(String coordinates) {
+        int[] pawnPlace = stringToCoordinates(coordinates);
+        if(board.getFields()[pawnPlace[0]][pawnPlace[1]] == null){
+            System.out.println("blad");
+            return false;
+        }
         return true;
     }
 
@@ -95,6 +101,6 @@ public class Game {
         int row = charRow - 97;
         int col = Integer.parseInt(coordinates.substring(1)) - 1;
 
-        return new int[]{row, col};
+        return new int[]{col, row};
     }
 }
