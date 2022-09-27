@@ -1,27 +1,20 @@
 public class DisplayBoard {
+    Pawn [][] paraBoard;
+    int n;
     DisplayBoard(Pawn[][] board){
         paraBoard = board;
+        n  = paraBoard.length;
     }
-
-    static Pawn [][] paraBoard;
-
-    // board size
-    static int n = paraBoard.length;
-
-    static String whitepiece = "(░)";
-    static String blackpiece = "(▒)";
-    static String whitequeen = "[░]";
-    static String blackqueen = "[▒]";
-    static String whitesquare = "   ";
-    static String blacksquare = "▓▓▓";
-    static int whitepieceI = 1;
-    static int blackpieceI = 2;
-    static int whitesquareI = -1;
-    static int blacksquareI = 0;
+     String whitepiece = "(░)";
+     String blackpiece = "( )";
+     String whitequeen = "[░]";
+     String blackqueen = "[▒]";
+     String whitesquare = "   ";
+     String blacksquare = "▓▓▓";
 // ===================================
 // blacksquares are playable
 // whitesquares are not
-    static String letters = "ABCDEFGHIJKLMNOPQRST";
+     String letters = "ABCDEFGHIJKLMNOPQRST";
 
 
 
@@ -34,7 +27,12 @@ public class DisplayBoard {
         for (int iCol = 0; iCol < n; iCol++) {
             System.out.print(letters.charAt(iCol)+"  ");
         }
+
         System.out.print("\n");
+
+
+
+
         for (int iRow = 0; iRow < n; iRow += 2) {
             String formatted = String.format("%3s", (iRow + 1)) + "  ";
             System.out.print(formatted);
@@ -83,7 +81,7 @@ public class DisplayBoard {
     }
     private String determineFieldContent(int row, int col){
         if(paraBoard[row][col] == null){
-            return blacksquare;
+            return whitesquare;
         }
 
         if(paraBoard[row][col].color == Color.BLACK){
