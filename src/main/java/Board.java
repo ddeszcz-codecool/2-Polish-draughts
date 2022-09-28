@@ -9,6 +9,8 @@ class Board {
         fields[1][2] = new Pawn(1,2,Color.WHITE);
         fields[0][1] = new Pawn(0,1,Color.WHITE);
         fields[4][5] = new Pawn(4,5,Color.BLACK);
+        fields[6][5] = new Pawn(6,5,Color.BLACK);
+        fields[8][5] = new Pawn(8,5,Color.BLACK);
     }
 
     private void setUpPawnsOnBoard() {

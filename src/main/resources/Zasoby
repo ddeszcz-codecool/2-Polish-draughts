@@ -1,1 +1,0 @@
- System.out.println("\u001B[47m(Treść)\u001B[0m"); //Białe tło
