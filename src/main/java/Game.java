@@ -123,4 +123,14 @@ public class Game {
 
         return new int[]{col, row};
     }
+
+    private boolean validateCoordinatesAreOnlyLetterAndNumber (String coordinates){
+        Pattern pattern = Pattern.compile("^[a-z]{1,2}[0-9]{1,2}$");
+        return pattern.matcher(coordinates).matches();
+    }
+
+    private boolean validateCoordinatesAreNotOutOfBound (String coordinates) {
+        Pattern pattern = Pattern.compile("^[a-z]{1,2}[0-9]{1,2}$");
+        return pattern.matcher(coordinates).matches();
+    }
 }
