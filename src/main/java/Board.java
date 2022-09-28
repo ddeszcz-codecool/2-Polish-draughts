@@ -1,6 +1,4 @@
 class Board {
-
-
     final int initPawnRows = 4;
     Pawn[][] fields;
     DisplayBoard dis;
