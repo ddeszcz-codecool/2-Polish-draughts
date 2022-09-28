@@ -74,8 +74,11 @@ public class Game {
     public boolean checkForWinner() {//Sprawdza czy po rundzie ktoś wygrywa, oraz czy jest remis
         //Wygrana kiedy wszystkie pionki przeciwnika znikną
         //Zrobić log ostatnich zagrać
-        return this.checkIfNoEnemyPawnsOnBoard();
-
+        if (this.checkIfNoEnemyPawnsOnBoard() || this.checkIfAllEnemiesPawnsBlocked()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public boolean checkIfNoEnemyPawnsOnBoard() {
@@ -96,7 +99,88 @@ public class Game {
         return true;
     }
 
+    public boolean checkIfAllEnemiesPawnsBlocked() {
+        Color enemyColor;
+        if (currentPlayer == Color.WHITE) {
+            enemyColor = Color.BLACK;
+        } else {
+            enemyColor = Color.WHITE;
+        }
+        for (int i = 0; i < board.fields.length; i++) {
+            for (int j = 0; j < board.fields[0].length; j++) {
+                if (board.fields[i][j] != null && board.fields[i][j].color == enemyColor) {
+                    if (enemyColor == Color.WHITE){
+                        this.isWhitePawnBlocked(i,j);
+                    //} else {
+                        //this.isBlackPawnBlocked(i,j);
+                    }
 
+                    }
+                }
+            }
+        return false;
+    }
+
+    public boolean isWhitePawnBlocked(int i, int j) {
+        if (i == 0) { // dodajemy dopoki nie mamy króli
+            return true;
+        }
+        else if (this.isWhitePawnBlockedToTheLeft(i, j) && this.isWhitePawnBlockedToTheRight(i, j)) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isWhitePawnBlockedToTheLeft(int i, int j) {
+
+        if (j == 0) {
+            return true;
+        } else if (i>=1 && board.fields[i - 1][j - 1].color == Color.WHITE) {
+            return true;
+        } else if (j == 1 && board.fields[i - 1][j - 1] != null) {
+            return true;
+        } else if (i >= 2 && board.fields[i - 1][j - 1] != null && board.fields[i - 2][j - 2] != null) {
+            return true;
+        } else if (i == 1 && board.fields[i-1][j-1] != null){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean isWhitePawnBlockedToTheRight(int i, int j){
+        if (j == board.fields[0].length-1) {
+            return true;
+        } else if (i>=1 && board.fields[i - 1][j + 1].color == Color.WHITE) {
+            return true;
+        } else if (j == board.fields.length-2 && board.fields[i - 1][j + 1] != null) {
+            return true;
+        } else if (i >= 2 && board.fields[i - 1][j + 1] != null && board.fields[i - 2][j + 2] != null) {
+            return true;
+        } else if (i == 1 && board.fields[i-1][j+1] != null){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+
+    public boolean isBlackPawnBlocked(int i, int j){
+        if (this.isWhitePawnBlockedToTheLeft(i, j) && this.isWhitePawnBlockedToTheRight(i, j)) {
+            return true;
+        }
+        return false;
+        }
+
+
+    public boolean isBlackPawnBlockedToTheLeft(){
+        return false;
+    }
+
+    public boolean isBlackPawnBlockedToTheRight(){
+        return  false;
+    }
 
         private int askUserForBoardSize () {
             Scanner scanner = new Scanner(System.in);

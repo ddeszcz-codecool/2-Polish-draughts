@@ -5,7 +5,10 @@ class Board {
 
     Board(int n) {
         this.fields = new Pawn[n][n];
-        setUpPawnsOnBoard();
+        //setUpPawnsOnBoard();
+        fields[1][2] = new Pawn(1,2,Color.WHITE);
+        fields[0][1] = new Pawn(0,1,Color.WHITE);
+        fields[4][5] = new Pawn(4,5,Color.BLACK);
     }
 
     private void setUpPawnsOnBoard() {
