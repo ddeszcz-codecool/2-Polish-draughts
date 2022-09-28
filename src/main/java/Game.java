@@ -24,13 +24,14 @@ public class Game {
 
     public boolean playRound() {// Który gracz jest następny,oraz czy ktoś wygrał.
 
-        while (true) {
+        boolean result = true;
+        while (result) {
             if (!verifyPlayerMove()) {
                 continue;
             }
 
             if (checkForWinner()) {
-                return false;
+                result = false;
             }
 
             if (currentPlayer == Color.WHITE) {
@@ -40,7 +41,7 @@ public class Game {
 
             break;
         }
-        return true;
+        return result;
     }
 
     public boolean verifyPlayerMove() { //Sprawdza czy jest w zakresie i czy nie jest już zajęty i wywołuje metode tryToMakeMove
@@ -123,16 +124,20 @@ public class Game {
 
     public boolean isWhitePawnBlocked(int i, int j) {
         if (i == 0) { // dodajemy dopoki nie mamy króli
+            System.out.println("jest zablokowany");
             return true;
         }
         else if (this.isWhitePawnBlockedToTheLeft(i, j) && this.isWhitePawnBlockedToTheRight(i, j)) {
+            System.out.println("jest zablokowany");
             return true;
+
         }
+        System.out.println("nie sa zablokowane");
         return false;
     }
 
     public boolean isWhitePawnBlockedToTheLeft(int i, int j) {
-
+        System.out.println("sprawdzanie");
         if (j == 0) {
             return true;
         } else if (i>=1 && board.fields[i - 1][j - 1].color == Color.WHITE) {
