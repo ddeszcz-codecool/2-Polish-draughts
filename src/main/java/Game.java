@@ -47,23 +47,40 @@ public class Game {
     public boolean verifyPlayerMove() {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Which pawn you want to move?");
+        System.out.println("Which pawn do you want to move?");
         String pawnPlaceOnBoard = scanner.nextLine().strip().toLowerCase();
-        if (!validateUserChoosenPawnCoordinates(pawnPlaceOnBoard)) {
-            System.out.println("Wrong coordinates , try again");
+        if (!validateCoordinatesAreOnlyLetterAndNumber(pawnPlaceOnBoard)){
+            System.out.println("Your coordinates are not correct, please use a following format - letter + number - e.g. A2, B4");
             return false;
         }
         int[] pawnCoordinates = stringToCoordinates(pawnPlaceOnBoard);
+        if (!validateCoordinatesAreInRange(pawnCoordinates)){
+            int boardWidth = board.fields.length;
+            char boardHeight = (char) (board.fields.length + 64);
+            System.out.println("Your coordinates are out of range please use coordinates from 1 to " + boardWidth + " and from A to " + boardHeight );
+            return false;
+        }
+        if (!validateUserChosenPawnNotNullAndNotDifferentColor(pawnCoordinates)) {
+            return false;
+        }
+
 
         System.out.println("Where you want to move it ?");
         String placeToMove = scanner.nextLine().strip().toLowerCase();
-        if (!validateUserChoosenMoveCoordinates(placeToMove)) {
-            System.out.println("Wrong coordinates , try again");
+        if (!validateCoordinatesAreOnlyLetterAndNumber(placeToMove)){
+            System.out.println("Your coordinates are not correct, please use format letter plus number e.g. A2, B4");
             return false;
         }
         int[] moveCoordinates = stringToCoordinates(placeToMove);
-        System.out.println(pawnCoordinates[0] + "   " + pawnCoordinates[1]);
-
+        if (!validateCoordinatesAreInRange(moveCoordinates)){
+            int boardWidth = board.fields.length;
+            char boardHeight = (char) (board.fields.length + 64);
+            System.out.println("Your coordinates are out of range please use coordinates from 1 to " + boardWidth + " and from A to " + boardHeight );
+            return false;
+        }
+        if (!validateUserChosenMoveCoordinatesAreNull(moveCoordinates)) {
+            return false;
+        }
         if (!board.fields[pawnCoordinates[0]][pawnCoordinates[1]].tryToMakeMove(moveCoordinates, board)) {
             System.out.println("Wrong move!");
             return false;
@@ -240,18 +257,25 @@ public class Game {
         return pattern.matcher(userChoice).matches();
     }
 
-    //validacja regexa + czy na polu jest pionek gracza + czy koordynat na boardzie
-    private boolean validateUserChoosenPawnCoordinates(String coordinates) {
-        int[] pawnPlace = stringToCoordinates(coordinates);
-        if (board.getFields()[pawnPlace[0]][pawnPlace[1]] == null) {
-            System.out.println("blad");
+
+    private boolean validateUserChosenPawnNotNullAndNotDifferentColor(int[] pawnPlace) {
+        if(board.getFields()[pawnPlace[0]][pawnPlace[1]] == null){
+            System.out.println("There is no pawn on this field");
+            return false;
+        }
+
+        if (currentPlayer != board.getFields()[pawnPlace[0]][pawnPlace[1]].color) {
+            System.out.println("This is Yours opponent pawn, please use your pawn");
             return false;
         }
         return true;
     }
 
-    //validacja regexa + czy koordynat na boardzie
-    private boolean validateUserChoosenMoveCoordinates(String coordinates) {
+    private boolean validateUserChosenMoveCoordinatesAreNull(int[] pawnPlace) {
+        if(board.getFields()[pawnPlace[0]][pawnPlace[1]] != null){
+            System.out.println("You cannot move here, this field is occupied by another pawn");
+            return false;
+        }
         return true;
     }
 
@@ -261,5 +285,14 @@ public class Game {
         int col = Integer.parseInt(coordinates.substring(1)) - 1;
 
         return new int[]{col, row};
+    }
+
+    private boolean validateCoordinatesAreOnlyLetterAndNumber(String coordinates){
+            Pattern pattern = Pattern.compile("^[a-z][0-9]{1,2}$");
+            return pattern.matcher(coordinates).matches();
+    }
+
+    private boolean validateCoordinatesAreInRange(int[] coordinates){
+        return coordinates[0]<board.fields.length && coordinates[1]<board.fields.length;
     }
 }
