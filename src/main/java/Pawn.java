@@ -32,20 +32,21 @@ public class Pawn {
     }
 
     private boolean pawnCapture(int[] newCoordinates, Board board) {
-        if(this.color == Color.WHITE){
+        if (this.color == Color.WHITE) {
             return whitePawnCapturesBlack(newCoordinates, board);
-        }
-        else
+        } else
             return blackPawnCapturesWhite(newCoordinates, board);
     }
 
     private boolean whitePawnCapturesBlack(int[] newCoordinates, Board board) {
         if (board.getFields()[newCoordinates[0]][newCoordinates[1]] == null) {
             if (newCoordinates[1] > this.position.getY()) {
-                return board.getFields()[newCoordinates[0] - 1][newCoordinates[1] + 1].color == Color.BLACK;
+                return board.getFields()[this.position.getX() - 1][this.position.getY() + 1] != null &&
+                        board.getFields()[this.position.getX() - 1][this.position.getY() + 1].color == Color.BLACK;
             }
-            if(newCoordinates[1] < this.position.getY()){
-                return board.getFields()[newCoordinates[0] - 1][newCoordinates[1] - 1].color == Color.BLACK;
+            if (newCoordinates[1] < this.position.getY()) {
+                return board.getFields()[this.position.getX() - 1][this.position.getY() - 1] != null &&
+                        board.getFields()[this.position.getX() - 1][this.position.getY() - 1].color == Color.BLACK;
             }
         }
         return false;
@@ -54,10 +55,12 @@ public class Pawn {
     private boolean blackPawnCapturesWhite(int[] newCoordinates, Board board) {
         if (board.getFields()[newCoordinates[0]][newCoordinates[1]] == null) {
             if (newCoordinates[1] > this.position.getY()) {
-                return board.getFields()[newCoordinates[0] + 1][newCoordinates[1] + 1].color == Color.WHITE;
+                return board.getFields()[this.position.getX() + 1][this.position.getY() + 1] != null &&
+                        board.getFields()[this.position.getX() + 1][this.position.getY() + 1].color == Color.WHITE;
             }
-            if(newCoordinates[1] < this.position.getY()){
-                return board.getFields()[newCoordinates[0] + 1][newCoordinates[1] - 1].color == Color.WHITE;
+            if (newCoordinates[1] < this.position.getY()) {
+                return board.getFields()[this.position.getX() + 1][this.position.getY() - 1] != null &&
+                        board.getFields()[this.position.getX() + 1][this.position.getY() - 1].color == Color.WHITE;
             }
         }
         return false;
@@ -86,11 +89,11 @@ public class Pawn {
     //sprawdza czy mozna sie ruszyc w dane coordynaty
     //wykonuje ruch
     public boolean tryToMakeMove(int[] newCoordinates, Board board) {
-        if(moveIsCorrect(newCoordinates, board)) {
+        if (moveIsCorrect(newCoordinates, board)) {
             board.movePawn(this, newCoordinates[0], newCoordinates[1]);
-            if(this.position.getX() + 2 == newCoordinates[0] || this.position.getX() - 2 == newCoordinates[0]){
-
-            }
+//            if(this.position.getX() + 2 == newCoordinates[0] || this.position.getX() - 2 == newCoordinates[0]){
+//
+//            }
             return true;
         }
         return false;

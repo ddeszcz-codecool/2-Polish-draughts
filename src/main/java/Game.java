@@ -88,16 +88,16 @@ public class Game {
                 if (boardSize >= 10 && boardSize <= 20 && boardSize % 2 == 0)
                     return boardSize;
                 else
-                    System.out.println("The board size entered is incorrect, try between 12 and 20 (only even numbers)");
+                    System.out.println("The board size entered is incorrect, try between 10 and 20 (only even numbers)");
                 continue;
             }else
-                System.out.println("The input format incorrect, try numbers between 12 and 20 (only even numbers)");
+                System.out.println("The input format incorrect, try numbers between 10 and 20 (only even numbers)");
             continue;
         }
     }
 
     private boolean validateUserChoicePattern(String userChoice) {
-        Pattern pattern = Pattern.compile("^[0-9]+$");
+        Pattern pattern = Pattern.compile("^[0-9]{1,2}$");
         return pattern.matcher(userChoice).matches();
     }
 

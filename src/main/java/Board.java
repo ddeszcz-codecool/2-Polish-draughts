@@ -1,29 +1,20 @@
 class Board {
 
 
-    final int innitPawnRows = 4;
+    final int initPawnRows = 4;
     Pawn[][] fields;
     DisplayBoard dis;
 
     Board(int n) {
         this.fields = new Pawn[n][n];
         setUpPawnsOnBoard();
-        print();
     }
 
-    private void print(){
-        for(Pawn[] row:fields){
-            for(Pawn pawn: row){
-                System.out.print(pawn);
-            }
-            System.out.println();
-        }
-    }
     private void setUpPawnsOnBoard() {
         int startingColumn;
 
         //for white pawns
-        for (int i = fields.length - 1; i >= fields.length - innitPawnRows; i--) {
+        for (int i = fields.length - 1; i >= fields.length - initPawnRows; i--) {
             if (i % 2 == 0)
                 startingColumn = 1;
             else
@@ -35,7 +26,7 @@ class Board {
 
         //for black pawns
 
-        for (int i = 0; i < innitPawnRows; i++) {
+        for (int i = 0; i < initPawnRows; i++) {
             if (i % 2 == 0)
                 startingColumn = 1;
             else
