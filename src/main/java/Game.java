@@ -69,7 +69,7 @@ public class Game {
             return false;
         }
         int[] moveCoordinates = stringToCoordinates(placeToMove);
-        if (!validateCoordinatesAreInRange(pawnCoordinates)){
+        if (!validateCoordinatesAreInRange(moveCoordinates)){
             int boardWidth = board.fields.length;
             char boardHeight = (char) (board.fields.length + 64);
             System.out.println("Your coordinates are out of range please use coordinates from 1 to " + boardWidth + " and from A to " + boardHeight );
@@ -147,11 +147,11 @@ public class Game {
     }
 
     private boolean validateCoordinatesAreOnlyLetterAndNumber(String coordinates){
-            Pattern pattern = Pattern.compile("^[a-z][1-9]{1,2}$");
+            Pattern pattern = Pattern.compile("^[a-z][0-9]{1,2}$");
             return pattern.matcher(coordinates).matches();
     }
 
     private boolean validateCoordinatesAreInRange(int[] coordinates){
-        return coordinates[0]<=board.fields.length && coordinates[1]<=board.fields.length;
+        return coordinates[0]<board.fields.length && coordinates[1]<board.fields.length;
     }
 }
