@@ -2,6 +2,7 @@
 public class Pawn {
 
     Color color = null;
+    int pawnToDeleteDirection;
     Coordinates position = new Coordinates(0, 0);
     boolean isCrowned = false;
 
@@ -21,14 +22,12 @@ public class Pawn {
         return color;
     }
 
-    boolean moveIsCorrect(int[] newCoordinates, Board board) { //Metoda sprawdzam czy miejsce, na które się ruszyłeś jest puste?
-        if (pawnMove(newCoordinates, board)) {
-            return true;
-        }
-        if (pawnCapture(newCoordinates, board)) {
-            return true;
-        }
-        return false;
+    boolean isItMove(int[] newCoordinates, Board board) { //Metoda sprawdzam czy miejsce, na które się ruszyłeś jest puste?
+        return pawnMove(newCoordinates, board);
+    }
+
+    boolean isItCapture(int[] newCoordinates, Board board) {
+        return pawnCapture(newCoordinates, board);
     }
 
     private boolean pawnCapture(int[] newCoordinates, Board board) {
@@ -41,12 +40,18 @@ public class Pawn {
     private boolean whitePawnCapturesBlack(int[] newCoordinates, Board board) {
         if (board.getFields()[newCoordinates[0]][newCoordinates[1]] == null) {
             if (newCoordinates[1] > this.position.getY()) {
-                return board.getFields()[this.position.getX() - 1][this.position.getY() + 1] != null &&
-                        board.getFields()[this.position.getX() - 1][this.position.getY() + 1].color == Color.BLACK;
+                if (board.getFields()[this.position.getX() - 1][this.position.getY() + 1] != null &&
+                        board.getFields()[this.position.getX() - 1][this.position.getY() + 1].color == Color.BLACK) {
+                    pawnToDeleteDirection = 1;
+                    return true;
+                }
             }
             if (newCoordinates[1] < this.position.getY()) {
-                return board.getFields()[this.position.getX() - 1][this.position.getY() - 1] != null &&
-                        board.getFields()[this.position.getX() - 1][this.position.getY() - 1].color == Color.BLACK;
+                if (board.getFields()[this.position.getX() - 1][this.position.getY() - 1] != null &&
+                        board.getFields()[this.position.getX() - 1][this.position.getY() - 1].color == Color.BLACK) {
+                    pawnToDeleteDirection = -1;
+                    return true;
+                }
             }
         }
         return false;
@@ -55,12 +60,18 @@ public class Pawn {
     private boolean blackPawnCapturesWhite(int[] newCoordinates, Board board) {
         if (board.getFields()[newCoordinates[0]][newCoordinates[1]] == null) {
             if (newCoordinates[1] > this.position.getY()) {
-                return board.getFields()[this.position.getX() + 1][this.position.getY() + 1] != null &&
-                        board.getFields()[this.position.getX() + 1][this.position.getY() + 1].color == Color.WHITE;
+                if (board.getFields()[this.position.getX() + 1][this.position.getY() + 1] != null &&
+                        board.getFields()[this.position.getX() + 1][this.position.getY() + 1].color == Color.WHITE) {
+                    pawnToDeleteDirection = 1;
+                    return true;
+                }
             }
             if (newCoordinates[1] < this.position.getY()) {
-                return board.getFields()[this.position.getX() + 1][this.position.getY() - 1] != null &&
-                        board.getFields()[this.position.getX() + 1][this.position.getY() - 1].color == Color.WHITE;
+                if (board.getFields()[this.position.getX() + 1][this.position.getY() - 1] != null &&
+                        board.getFields()[this.position.getX() + 1][this.position.getY() - 1].color == Color.WHITE) {
+                    pawnToDeleteDirection = -1;
+                    return true;
+                }
             }
         }
         return false;
@@ -89,11 +100,13 @@ public class Pawn {
     //sprawdza czy mozna sie ruszyc w dane coordynaty
     //wykonuje ruch
     public boolean tryToMakeMove(int[] newCoordinates, Board board) {
-        if (moveIsCorrect(newCoordinates, board)) {
+        if (isItMove(newCoordinates, board)) {
             board.movePawn(this, newCoordinates[0], newCoordinates[1]);
-//            if(this.position.getX() + 2 == newCoordinates[0] || this.position.getX() - 2 == newCoordinates[0]){
-//
-//            }
+            return true;
+        }
+        if (isItCapture(newCoordinates, board)) {
+            board.removePawn(board.getFields()[(this.position.getX() + newCoordinates[0])/2][(this.position.getY() + newCoordinates[1])/2]);
+            board.movePawn(this, newCoordinates[0], newCoordinates[1]);
             return true;
         }
         return false;
