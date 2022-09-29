@@ -189,8 +189,7 @@ public class Game {
         if (col == 0) return true;
         else if (row > 0 && board.fields[row - 1][col - 1] != null) {
             if (board.fields[row - 1][col - 1].color == Color.BLACK) {
-                if (col > 1 && row > 1 && board.fields[row - 2][col - 2] != null)
-                else return false;
+                if (!(col > 1 && row > 1 && board.fields[row - 2][col - 2] != null)) return false;
             } else if (row < board.fields.length - 1 && board.fields[row + 1][col - 1] != null) {
                 if (board.fields[row + 1][col - 1].color == Color.BLACK) {
                     if (col > 1 && row < board.fields.length - 2 && board.fields[row + 2][col - 2] != null) return true;
@@ -222,15 +221,14 @@ public class Game {
         if (col == board.fields[0].length - 1) return true;
         else if (row > 0 && board.fields[row - 1][col + 1] != null) {
             if (board.fields[row - 1][col + 1].color == Color.BLACK) {
-                if (col < board.fields.length - 2 && row > 1 && board.fields[row - 2][col + 2] != null) return true;
-                else return false;
-            } else return true;
-        } else if (row < board.fields.length - 1 && board.fields[row + 1][col + 1] != null) {
-            if (board.fields[row + 1][col + 1].color == Color.BLACK) {
-                if (col < board.fields.length - 2 && row < board.fields.length - 2 && board.fields[row + 2][col + 2] != null)
-                    return true;
+                if (!(col < board.fields.length - 2 && row > 1 && board.fields[row - 2][col + 2] != null)) return false;
+            } else if (row < board.fields.length - 1 && board.fields[row + 1][col + 1] != null) {
+                if (board.fields[row + 1][col + 1].color == Color.BLACK) {
+                    if (col < board.fields.length - 2 && row < board.fields.length - 2 && board.fields[row + 2][col + 2] != null)
+                        return true;
+                }
+                return true;
             }
-            return true;
         }
         return false;
     }
@@ -253,15 +251,14 @@ public class Game {
         if (col == 0) return true;
         else if (row < board.fields[0].length - 1 && board.fields[row + 1][col - 1] != null) {
             if (board.fields[row + 1][col - 1].color == Color.WHITE) {
-                if (col > 1 && row < board.fields[0].length - 2 && board.fields[row + 2][col - 2] != null)
-                    return true;
-                else return false;
-            } else return true;
-        } else if (row > 0 && board.fields[row - 1][col - 1] != null) {
-            if (board.fields[row - 1][col - 1].color == Color.BLACK) {
-                if (col > 1 && row > 1 && board.fields[row - 2][col - 2] != null) return true;
+                if (!(col > 1 && row < board.fields[0].length - 2 && board.fields[row + 2][col - 2] != null))
+                    return false;
+            } else if (row > 0 && board.fields[row - 1][col - 1] != null) {
+                if (board.fields[row - 1][col - 1].color == Color.BLACK) {
+                    if (col > 1 && row > 1 && board.fields[row - 2][col - 2] != null) return true;
+                }
+                return true;
             }
-            return true;
         }
         return false;
     }
@@ -271,16 +268,15 @@ public class Game {
         if (col == board.fields[0].length - 1) return true;
         else if (row < board.fields[0].length - 1 && board.fields[row + 1][col + 1] != null) {
             if (board.fields[row + 1][col + 1].color == Color.WHITE) {
-                if (col < board.fields[0].length - 2 && row < board.fields[0].length - 2 && board.fields[row + 2][col + 2] != null)
-                    return true;
-                else return false;
-            } else return true;
-        } else if (row > 0 && board.fields[row - 1][col + 1] != null) {
-            if (board.fields[row - 1][col + 1].color == Color.BLACK) {
-                if (col < board.fields[0].length - 2 && row > 1 && board.fields[row - 2][col + 2] != null)
-                    return true;
+                if (!(col < board.fields[0].length - 2 && row < board.fields[0].length - 2 && board.fields[row + 2][col + 2] != null))
+                    return false;
+            } else if (row > 0 && board.fields[row - 1][col + 1] != null) {
+                if (board.fields[row - 1][col + 1].color == Color.BLACK) {
+                    if (col < board.fields[0].length - 2 && row > 1 && board.fields[row - 2][col + 2] != null)
+                        return true;
+                }
+                return true;
             }
-            return true;
         }
         return false;
     }
