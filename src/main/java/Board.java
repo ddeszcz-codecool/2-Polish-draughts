@@ -1,5 +1,5 @@
 class Board {
-    final private int initPawnRows = 4;
+    final private int initPawnRows = 2;
     final private int WHITE_STARTING_ROW;
     final private int BLACK_STARTING_ROW = 0;
     Pawn[][] fields;
@@ -8,12 +8,12 @@ class Board {
     Board(int n) {
         this.fields = new Pawn[n][n];
         WHITE_STARTING_ROW = fields.length - 1;
-        //setUpPawnsOnBoard();
-        fields[1][2] = new Pawn(1, 2, Color.WHITE);
-        fields[0][1] = new Pawn(0, 1, Color.WHITE);
-        fields[4][5] = new Pawn(4, 5, Color.BLACK);
-        fields[6][5] = new Pawn(6, 5, Color.BLACK);
-        fields[8][5] = new Pawn(8, 5, Color.BLACK);
+        setUpPawnsOnBoard();
+//        fields[1][2] = new Pawn(1, 2, Color.WHITE);
+//        fields[0][1] = new Pawn(0, 1, Color.WHITE);
+//        fields[4][5] = new Pawn(4, 5, Color.BLACK);
+//        fields[6][5] = new Pawn(6, 5, Color.BLACK);
+//        fields[8][5] = new Pawn(8, 5, Color.BLACK);
     }
 
     private void setUpPawnsOnBoard() {

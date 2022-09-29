@@ -32,12 +32,12 @@ public class Game {
 
             if (checkForWinner()) {
                 result = false;
+                break;
             }
 
             if (currentPlayer == Color.WHITE) {
                 currentPlayer = Color.BLACK;
-            } else
-                currentPlayer = Color.WHITE;
+            } else currentPlayer = Color.WHITE;
 
             break;
         }
@@ -49,15 +49,15 @@ public class Game {
 
         System.out.println("Which pawn do you want to move?");
         String pawnPlaceOnBoard = scanner.nextLine().strip().toLowerCase();
-        if (!validateCoordinatesAreOnlyLetterAndNumber(pawnPlaceOnBoard)){
+        if (!validateCoordinatesAreOnlyLetterAndNumber(pawnPlaceOnBoard)) {
             System.out.println("Your coordinates are not correct, please use a following format - letter + number - e.g. A2, B4");
             return false;
         }
         int[] pawnCoordinates = stringToCoordinates(pawnPlaceOnBoard);
-        if (!validateCoordinatesAreInRange(pawnCoordinates)){
+        if (!validateCoordinatesAreInRange(pawnCoordinates)) {
             int boardWidth = board.fields.length;
             char boardHeight = (char) (board.fields.length + 64);
-            System.out.println("Your coordinates are out of range please use coordinates from 1 to " + boardWidth + " and from A to " + boardHeight );
+            System.out.println("Your coordinates are out of range please use coordinates from 1 to " + boardWidth + " and from A to " + boardHeight);
             return false;
         }
         if (!validateUserChosenPawnNotNullAndNotDifferentColor(pawnCoordinates)) {
@@ -67,15 +67,15 @@ public class Game {
 
         System.out.println("Where you want to move it ?");
         String placeToMove = scanner.nextLine().strip().toLowerCase();
-        if (!validateCoordinatesAreOnlyLetterAndNumber(placeToMove)){
+        if (!validateCoordinatesAreOnlyLetterAndNumber(placeToMove)) {
             System.out.println("Your coordinates are not correct, please use format letter plus number e.g. A2, B4");
             return false;
         }
         int[] moveCoordinates = stringToCoordinates(placeToMove);
-        if (!validateCoordinatesAreInRange(moveCoordinates)){
+        if (!validateCoordinatesAreInRange(moveCoordinates)) {
             int boardWidth = board.fields.length;
             char boardHeight = (char) (board.fields.length + 64);
-            System.out.println("Your coordinates are out of range please use coordinates from 1 to " + boardWidth + " and from A to " + boardHeight );
+            System.out.println("Your coordinates are out of range please use coordinates from 1 to " + boardWidth + " and from A to " + boardHeight);
             return false;
         }
         if (!validateUserChosenMoveCoordinatesAreNull(moveCoordinates)) {
@@ -132,15 +132,20 @@ public class Game {
                     counterP++;
                     System.out.println(counterP + " P");
                     if (enemyColor == Color.WHITE) {
-                       if(!this.isWhitePawnBlocked(i, j)) {
-                           return false;
-                       }else{
-                           counter++;
-                            System.out.println(counter + " C");}
-                       //} else {
-                        //this.isBlackPawnBlocked(i,j);
+                        if (!this.isWhitePawnBlocked(i, j)) {
+                            return false;
+                        } else {
+                            counter++;
+                            System.out.println(counter + " C");
+                        }
+                    } else {
+                        if (!this.isBlackPawnBlocked(i, j)) {
+                            return false;
+                        } else {
+                            counter++;
+                            System.out.println(counter + " C");
+                        }
                     }
-
                 }
             }
         }
@@ -153,7 +158,7 @@ public class Game {
         if (i == 0) { // dodajemy dopoki nie mamy króli
             System.out.println("jest zablokowany1");
             return true;
-        } else if (this.isWhitePawnBlockedToTheLeft2(i, j) && this.isWhitePawnBlockedToTheRight2(i, j)) {
+        } else if (this.isWhitePawnBlockedToTheLeft(i, j) && this.isWhitePawnBlockedToTheRight(i, j)) {
             System.out.println("jest zablokowany2");
             return true;
 
@@ -162,74 +167,98 @@ public class Game {
         return false;
     }
 
+//    public boolean isWhitePawnBlockedToTheLeft(int i, int j) {
+//        System.out.println("sprawdzanie");
+//        if (j == 0) {
+//            return true;
+//        } else if ( i>=1 && board.fields[i - 1][j - 1].color == Color.WHITE) {
+//            return true;
+//        } else if (j == 1 && board.fields[i - 1][j - 1] != null) {
+//            return true;
+//        } else if (i >= 2 && board.fields[i - 1][j - 1] != null && board.fields[i - 2][j - 2] != null) {
+//            return true;
+//        } else if (i == 1 && board.fields[i - 1][j - 1] != null) {
+//            return true;
+//        } else {
+//            return false;
+//        }
+//    }
+
     public boolean isWhitePawnBlockedToTheLeft(int i, int j) {
         System.out.println("sprawdzanie");
-        if (j == 0) {
-            return true;
-        } else if ( i>=1 && board.fields[i - 1][j - 1].color == Color.WHITE) {
-            return true;
-        } else if (j == 1 && board.fields[i - 1][j - 1] != null) {
-            return true;
-        } else if (i >= 2 && board.fields[i - 1][j - 1] != null && board.fields[i - 2][j - 2] != null) {
-            return true;
-        } else if (i == 1 && board.fields[i - 1][j - 1] != null) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public boolean isWhitePawnBlockedToTheLeft2(int i, int j) {
-        System.out.println("sprawdzanie");
         if (j == 0) return true;
-        else if (i >= 1 && board.fields[i - 1][j - 1] != null) {
+        else if (i > 0 && board.fields[i - 1][j - 1] != null) {
             if (board.fields[i - 1][j - 1].color == Color.BLACK) {
-                if ( j >= 2 && i >= 2 && board.fields[i - 2][j - 2] != null) return true;
+                if (j > 1 && i > 1 && board.fields[i - 2][j - 2] != null) return true;
                 else return false;
             } else return true;
-        }return false;
-    }
-
-    public boolean isWhitePawnBlockedToTheRight(int i, int j) {
-        if (j == board.fields[0].length - 1) {
-            return true;
-        } else if (i >= 1 && board.fields[i - 1][j + 1].color == Color.WHITE) {
-            return true;
-        } else if (j == board.fields.length - 2 && board.fields[i - 1][j + 1] != null) {
-            return true;
-        } else if (i >= 2 && board.fields[i - 1][j + 1] != null && board.fields[i - 2][j + 2] != null) {
-            return true;
-        } else if (i == 1 && board.fields[i - 1][j + 1] != null) {
-            return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
-    public boolean isWhitePawnBlockedToTheRight2(int i, int j) {
+//    public boolean isWhitePawnBlockedToTheRight(int i, int j) {
+//        if (j == board.fields[0].length - 1) {
+//            return true;
+//        } else if (i >= 1 && board.fields[i - 1][j + 1].color == Color.WHITE) {
+//            return true;
+//        } else if (j == board.fields.length - 2 && board.fields[i - 1][j + 1] != null) {
+//            return true;
+//        } else if (i >= 2 && board.fields[i - 1][j + 1] != null && board.fields[i - 2][j + 2] != null) {
+//            return true;
+//        } else if (i == 1 && board.fields[i - 1][j + 1] != null) {
+//            return true;
+//        } else {
+//            return false;
+//        }
+//    }
+
+    public boolean isWhitePawnBlockedToTheRight(int iRow, int jCol) {
         System.out.println("sprawdzanie");
-        if (j == board.fields[0].length) return true;
-        else if (i >= 1 && board.fields[i - 1][j + 1] != null) {
-            if (board.fields[i - 1][j + 1].color == Color.BLACK) {
-                if (j >= 2 && i >= 2 && board.fields[i - 2][j + 2] != null) return true;
+        if (jCol == board.fields[0].length - 1 ) return true;
+        else if (iRow > 0 && board.fields[iRow - 1][jCol + 1] != null) {
+            if (board.fields[iRow - 1][jCol + 1].color == Color.BLACK) {
+                if (jCol < board.fields.length - 2 && iRow > 1 && board.fields[iRow - 2][jCol + 2] != null) return true;
                 else return false;
             } else return true;
-        }return false;
+        }
+        return false;
     }
 
     public boolean isBlackPawnBlocked(int i, int j) {
-        if (this.isWhitePawnBlockedToTheLeft(i, j) && this.isWhitePawnBlockedToTheRight(i, j)) {
+        if (i == board.fields[0].length - 1) { // dodajemy dopoki nie mamy króli
+            System.out.println("jest zablokowany1");
             return true;
+        } else if (this.isBlackPawnBlockedToTheLeft(i, j) && this.isBlackPawnBlockedToTheRight(i, j)) {
+            System.out.println("jest zablokowany2");
+            return true;
+        }
+        System.out.println("nie sa zablokowane");
+        return false;
+    }
+
+
+    public boolean isBlackPawnBlockedToTheLeft(int i, int j) {
+        System.out.println("sprawdzanie");
+        if (j == 0) return true;
+        else if (i < board.fields[0].length - 1 && board.fields[i + 1][j - 1] != null) {
+            if (board.fields[i + 1][j - 1].color == Color.WHITE) {
+                if (j > 1 && i < board.fields[0].length - 2 && board.fields[i + 2][j - 2] != null) return true;
+                else return false;
+            } else return true;
         }
         return false;
     }
 
-
-    public boolean isBlackPawnBlockedToTheLeft() {
-        return false;
-    }
-
-    public boolean isBlackPawnBlockedToTheRight() {
+    public boolean isBlackPawnBlockedToTheRight(int i, int j) {
+        System.out.println("sprawdzanie");
+        if (j == board.fields[0].length - 1) return true;
+        else if (i < board.fields[0].length - 1 && board.fields[i + 1][j + 1] != null) {
+            if (board.fields[i + 1][j + 1].color == Color.WHITE) {
+                if (j < board.fields[0].length - 2 && i < board.fields[0].length - 2 && board.fields[i + 2][j + 2] != null)
+                    return true;
+                else return false;
+            } else return true;
+        }
         return false;
     }
 
@@ -241,13 +270,11 @@ public class Game {
             String size = scanner.nextLine().strip();
             if (validateUserChoicePattern(size)) {
                 int boardSize = Integer.parseInt(size);
-                if (boardSize >= 10 && boardSize <= 20 && boardSize % 2 == 0)
-                    return boardSize;
+                if (boardSize >= 6 && boardSize <= 20 && boardSize % 2 == 0) return boardSize;
                 else
                     System.out.println("The board size entered is incorrect, try between 10 and 20 (only even numbers)");
                 continue;
-            } else
-                System.out.println("The input format incorrect, try numbers between 10 and 20 (only even numbers)");
+            } else System.out.println("The input format incorrect, try numbers between 10 and 20 (only even numbers)");
             continue;
         }
     }
@@ -259,7 +286,7 @@ public class Game {
 
 
     private boolean validateUserChosenPawnNotNullAndNotDifferentColor(int[] pawnPlace) {
-        if(board.getFields()[pawnPlace[0]][pawnPlace[1]] == null){
+        if (board.getFields()[pawnPlace[0]][pawnPlace[1]] == null) {
             System.out.println("There is no pawn on this field");
             return false;
         }
@@ -272,7 +299,7 @@ public class Game {
     }
 
     private boolean validateUserChosenMoveCoordinatesAreNull(int[] pawnPlace) {
-        if(board.getFields()[pawnPlace[0]][pawnPlace[1]] != null){
+        if (board.getFields()[pawnPlace[0]][pawnPlace[1]] != null) {
             System.out.println("You cannot move here, this field is occupied by another pawn");
             return false;
         }
@@ -287,12 +314,12 @@ public class Game {
         return new int[]{col, row};
     }
 
-    private boolean validateCoordinatesAreOnlyLetterAndNumber(String coordinates){
-            Pattern pattern = Pattern.compile("^[a-z][0-9]{1,2}$");
-            return pattern.matcher(coordinates).matches();
+    private boolean validateCoordinatesAreOnlyLetterAndNumber(String coordinates) {
+        Pattern pattern = Pattern.compile("^[a-z][0-9]{1,2}$");
+        return pattern.matcher(coordinates).matches();
     }
 
-    private boolean validateCoordinatesAreInRange(int[] coordinates){
-        return coordinates[0]<board.fields.length && coordinates[1]<board.fields.length;
+    private boolean validateCoordinatesAreInRange(int[] coordinates) {
+        return coordinates[0] < board.fields.length && coordinates[1] < board.fields.length;
     }
 }
