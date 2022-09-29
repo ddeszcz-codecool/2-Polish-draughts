@@ -1,5 +1,5 @@
 class Board {
-    final private int initPawnRows = 2;
+    final private int initPawnRows = 4;
     final private int WHITE_STARTING_ROW;
     final private int BLACK_STARTING_ROW = 0;
     Pawn[][] fields;
@@ -8,12 +8,16 @@ class Board {
     Board(int n) {
         this.fields = new Pawn[n][n];
         WHITE_STARTING_ROW = fields.length - 1;
-        setUpPawnsOnBoard();
-//        fields[1][2] = new Pawn(1, 2, Color.WHITE);
-//        fields[0][1] = new Pawn(0, 1, Color.WHITE);
-//        fields[4][5] = new Pawn(4, 5, Color.BLACK);
-//        fields[6][5] = new Pawn(6, 5, Color.BLACK);
-//        fields[8][5] = new Pawn(8, 5, Color.BLACK);
+        fields[4][3] = new Pawn(4, 3, Color.WHITE);
+        fields[5][4] = new Pawn(5, 4, Color.BLACK);
+        //fields[6][5] = new Pawn(6, 5, Color.BLACK);
+        fields[3][4] = new Pawn(3, 4, Color.BLACK);
+        fields[5][2] = new Pawn(5, 2, Color.BLACK);
+        fields[7][2] = new Pawn(7, 2, Color.BLACK);
+        fields[8][1] = new Pawn(8, 1, Color.BLACK);
+        fields[2][7] = new Pawn(2, 7, Color.WHITE);
+        fields[1][8] = new Pawn(1, 8, Color.BLACK);
+        //setUpPawnsOnBoard();
     }
 
     private void setUpPawnsOnBoard() {
@@ -48,10 +52,10 @@ class Board {
         }
     }
 
-    public String toString() { //Wyprintowanie szachownicy i pionków
+    public String toString() {
         dis = new DisplayBoard(fields);
         dis.ShowMeBoard();
-        return "Hey";
+        return "";
     }
 
     public void removePawn(Pawn pawn) {
