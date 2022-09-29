@@ -289,7 +289,7 @@ public class Game {
             String size = scanner.nextLine().strip();
             if (validateUserChoicePattern(size)) {
                 int boardSize = Integer.parseInt(size);
-                if (boardSize >= 6 && boardSize <= 20 && boardSize % 2 == 0) return boardSize;
+                if (boardSize >= 10 && boardSize <= 20 && boardSize % 2 == 0) return boardSize;
                 else
                     System.out.println("The board size entered is incorrect, try between 10 and 20 (only even numbers)");
                 continue;

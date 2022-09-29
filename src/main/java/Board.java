@@ -8,16 +8,16 @@ class Board {
     Board(int n) {
         this.fields = new Pawn[n][n];
         WHITE_STARTING_ROW = fields.length - 1;
-        fields[4][3] = new Pawn(4, 3, Color.WHITE);
-        fields[5][4] = new Pawn(5, 4, Color.BLACK);
-        //fields[6][5] = new Pawn(6, 5, Color.BLACK);
-        fields[3][4] = new Pawn(3, 4, Color.BLACK);
-        fields[5][2] = new Pawn(5, 2, Color.BLACK);
-        fields[7][2] = new Pawn(7, 2, Color.BLACK);
-        fields[8][1] = new Pawn(8, 1, Color.BLACK);
-        fields[2][7] = new Pawn(2, 7, Color.WHITE);
-        fields[1][8] = new Pawn(1, 8, Color.BLACK);
-        //setUpPawnsOnBoard();
+//        fields[4][3] = new Pawn(4, 3, Color.WHITE);
+//        fields[5][4] = new Pawn(5, 4, Color.BLACK);
+//        //fields[6][5] = new Pawn(6, 5, Color.BLACK);
+//        fields[3][4] = new Pawn(3, 4, Color.BLACK);
+//        fields[5][2] = new Pawn(5, 2, Color.BLACK);
+//        fields[7][2] = new Pawn(7, 2, Color.BLACK);
+//        fields[8][1] = new Pawn(8, 1, Color.BLACK);
+//        fields[2][7] = new Pawn(2, 7, Color.WHITE);
+//        fields[1][8] = new Pawn(1, 8, Color.BLACK);
+        setUpPawnsOnBoard();
     }
 
     private void setUpPawnsOnBoard() {
