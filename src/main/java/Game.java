@@ -144,7 +144,6 @@ public class Game {
                 }
             }
         }
-        System.out.println(" " + counter + counterP);
         if (counter == counterP) return true;
         return false;
     }
@@ -207,7 +206,8 @@ public class Game {
                     return false;
             } else if (row > 0 && board.fields[row - 1][col - 1] != null) {
                 if (board.fields[row - 1][col - 1].color == Color.BLACK) {
-                    if (col > 1 && row > 1 && board.fields[row - 2][col - 2] != null) return true;
+                    if (col > 1 && row > 1 && board.fields[row - 2][col - 2] != null)
+                        return true;
                 }
                 return true;
             }
