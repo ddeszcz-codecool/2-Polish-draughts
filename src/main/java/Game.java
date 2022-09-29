@@ -13,16 +13,16 @@ public class Game {
         board.toString();
         System.out.println("Current player for - " + currentPlayer.name());
         while (playRound()) {
-            System.out.println("Current player for - " + currentPlayer.name());
             board.toString();
+            System.out.println("Current player for - " + currentPlayer.name());
         }
 
         board.toString();
-        System.out.println("The Winner is " + currentPlayer); //Do edycji
+        System.out.println("The Winner is " + currentPlayer + " player !!");
 
     }
 
-    public boolean playRound() {// Który gracz jest następny,oraz czy ktoś wygrał.
+    public boolean playRound() {
 
         boolean result = true;
         while (result) {
@@ -82,16 +82,14 @@ public class Game {
             return false;
         }
         if (!board.fields[pawnCoordinates[0]][pawnCoordinates[1]].tryToMakeMove(moveCoordinates, board)) {
-            System.out.println("Wrong move!");
+            System.out.println("Move is not valid. Please choose again");
             return false;
         }
 
         return true;
     }
 
-    public boolean checkForWinner() {//Sprawdza czy po rundzie ktoś wygrywa, oraz czy jest remis
-        //Wygrana kiedy wszystkie pionki przeciwnika znikną
-        //Zrobić log ostatnich zagrać
+    public boolean checkForWinner() {
         if (this.checkIfNoEnemyPawnsOnBoard() || this.checkIfAllEnemiesPawnsBlocked()) {
             return true;
         } else {
@@ -130,20 +128,17 @@ public class Game {
             for (int j = 0; j < board.fields[0].length; j++) {
                 if (board.fields[i][j] != null && board.fields[i][j].color == enemyColor) {
                     counterP++;
-                    System.out.println(counterP + " P");
                     if (enemyColor == Color.WHITE) {
                         if (!this.isWhitePawnBlocked(i, j)) {
                             return false;
                         } else {
                             counter++;
-                            System.out.println(counter + " C");
                         }
                     } else {
                         if (!this.isBlackPawnBlocked(i, j)) {
                             return false;
                         } else {
                             counter++;
-                            System.out.println(counter + " C");
                         }
                     }
                 }
@@ -155,37 +150,16 @@ public class Game {
     }
 
     public boolean isWhitePawnBlocked(int i, int j) {
-        if (i == 0) { // dodajemy dopoki nie mamy króli
-            System.out.println("jest zablokowany1");
+        if (i == 0) {
             return true;
         } else if (this.isWhitePawnBlockedToTheLeft(i, j) && this.isWhitePawnBlockedToTheRight(i, j)) {
-            System.out.println("jest zablokowany2");
             return true;
 
         }
-        System.out.println("nie sa zablokowane");
         return false;
     }
 
-//    public boolean isWhitePawnBlockedToTheLeft(int i, int j) {
-//        System.out.println("sprawdzanie");
-//        if (j == 0) {
-//            return true;
-//        } else if ( i>=1 && board.fields[i - 1][j - 1].color == Color.WHITE) {
-//            return true;
-//        } else if (j == 1 && board.fields[i - 1][j - 1] != null) {
-//            return true;
-//        } else if (i >= 2 && board.fields[i - 1][j - 1] != null && board.fields[i - 2][j - 2] != null) {
-//            return true;
-//        } else if (i == 1 && board.fields[i - 1][j - 1] != null) {
-//            return true;
-//        } else {
-//            return false;
-//        }
-//    }
-
     public boolean isWhitePawnBlockedToTheLeft(int row, int col) {
-        System.out.println("sprawdzanie");
         if (col == 0) return true;
         else if (row > 0 && board.fields[row - 1][col - 1] != null) {
             if (board.fields[row - 1][col - 1].color == Color.BLACK) {
@@ -200,24 +174,7 @@ public class Game {
         return false;
     }
 
-//    public boolean isWhitePawnBlockedToTheRight(int i, int j) {
-//        if (j == board.fields[0].length - 1) {
-//            return true;
-//        } else if (i >= 1 && board.fields[i - 1][j + 1].color == Color.WHITE) {
-//            return true;
-//        } else if (j == board.fields.length - 2 && board.fields[i - 1][j + 1] != null) {
-//            return true;
-//        } else if (i >= 2 && board.fields[i - 1][j + 1] != null && board.fields[i - 2][j + 2] != null) {
-//            return true;
-//        } else if (i == 1 && board.fields[i - 1][j + 1] != null) {
-//            return true;
-//        } else {
-//            return false;
-//        }
-//    }
-
     public boolean isWhitePawnBlockedToTheRight(int row, int col) {
-        System.out.println("sprawdzanie");
         if (col == board.fields[0].length - 1) return true;
         else if (row > 0 && board.fields[row - 1][col + 1] != null) {
             if (board.fields[row - 1][col + 1].color == Color.BLACK) {
@@ -234,20 +191,15 @@ public class Game {
     }
 
     public boolean isBlackPawnBlocked(int i, int j) {
-        if (i == board.fields[0].length - 1) { // dodajemy dopoki nie mamy króli
-            System.out.println("jest zablokowany1");
+        if (i == board.fields[0].length - 1) {
             return true;
         } else if (this.isBlackPawnBlockedToTheLeft(i, j) && this.isBlackPawnBlockedToTheRight(i, j)) {
-            System.out.println("jest zablokowany2");
             return true;
         }
-        System.out.println("nie sa zablokowane");
         return false;
     }
 
-
     public boolean isBlackPawnBlockedToTheLeft(int row, int col) {
-        System.out.println("sprawdzanie");
         if (col == 0) return true;
         else if (row < board.fields[0].length - 1 && board.fields[row + 1][col - 1] != null) {
             if (board.fields[row + 1][col - 1].color == Color.WHITE) {
@@ -264,7 +216,6 @@ public class Game {
     }
 
     public boolean isBlackPawnBlockedToTheRight(int row, int col) {
-        System.out.println("sprawdzanie");
         if (col == board.fields[0].length - 1) return true;
         else if (row < board.fields[0].length - 1 && board.fields[row + 1][col + 1] != null) {
             if (board.fields[row + 1][col + 1].color == Color.WHITE) {

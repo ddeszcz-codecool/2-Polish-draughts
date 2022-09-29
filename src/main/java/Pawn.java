@@ -39,7 +39,6 @@ public class Pawn {
     }
 
     private boolean blackPawnMove(int[] newCoordinates, Board board) {
-        System.out.println("New Coordinates " + newCoordinates[0] + "  " + newCoordinates[1]);
         return board.getFields()[newCoordinates[0]][newCoordinates[1]] == null &&
                 (this.position.getX() + 1 == newCoordinates[0] && this.position.getY() - 1 == newCoordinates[1]) ||
                 (this.position.getX() + 1 == newCoordinates[0] && this.position.getY() + 1 == newCoordinates[1]);
