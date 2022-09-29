@@ -51,30 +51,13 @@ public class Pawn {
 
     private boolean pawnCapture(int[] newCoordinates, Board board) {
         if (board.getFields()[newCoordinates[0]][newCoordinates[1]] == null) {
-            if (newCoordinates[1] > this.position.getY()) {
+            int possibleEnemyPawnX = (this.position.getX() + newCoordinates[0]) / 2;
+            int possibleEnemyPawnY = (this.position.getY() + newCoordinates[1]) / 2;
 
-                if (this.position.getX() != 0 && this.position.getY() != board.fields.length - 1 &&
-                        board.getFields()[this.position.getX() - 1][this.position.getY() + 1] != null &&
-                        board.getFields()[this.position.getX() - 1][this.position.getY() + 1].getColor() != this.getColor()) {
-                    return true;
-                }
-                if (this.position.getX() != board.fields.length - 1 && this.position.getY() != board.fields.length - 1 &&
-                        board.getFields()[this.position.getX() + 1][this.position.getY() + 1] != null &&
-                        board.getFields()[this.position.getX() + 1][this.position.getY() + 1].getColor() != this.getColor()) {
-                    return true;
-                }
-            }
-            if (newCoordinates[1] < this.position.getY()) {
-                if (this.position.getX() != 0 && this.position.getY() != 0 &&
-                        board.getFields()[this.position.getX() - 1][this.position.getY() - 1] != null &&
-                        board.getFields()[this.position.getX() - 1][this.position.getY() - 1].getColor() != this.getColor()) {
-                    return true;
-                }
-                if (this.position.getX() != board.fields.length - 1 && this.position.getY() != 0 &&
-                        board.getFields()[this.position.getX() + 1][this.position.getY() - 1] != null &&
-                        board.getFields()[this.position.getX() + 1][this.position.getY() - 1].getColor() != this.getColor()) {
-                    return true;
-                }
+            if (this.position.getX() != 0 && this.position.getY() != board.fields.length - 1 &&
+                    board.getFields()[possibleEnemyPawnX][possibleEnemyPawnY] != null &&
+                    board.getFields()[possibleEnemyPawnX][possibleEnemyPawnY].getColor() != this.getColor()) {
+                return true;
             }
         }
         return false;
