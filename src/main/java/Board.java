@@ -1,20 +1,29 @@
 class Board {
-
-
     final int initPawnRows = 4;
+    final private int WHITE_STARTING_ROW;
+    final private int BLACK_STARTING_ROW = 0;
     Pawn[][] fields;
     DisplayBoard dis;
 
     Board(int n) {
         this.fields = new Pawn[n][n];
-        setUpPawnsOnBoard();
+        WHITE_STARTING_ROW = fields.length - 1;
+        //setUpPawnsOnBoard();
+        fields[1][2] = new Pawn(1, 2, Color.WHITE);
+        fields[0][1] = new Pawn(0, 1, Color.WHITE);
+        fields[4][5] = new Pawn(4, 5, Color.BLACK);
+        fields[6][5] = new Pawn(6, 5, Color.BLACK);
+        fields[8][5] = new Pawn(8, 5, Color.BLACK);
     }
 
     private void setUpPawnsOnBoard() {
-        int startingColumn;
+        setUpWhitePawns();
+        setUpBlackPawns();
+    }
 
-        //for white pawns
-        for (int i = fields.length - 1; i >= fields.length - initPawnRows; i--) {
+    private void setUpWhitePawns() {
+        int startingColumn;
+        for (int i = WHITE_STARTING_ROW; i >= fields.length - initPawnRows; i--) {
             if (i % 2 == 0)
                 startingColumn = 1;
             else
@@ -23,10 +32,11 @@ class Board {
                 fields[i][j] = new Pawn(i, j, Color.WHITE);
             }
         }
+    }
 
-        //for black pawns
-
-        for (int i = 0; i < initPawnRows; i++) {
+    private void setUpBlackPawns() {
+        int startingColumn;
+        for (int i = BLACK_STARTING_ROW; i < initPawnRows; i++) {
             if (i % 2 == 0)
                 startingColumn = 1;
             else
@@ -60,5 +70,4 @@ class Board {
     public Pawn[][] getFields() {
         return fields;
     }
-
 }

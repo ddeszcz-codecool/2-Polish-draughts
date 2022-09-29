@@ -2,7 +2,7 @@
 public class Pawn {
 
     Color color = null;
-    int pawnToDeleteDirection;
+    private int pawnToDeleteDirection;
     Coordinates position = new Coordinates(0, 0);
     boolean isCrowned = false;
 
@@ -14,7 +14,7 @@ public class Pawn {
     Pawn() {
     }
 
-    public boolean isCrowned() { //Sprawdza czy pionek ma być koronowany?
+    public boolean isCrowned() {
         return isCrowned;
     }
 
@@ -22,7 +22,7 @@ public class Pawn {
         return color;
     }
 
-    boolean isItMove(int[] newCoordinates, Board board) { //Metoda sprawdzam czy miejsce, na które się ruszyłeś jest puste?
+    boolean isItMove(int[] newCoordinates, Board board) {
         return pawnMove(newCoordinates, board);
     }
 
@@ -31,7 +31,7 @@ public class Pawn {
     }
 
     private boolean pawnCapture(int[] newCoordinates, Board board) {
-        if (this.color == Color.WHITE) {
+        if (this.getColor() == Color.WHITE) {
             return whitePawnCapturesBlack(newCoordinates, board);
         } else
             return blackPawnCapturesWhite(newCoordinates, board);
@@ -41,14 +41,14 @@ public class Pawn {
         if (board.getFields()[newCoordinates[0]][newCoordinates[1]] == null) {
             if (newCoordinates[1] > this.position.getY()) {
                 if (board.getFields()[this.position.getX() - 1][this.position.getY() + 1] != null &&
-                        board.getFields()[this.position.getX() - 1][this.position.getY() + 1].color == Color.BLACK) {
+                        board.getFields()[this.position.getX() - 1][this.position.getY() + 1].getColor() == Color.BLACK) {
                     pawnToDeleteDirection = 1;
                     return true;
                 }
             }
             if (newCoordinates[1] < this.position.getY()) {
                 if (board.getFields()[this.position.getX() - 1][this.position.getY() - 1] != null &&
-                        board.getFields()[this.position.getX() - 1][this.position.getY() - 1].color == Color.BLACK) {
+                        board.getFields()[this.position.getX() - 1][this.position.getY() - 1].getColor() == Color.BLACK) {
                     pawnToDeleteDirection = -1;
                     return true;
                 }
@@ -61,14 +61,14 @@ public class Pawn {
         if (board.getFields()[newCoordinates[0]][newCoordinates[1]] == null) {
             if (newCoordinates[1] > this.position.getY()) {
                 if (board.getFields()[this.position.getX() + 1][this.position.getY() + 1] != null &&
-                        board.getFields()[this.position.getX() + 1][this.position.getY() + 1].color == Color.WHITE) {
+                        board.getFields()[this.position.getX() + 1][this.position.getY() + 1].getColor() == Color.WHITE) {
                     pawnToDeleteDirection = 1;
                     return true;
                 }
             }
             if (newCoordinates[1] < this.position.getY()) {
                 if (board.getFields()[this.position.getX() + 1][this.position.getY() - 1] != null &&
-                        board.getFields()[this.position.getX() + 1][this.position.getY() - 1].color == Color.WHITE) {
+                        board.getFields()[this.position.getX() + 1][this.position.getY() - 1].getColor() == Color.WHITE) {
                     pawnToDeleteDirection = -1;
                     return true;
                 }
@@ -95,10 +95,6 @@ public class Pawn {
                 (this.position.getX() + 1 == newCoordinates[0] && this.position.getY() - 1 == newCoordinates[1]) ||
                 (this.position.getX() + 1 == newCoordinates[0] && this.position.getY() + 1 == newCoordinates[1]);
     }
-
-
-    //sprawdza czy mozna sie ruszyc w dane coordynaty
-    //wykonuje ruch
     public boolean tryToMakeMove(int[] newCoordinates, Board board) {
         if (isItMove(newCoordinates, board)) {
             board.movePawn(this, newCoordinates[0], newCoordinates[1]);
