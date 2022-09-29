@@ -132,7 +132,7 @@ public class Game {
                     counterP++;
                     System.out.println(counterP + " P");
                     if (enemyColor == Color.WHITE) {
-                       if(!this.isWhitePawnBlocked(i, j)) {         //zrobić counter, który będzie porównywany do ilości pionków
+                       if(!this.isWhitePawnBlocked(i, j)) {
                            return false;
                        }else{
                            counter++;
@@ -166,7 +166,7 @@ public class Game {
         System.out.println("sprawdzanie");
         if (j == 0) {
             return true;
-        } else if (/* i>=1 && */board.fields[i - 1][j - 1].color == Color.WHITE) {
+        } else if ( i>=1 && board.fields[i - 1][j - 1].color == Color.WHITE) {
             return true;
         } else if (j == 1 && board.fields[i - 1][j - 1] != null) {
             return true;
@@ -184,7 +184,7 @@ public class Game {
         if (j == 0) return true;
         else if (i >= 1 && board.fields[i - 1][j - 1] != null) {
             if (board.fields[i - 1][j - 1].color == Color.BLACK) {
-                if (i >= 2 && board.fields[i - 2][j - 2] != null) return true;
+                if ( j >= 2 && i >= 2 && board.fields[i - 2][j - 2] != null) return true;
                 else return false;
             } else return true;
         }return false;
@@ -211,7 +211,7 @@ public class Game {
         if (j == board.fields[0].length) return true;
         else if (i >= 1 && board.fields[i - 1][j + 1] != null) {
             if (board.fields[i - 1][j + 1].color == Color.BLACK) {
-                if (i >= 2 && board.fields[i - 2][j + 2] != null) return true;
+                if (j >= 2 && i >= 2 && board.fields[i - 2][j + 2] != null) return true;
                 else return false;
             } else return true;
         }return false;
