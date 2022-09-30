@@ -45,21 +45,26 @@ public class Pawn {
     }
 
     boolean isItCapture(int[] newCoordinates, Board board) {
-        return pawnCapture(newCoordinates, board);
+        if (!isCaptureAllowed(newCoordinates))
+            return false;
+
+        if (board.getFields()[newCoordinates[0]][newCoordinates[1]] != null) {
+            return false;
+        }
+
+        int possibleEnemyPawnX = (position.getX() + newCoordinates[0]) / 2;
+        int possibleEnemyPawnY = (position.getY() + newCoordinates[1]) / 2;
+        if (board.getFields()[possibleEnemyPawnX][possibleEnemyPawnY] != null &&
+            board.getFields()[possibleEnemyPawnX][possibleEnemyPawnY].getColor() != this.getColor()) {
+            return true;
+        }
+
+        return false;
     }
 
-    private boolean pawnCapture(int[] newCoordinates, Board board) {
-        if (board.getFields()[newCoordinates[0]][newCoordinates[1]] == null) {
-            int possibleEnemyPawnX = (this.position.getX() + newCoordinates[0]) / 2;
-            int possibleEnemyPawnY = (this.position.getY() + newCoordinates[1]) / 2;
-
-            if (this.position.getX() != 0 && this.position.getY() != board.fields.length - 1 &&
-                    board.getFields()[possibleEnemyPawnX][possibleEnemyPawnY] != null &&
-                    board.getFields()[possibleEnemyPawnX][possibleEnemyPawnY].getColor() != this.getColor()) {
-                return true;
-            }
-        }
-        return false;
+    private boolean isCaptureAllowed(int[] newCoordinates) {
+        return (Math.abs(position.getX() - newCoordinates[0]) == 2) &&
+                (Math.abs(position.getY() - newCoordinates[1]) == 2);
     }
 
 
