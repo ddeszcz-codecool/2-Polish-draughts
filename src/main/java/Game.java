@@ -1,5 +1,3 @@
-import java.util.InputMismatchException;
-import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -19,7 +17,6 @@ public class Game {
 
         board.toString();
         System.out.println("The Winner is " + currentPlayer + " player !!");
-
     }
 
     public boolean playRound() {
@@ -34,14 +31,18 @@ public class Game {
                 result = false;
                 break;
             }
+            changePlayer();
 
-            if (currentPlayer == Color.WHITE) {
-                currentPlayer = Color.BLACK;
-            } else currentPlayer = Color.WHITE;
 
             break;
         }
         return result;
+    }
+
+    private void changePlayer() {
+        if (currentPlayer == Color.WHITE) {
+            currentPlayer = Color.BLACK;
+        } else currentPlayer = Color.WHITE;
     }
 
     public boolean verifyPlayerMove() {
@@ -90,146 +91,87 @@ public class Game {
     }
 
     public boolean checkForWinner() {
-        if (this.checkIfNoEnemyPawnsOnBoard() || this.checkIfAllEnemiesPawnsBlocked()) {
-            return true;
-        } else {
-            return false;
-        }
+        return checkIfNoEnemyPawnsOnBoard() || checkIfAllEnemyPawnsBlocked();
     }
 
     public boolean checkIfNoEnemyPawnsOnBoard() {
-        Color enemyColor;
-        if (currentPlayer == Color.WHITE) {
-            enemyColor = Color.BLACK;
-        } else {
-            enemyColor = Color.WHITE;
-        }
+
         for (int i = 0; i < board.fields.length; i++) {
             for (int j = 0; j < board.fields[0].length; j++) {
-                if (board.fields[i][j] != null && board.fields[i][j].color == enemyColor) {
+                if (board.fields[i][j] != null && board.fields[i][j].color != currentPlayer) {
                     return false;
-
+                }
+            }
+        }
+        return true;
+    }
+    private boolean checkIfAllEnemyPawnsBlocked() {
+        for (int row = 0; row < board.fields.length; row++) {
+            for (int col = 0; col < board.fields[0].length; col++) {
+                if (!isFieldEmpty(row, col) && board.fields[row][col].color != currentPlayer) {
+                    if (!isPawnBlocked(row, col))
+                        return false;
                 }
             }
         }
         return true;
     }
 
-    public boolean checkIfAllEnemiesPawnsBlocked() {
-        Color enemyColor;
-        int counterP = 0;
-        int counter = 0;
-        if (currentPlayer == Color.WHITE) {
-            enemyColor = Color.BLACK;
-        } else {
-            enemyColor = Color.WHITE;
-        }
-        for (int i = 0; i < board.fields.length; i++) {
-            for (int j = 0; j < board.fields[0].length; j++) {
-                if (board.fields[i][j] != null && board.fields[i][j].color == enemyColor) {
-                    counterP++;
-                    if (enemyColor == Color.WHITE) {
-                        if (!this.isWhitePawnBlocked(i, j)) {
-                            return false;
-                        } else {
-                            counter++;
-                        }
-                    } else {
-                        if (!this.isBlackPawnBlocked(i, j)) {
-                            return false;
-                        } else {
-                            counter++;
-                        }
-                    }
-                }
-            }
-        }
-        if (counter == counterP) return true;
-        return false;
+    public boolean isPawnBlocked(int row, int col) {
+        int leftDirection = -1;
+        int rightDirection = 1;
+
+        return isPawnBlockedInSpecificDirection(row, col, leftDirection) &&
+                isPawnBlockedInSpecificDirection(row, col, rightDirection);
     }
 
-    public boolean isWhitePawnBlocked(int i, int j) {
-        if (i == 0) {
-            return true;
-        } else if (this.isWhitePawnBlockedToTheLeft(i, j) && this.isWhitePawnBlockedToTheRight(i, j)) {
-            return true;
+    private boolean isPawnBlockedInSpecificDirection(int row, int col, int enemyColDirection) {
+        if (isMovePossible(row, col, enemyColDirection))
+            return false;
 
-        }
-        return false;
+        return !isCapturePossibleUp(row, col, enemyColDirection) &&
+                !isCapturePossibleDown(row, col, enemyColDirection);
     }
 
-    public boolean isWhitePawnBlockedToTheLeft(int row, int col) {
-        if (col == 0) return true;
-        else if (row > 0 && board.fields[row - 1][col - 1] != null) {
-            if (board.fields[row - 1][col - 1].color == Color.BLACK) {
-                if (!(col > 1 && row > 1 && board.fields[row - 2][col - 2] != null)) return false;
-            } else if (row < board.fields.length - 1 && board.fields[row + 1][col - 1] != null) {
-                if (board.fields[row + 1][col - 1].color == Color.BLACK) {
-                    if (col > 1 && row < board.fields.length - 2 && board.fields[row + 2][col - 2] != null) return true;
-                }
-                return true;
-            }
-        }
-        return false;
+    private boolean isMovePossible(int row, int col, int enemyColDirection) {
+        int enemyRowDirection = currentPlayer == Color.WHITE ? 1 : -1;
+
+        if (isIndexOutOfBounds(row + enemyRowDirection) || isIndexOutOfBounds(col + enemyColDirection))
+            return false;
+
+        return isFieldEmpty(row + enemyRowDirection, col + enemyColDirection);
     }
 
-    public boolean isWhitePawnBlockedToTheRight(int row, int col) {
-        if (col == board.fields[0].length - 1) return true;
-        else if (row > 0 && board.fields[row - 1][col + 1] != null) {
-            if (board.fields[row - 1][col + 1].color == Color.BLACK) {
-                if (!(col < board.fields.length - 2 && row > 1 && board.fields[row - 2][col + 2] != null)) return false;
-            } else if (row < board.fields.length - 1 && board.fields[row + 1][col + 1] != null) {
-                if (board.fields[row + 1][col + 1].color == Color.BLACK) {
-                    if (col < board.fields.length - 2 && row < board.fields.length - 2 && board.fields[row + 2][col + 2] != null)
-                        return true;
-                }
-                return true;
-            }
-        }
-        return false;
+    private boolean isFieldEmpty(int row, int col) {
+        return board.fields[row][col] == null;
     }
 
-    public boolean isBlackPawnBlocked(int i, int j) {
-        if (i == board.fields[0].length - 1) {
-            return true;
-        } else if (this.isBlackPawnBlockedToTheLeft(i, j) && this.isBlackPawnBlockedToTheRight(i, j)) {
-            return true;
-        }
-        return false;
+    private boolean isIndexOutOfBounds(int index) {
+        return (index < 0 || index >= board.fields[0].length);
     }
 
-    public boolean isBlackPawnBlockedToTheLeft(int row, int col) {
-        if (col == 0) return true;
-        else if (row < board.fields[0].length - 1 && board.fields[row + 1][col - 1] != null) {
-            if (board.fields[row + 1][col - 1].color == Color.WHITE) {
-                if (!(col > 1 && row < board.fields[0].length - 2 && board.fields[row + 2][col - 2] != null))
-                    return false;
-            } else if (row > 0 && board.fields[row - 1][col - 1] != null) {
-                if (board.fields[row - 1][col - 1].color == Color.BLACK) {
-                    if (col > 1 && row > 1 && board.fields[row - 2][col - 2] != null)
-                        return true;
-                }
-                return true;
-            }
-        }
-        return false;
+    private boolean isCapturePossibleDown(int row, int col, int enemyColDirection) {
+        int colJump = enemyColDirection * 2;
+        if (isIndexOutOfBounds(col + colJump) || isIndexOutOfBounds(row + 2))
+            return false;
+
+        if (!isFieldEmpty(row + 2, col + colJump))
+            return false;
+
+        return !isFieldEmpty(row + 1, col + enemyColDirection) &&
+                board.fields[row + 1][col + enemyColDirection].color == currentPlayer;
     }
 
-    public boolean isBlackPawnBlockedToTheRight(int row, int col) {
-        if (col == board.fields[0].length - 1) return true;
-        else if (row < board.fields[0].length - 1 && board.fields[row + 1][col + 1] != null) {
-            if (board.fields[row + 1][col + 1].color == Color.WHITE) {
-                if (!(col < board.fields[0].length - 2 && row < board.fields[0].length - 2 && board.fields[row + 2][col + 2] != null))
-                    return false;
-            } else if (row > 0 && board.fields[row - 1][col + 1] != null) {
-                if (board.fields[row - 1][col + 1].color == Color.BLACK) {
-                    if (col < board.fields[0].length - 2 && row > 1 && board.fields[row - 2][col + 2] != null)
-                        return true;
-                }
-                return true;
-            }
-        }
-        return false;
+    private boolean isCapturePossibleUp(int row, int col, int enemyColDirection) {
+        int colJump = enemyColDirection * 2;
+        if (isIndexOutOfBounds(col + colJump) || isIndexOutOfBounds(row - 2))
+            return false;
+
+        if (!isFieldEmpty(row - 2, col + colJump))
+            return false;
+
+        return !isFieldEmpty(row - 1, col + enemyColDirection) &&
+                board.fields[row - 1][col + enemyColDirection].color == currentPlayer;
     }
 
     private int askUserForBoardSize() {

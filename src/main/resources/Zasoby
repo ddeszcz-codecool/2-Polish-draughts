@@ -1,0 +1,121 @@
+public boolean checkIfAllEnemiesPawnsBlocked() {
+        Color enemyColor;
+        int enemyPawns = 0;
+        int enemyPawnBlocked = 0;
+        if (currentPlayer == Color.WHITE) {
+            enemyColor = Color.BLACK;
+        } else {
+            enemyColor = Color.WHITE;
+        }
+        for (int row = 0; row < board.fields.length; row++) {
+            for (int col = 0; col < board.fields[0].length; col++) {
+                if (board.fields[row][col] != null && board.fields[row][col].color == enemyColor) {
+                    enemyPawns++;
+                    if (enemyColor == Color.WHITE) {
+                        if (!isWhitePawnBlocked(row, col)) {
+                            return false;
+                        } else {
+                            enemyPawnBlocked++;
+                        }
+                    } else {
+                        if (!isBlackPawnBlocked(row, col)) {
+                            return false;
+                        } else {
+                            enemyPawnBlocked++;
+                        }
+                    }
+                }
+            }
+        }
+        if (enemyPawnBlocked == enemyPawns) return true;
+        return false;
+    }
+
+        public boolean isWhitePawnBlocked(int row, int col) {
+            if (row == 0) {
+                return true;
+            } else if (this.isWhitePawnBlockedToTheLeft(row, col) && this.isWhitePawnBlockedToTheRight(row, col)) {
+                return true;
+
+            }
+            return false;
+        }
+
+
+        public boolean isWhitePawnBlockedToTheLeft(int row, int col) {
+            if (col == 0)
+                return true;
+
+            if (row > 0 && board.fields[row - 1][col - 1] != null) {
+                if (board.fields[row - 1][col - 1].color == Color.BLACK) {
+                    if (!(col > 1 && row > 1 && board.fields[row - 2][col - 2] != null))
+                        return false;
+                } else if (row < board.fields.length - 1 && board.fields[row + 1][col - 1] != null) {
+                    if (board.fields[row + 1][col - 1].color == Color.BLACK) {
+                        if (col > 1 && row < board.fields.length - 2 && board.fields[row + 2][col - 2] != null) return true;
+                    }
+                    return true;
+                }
+            }
+            return false;
+        }
+
+            public boolean isWhitePawnBlockedToTheRight(int row, int col) {
+                if (col == board.fields[0].length - 1) return true;
+                else if (row > 0 && board.fields[row - 1][col + 1] != null) {
+                    if (board.fields[row - 1][col + 1].color == Color.BLACK) {
+                        if (!(col < board.fields.length - 2 && row > 1 && board.fields[row - 2][col + 2] != null)) return false;
+                    } else if (row < board.fields.length - 1 && board.fields[row + 1][col + 1] != null) {
+                        if (board.fields[row + 1][col + 1].color == Color.BLACK) {
+                            if (col < board.fields.length - 2 && row < board.fields.length - 2 && board.fields[row + 2][col + 2] != null)
+                                return true;
+                        }
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+
+    public boolean isBlackPawnBlocked(int i, int j) {
+        if (i == board.fields[0].length - 1) {
+            return true;
+        } else if (this.isBlackPawnBlockedToTheLeft(i, j) && this.isBlackPawnBlockedToTheRight(i, j)) {
+            return true;
+        }
+        return false;
+    }
+
+        public boolean isBlackPawnBlockedToTheLeft(int row, int col) {
+            if (col == 0) return true;
+            else if (row < board.fields[0].length - 1 && board.fields[row + 1][col - 1] != null) {
+                if (board.fields[row + 1][col - 1].color == Color.WHITE) {
+                    if (!(col > 1 && row < board.fields[0].length - 2 && board.fields[row + 2][col - 2] != null))
+                        return false;
+                } else if (row > 0 && board.fields[row - 1][col - 1] != null) {
+                    if (board.fields[row - 1][col - 1].color == Color.BLACK) {
+                        if (col > 1 && row > 1 && board.fields[row - 2][col - 2] != null)
+                            return true;
+                    }
+                    return true;
+                }
+            }
+            return false;
+        }
+
+            public boolean isBlackPawnBlockedToTheRight(int row, int col) {
+                if (col == board.fields[0].length - 1) return true;
+                else if (row < board.fields[0].length - 1 && board.fields[row + 1][col + 1] != null) {
+                    if (board.fields[row + 1][col + 1].color == Color.WHITE) {
+                        if (!(col < board.fields[0].length - 2 && row < board.fields[0].length - 2 && board.fields[row + 2][col + 2] != null))
+                            return false;
+                    } else if (row > 0 && board.fields[row - 1][col + 1] != null) {
+                        if (board.fields[row - 1][col + 1].color == Color.BLACK) {
+                            if (col < board.fields[0].length - 2 && row > 1 && board.fields[row - 2][col + 2] != null)
+                                return true;
+                        }
+                        return true;
+                    }
+                }
+                return false;
+            }
