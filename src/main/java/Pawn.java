@@ -1,8 +1,7 @@
 
 public class Pawn {
-
-    Color color = null;
-    Coordinates position = new Coordinates(0, 0);
+    private Color color;
+    Coordinates position;
     boolean isCrowned = false;
 
     Pawn(int x, int y, Color color) {
@@ -10,18 +9,7 @@ public class Pawn {
         this.color = color;
     }
 
-    Pawn() {
-    }
-
-    public boolean isCrowned() {
-        return isCrowned;
-    }
-
-    Color getColor() {
-        return color;
-    }
-
-    boolean isItMove(int[] newCoordinates, Board board) {
+    private boolean isItMove(int[] newCoordinates, Board board) {
         return pawnMove(newCoordinates, board);
     }
 
@@ -44,7 +32,7 @@ public class Pawn {
                 (this.position.getX() + 1 == newCoordinates[0] && this.position.getY() + 1 == newCoordinates[1]);
     }
 
-    boolean isItCapture(int[] newCoordinates, Board board) {
+    private boolean isItCapture(int[] newCoordinates, Board board) {
         if (!isCaptureAllowed(newCoordinates))
             return false;
 
@@ -58,7 +46,6 @@ public class Pawn {
             board.getFields()[possibleEnemyPawnX][possibleEnemyPawnY].getColor() != this.getColor()) {
             return true;
         }
-
         return false;
     }
 
@@ -79,5 +66,13 @@ public class Pawn {
             return true;
         }
         return false;
+    }
+
+    public boolean isCrowned() {
+        return isCrowned;
+    }
+
+    public Color getColor() {
+        return color;
     }
 }

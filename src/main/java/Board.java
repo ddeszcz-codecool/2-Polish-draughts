@@ -2,8 +2,8 @@ class Board {
     final private int initPawnRows = 4;
     final private int WHITE_STARTING_ROW;
     final private int BLACK_STARTING_ROW = 0;
-    Pawn[][] fields;
-    DisplayBoard dis;
+    private Pawn[][] fields;
+    private DisplayBoard dis;
 
     Board(int n) {
         this.fields = new Pawn[n][n];

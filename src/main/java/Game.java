@@ -2,8 +2,8 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public class Game {
-    Color currentPlayer = Color.WHITE;
-    Board board;
+    private Color currentPlayer = Color.WHITE;
+    private Board board;
 
     void start() {
         System.out.println("Hello !!");
@@ -19,7 +19,7 @@ public class Game {
         System.out.println("The Winner is " + currentPlayer + " player !!");
     }
 
-    public boolean playRound() {
+    private boolean playRound() {
 
         boolean result = true;
         while (result) {
@@ -32,8 +32,6 @@ public class Game {
                 break;
             }
             changePlayer();
-
-
             break;
         }
         return result;
@@ -45,7 +43,7 @@ public class Game {
         } else currentPlayer = Color.WHITE;
     }
 
-    public boolean verifyPlayerMove() {
+    private boolean verifyPlayerMove() {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Which pawn do you want to move?");
@@ -56,8 +54,8 @@ public class Game {
         }
         int[] pawnCoordinates = stringToCoordinates(pawnPlaceOnBoard);
         if (!validateCoordinatesAreInRange(pawnCoordinates)) {
-            int boardWidth = board.fields.length;
-            char boardHeight = (char) (board.fields.length + 64);
+            int boardWidth = board.getFields().length;
+            char boardHeight = (char) (board.getFields().length + 64);
             System.out.println("Your coordinates are out of range please use coordinates from 1 to " + boardWidth + " and from A to " + boardHeight);
             return false;
         }
@@ -74,15 +72,15 @@ public class Game {
         }
         int[] moveCoordinates = stringToCoordinates(placeToMove);
         if (!validateCoordinatesAreInRange(moveCoordinates)) {
-            int boardWidth = board.fields.length;
-            char boardHeight = (char) (board.fields.length + 64);
+            int boardWidth = board.getFields().length;
+            char boardHeight = (char) (board.getFields().length + 64);
             System.out.println("Your coordinates are out of range please use coordinates from 1 to " + boardWidth + " and from A to " + boardHeight);
             return false;
         }
         if (!validateUserChosenMoveCoordinatesAreNull(moveCoordinates)) {
             return false;
         }
-        if (!board.fields[pawnCoordinates[0]][pawnCoordinates[1]].tryToMakeMove(moveCoordinates, board)) {
+        if (!board.getFields()[pawnCoordinates[0]][pawnCoordinates[1]].tryToMakeMove(moveCoordinates, board)) {
             System.out.println("Move is not valid. Please choose again");
             return false;
         }
@@ -90,15 +88,15 @@ public class Game {
         return true;
     }
 
-    public boolean checkForWinner() {
+    private boolean checkForWinner() {
         return checkIfNoEnemyPawnsOnBoard() || checkIfAllEnemyPawnsBlocked();
     }
 
-    public boolean checkIfNoEnemyPawnsOnBoard() {
+    private boolean checkIfNoEnemyPawnsOnBoard() {
 
-        for (int i = 0; i < board.fields.length; i++) {
-            for (int j = 0; j < board.fields[0].length; j++) {
-                if (board.fields[i][j] != null && board.fields[i][j].color != currentPlayer) {
+        for (int i = 0; i < board.getFields().length; i++) {
+            for (int j = 0; j < board.getFields()[0].length; j++) {
+                if (board.getFields()[i][j] != null && board.getFields()[i][j].getColor() != currentPlayer) {
                     return false;
                 }
             }
@@ -106,9 +104,9 @@ public class Game {
         return true;
     }
     private boolean checkIfAllEnemyPawnsBlocked() {
-        for (int row = 0; row < board.fields.length; row++) {
-            for (int col = 0; col < board.fields[0].length; col++) {
-                if (!isFieldEmpty(row, col) && board.fields[row][col].color != currentPlayer) {
+        for (int row = 0; row < board.getFields().length; row++) {
+            for (int col = 0; col < board.getFields()[0].length; col++) {
+                if (!isFieldEmpty(row, col) && board.getFields()[row][col].getColor() != currentPlayer) {
                     if (!isPawnBlocked(row, col))
                         return false;
                 }
@@ -117,7 +115,7 @@ public class Game {
         return true;
     }
 
-    public boolean isPawnBlocked(int row, int col) {
+    private boolean isPawnBlocked(int row, int col) {
         int leftDirection = -1;
         int rightDirection = 1;
 
@@ -143,11 +141,11 @@ public class Game {
     }
 
     private boolean isFieldEmpty(int row, int col) {
-        return board.fields[row][col] == null;
+        return board.getFields()[row][col] == null;
     }
 
     private boolean isIndexOutOfBounds(int index) {
-        return (index < 0 || index >= board.fields[0].length);
+        return (index < 0 || index >= board.getFields()[0].length);
     }
 
     private boolean isCapturePossibleDown(int row, int col, int enemyColDirection) {
@@ -159,7 +157,7 @@ public class Game {
             return false;
 
         return !isFieldEmpty(row + 1, col + enemyColDirection) &&
-                board.fields[row + 1][col + enemyColDirection].color == currentPlayer;
+                board.getFields()[row + 1][col + enemyColDirection].getColor() == currentPlayer;
     }
 
     private boolean isCapturePossibleUp(int row, int col, int enemyColDirection) {
@@ -171,7 +169,7 @@ public class Game {
             return false;
 
         return !isFieldEmpty(row - 1, col + enemyColDirection) &&
-                board.fields[row - 1][col + enemyColDirection].color == currentPlayer;
+                board.getFields()[row - 1][col + enemyColDirection].getColor() == currentPlayer;
     }
 
     private int askUserForBoardSize() {
@@ -182,13 +180,12 @@ public class Game {
             String size = scanner.nextLine().strip();
             if (validateUserChoicePattern(size)) {
                 int boardSize = Integer.parseInt(size);
-                if (boardSize >= 10 && boardSize <= 20 && boardSize % 2 == 0) return boardSize;
+                if (boardSize >= 10 && boardSize <= 20 && boardSize % 2 == 0)
+                    return boardSize;
                 else
                     System.out.println("The board size entered is incorrect, try between 10 and 20 (only even numbers)");
-                continue;
             } else
                 System.out.println("The input format incorrect, try numbers between 10 and 20 (only even numbers)");
-            continue;
         }
     }
 
@@ -204,7 +201,7 @@ public class Game {
             return false;
         }
 
-        if (currentPlayer != board.getFields()[pawnPlace[0]][pawnPlace[1]].color) {
+        if (currentPlayer != board.getFields()[pawnPlace[0]][pawnPlace[1]].getColor()) {
             System.out.println("This is Yours opponent pawn, please use your pawn");
             return false;
         }
@@ -233,6 +230,6 @@ public class Game {
     }
 
     private boolean validateCoordinatesAreInRange(int[] coordinates) {
-        return coordinates[0] < board.fields.length && coordinates[1] < board.fields.length;
+        return coordinates[0] < board.getFields().length && coordinates[1] < board.getFields().length;
     }
 }
