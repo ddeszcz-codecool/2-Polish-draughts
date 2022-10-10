@@ -7,15 +7,15 @@ public class Game {
 
     void start() {
         System.out.println("Hello !!");
-        board = new Board(askUserForBoardSize());
-        board.toString();
+        board = Board.getBoard(askUserForBoardSize());
+        System.out.println(board);
         System.out.println("Current player for - " + currentPlayer.name());
         while (playRound()) {
-            board.toString();
+            System.out.println(board);
             System.out.println("Current player for - " + currentPlayer.name());
         }
 
-        board.toString();
+        System.out.println(board);
         System.out.println("The Winner is " + currentPlayer + " player !!");
     }
 
@@ -44,49 +44,75 @@ public class Game {
     }
 
     private boolean verifyPlayerMove() {
-        Scanner scanner = new Scanner(System.in);
+        int[] pawnCoordinates = choosePawnToMove();
+        int[] moveCoordinates = chooseCoordinatesToMoveTo();
 
-        System.out.println("Which pawn do you want to move?");
-        String pawnPlaceOnBoard = scanner.nextLine().strip().toLowerCase();
-        if (!validateCoordinatesAreOnlyLetterAndNumber(pawnPlaceOnBoard)) {
-            System.out.println("Your coordinates are not correct, please use a following format - letter + number - e.g. A2, B4");
-            return false;
-        }
-        int[] pawnCoordinates = stringToCoordinates(pawnPlaceOnBoard);
-        if (!validateCoordinatesAreInRange(pawnCoordinates)) {
-            int boardWidth = board.getFields().length;
-            char boardHeight = (char) (board.getFields().length + 64);
-            System.out.println("Your coordinates are out of range please use coordinates from 1 to " + boardWidth + " and from A to " + boardHeight);
-            return false;
-        }
-        if (!validateUserChosenPawnNotNullAndNotDifferentColor(pawnCoordinates)) {
-            return false;
-        }
-
-
-        System.out.println("Where you want to move it ?");
-        String placeToMove = scanner.nextLine().strip().toLowerCase();
-        if (!validateCoordinatesAreOnlyLetterAndNumber(placeToMove)) {
-            System.out.println("Your coordinates are not correct, please use format letter plus number e.g. A2, B4");
-            return false;
-        }
-        int[] moveCoordinates = stringToCoordinates(placeToMove);
-
-        if (!validateCoordinatesAreInRange(moveCoordinates)) {
-            int boardWidth = board.getFields().length;
-            char boardHeight = (char) (board.getFields().length + 64);
-            System.out.println("Your coordinates are out of range please use coordinates from 1 to " + boardWidth + " and from A to " + boardHeight);
-            return false;
-        }
-        if (!validateUserChosenMoveCoordinatesAreNull(moveCoordinates)) {
-            return false;
-        }
         if (!board.getFields()[pawnCoordinates[0]][pawnCoordinates[1]].tryToMakeMove(moveCoordinates, board)) {
             System.out.println("Move is not valid. Please choose again");
             return false;
         }
-
         return true;
+    }
+
+    private int[] choosePawnToMove() {
+        Scanner scanner = new Scanner(System.in);
+
+        boolean pawnNotChosen = true;
+        int[] pawnCoordinates = new int[2];
+
+        while (pawnNotChosen) {
+            System.out.println();
+            System.out.println("Which pawn do you want to move?");
+            String pawnPlaceOnBoard = scanner.nextLine().strip().toLowerCase();
+
+            if (!validateCoordinatesAreOnlyLetterAndNumber(pawnPlaceOnBoard)) {
+                System.out.println("Your coordinates are not correct, please use a following format - letter + number - e.g. A2, B4");
+                continue;
+            }
+            int[] chosenCoordinates = stringToCoordinates(pawnPlaceOnBoard);
+
+            if (!validateCoordinatesAreInRange(chosenCoordinates)) {
+                int boardWidth = board.getFields().length;
+                char boardHeight = (char) (board.getFields().length + 64);
+                System.out.println("Your coordinates are out of range please use coordinates from 1 to " + boardWidth + " and from A to " + boardHeight);
+                continue;
+            }
+            if (!validateUserChosenPawnNotNullAndNotDifferentColor(chosenCoordinates)) {
+                continue;
+            }
+            pawnCoordinates = chosenCoordinates;
+            pawnNotChosen = false;
+        }
+        return pawnCoordinates;
+    }
+    private int[] chooseCoordinatesToMoveTo() {
+        Scanner scanner = new Scanner(System.in);
+        boolean coordinatesNotChosen = true;
+        int[] chosenSpotCoordinates = new int[2];
+
+        while(coordinatesNotChosen) {
+
+            System.out.println("Where you want to move it ?");
+            String placeToMove = scanner.nextLine().strip().toLowerCase();
+            if (!validateCoordinatesAreOnlyLetterAndNumber(placeToMove)) {
+                System.out.println("Your coordinates are not correct, please use format letter plus number e.g. A2, B4");
+                continue;
+            }
+            int[] moveCoordinates = stringToCoordinates(placeToMove);
+
+            if (!validateCoordinatesAreInRange(moveCoordinates)) {
+                int boardWidth = board.getFields().length;
+                char boardHeight = (char) (board.getFields().length + 64);
+                System.out.println("Your coordinates are out of range please use coordinates from 1 to " + boardWidth + " and from A to " + boardHeight);
+                continue;
+            }
+            if (!validateUserChosenMoveCoordinatesAreNull(moveCoordinates)) {
+                continue;
+            }
+            chosenSpotCoordinates = moveCoordinates;
+            coordinatesNotChosen = false;
+        }
+        return chosenSpotCoordinates;
     }
 
     private boolean checkForWinner() {
@@ -104,6 +130,7 @@ public class Game {
         }
         return true;
     }
+
     private boolean checkIfAllEnemyPawnsBlocked() {
         for (int row = 0; row < board.getFields().length; row++) {
             for (int col = 0; col < board.getFields()[0].length; col++) {

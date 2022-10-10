@@ -20,10 +20,10 @@ GRACZ ma RUCH ............. sprawdzenie i zmień GRACZ (1>2>1>...)
 
 
 Rzeczy do zrobienia:
-Bug w walidacji coordinatesInRange - wybija 0
+Bug w walidacji coordinatesInRange - wybija 0 --   gotowe
 CheckForWinner - nie bierze pod uwage krolowki
 Kilka przeskokow pod rzad
-Refactor metody verifyPlayerMove
+Refactor metody verifyPlayerMove  --               gotowe
 Przeniesienie displayBoarda do Game
-Board jest singletonem
+Board jest singletonem  --                         gotowe
 Remis w sytuacji krol vs krol
