@@ -71,6 +71,7 @@ public class Game {
             return false;
         }
         int[] moveCoordinates = stringToCoordinates(placeToMove);
+
         if (!validateCoordinatesAreInRange(moveCoordinates)) {
             int boardWidth = board.getFields().length;
             char boardHeight = (char) (board.getFields().length + 64);
@@ -230,6 +231,6 @@ public class Game {
     }
 
     private boolean validateCoordinatesAreInRange(int[] coordinates) {
-        return coordinates[0] < board.getFields().length && coordinates[1] < board.getFields().length;
+        return coordinates[1] >= 0 && coordinates[0] < board.getFields().length && coordinates[1] < board.getFields().length;
     }
 }
