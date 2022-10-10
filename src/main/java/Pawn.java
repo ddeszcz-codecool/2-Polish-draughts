@@ -18,7 +18,7 @@ public class Pawn {
 
     private final Color color;
     Coordinates position;
-    private boolean isCrowned = false;
+    public boolean isCrowned = false;
     private final int[] enemyPawnCoordinatesForCapture = new int[2];
 
     Pawn(int x, int y, Color color) {

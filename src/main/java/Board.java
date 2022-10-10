@@ -11,6 +11,7 @@ class Board {
         fields[4][3] = new Pawn(4, 3, Color.WHITE);
         fields[5][4] = new Pawn(5, 4, Color.BLACK);
         fields[6][5] = new Pawn(6, 5, Color.BLACK);
+
 //        fields[8][1] = new Pawn(8, 1, Color.BLACK);
 //        fields[9][2] = new Pawn(9, 2, Color.BLACK);
 //        fields[9][0] = new Pawn(9, 0, Color.BLACK);

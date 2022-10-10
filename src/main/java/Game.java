@@ -104,6 +104,7 @@ public class Game {
         }
         return true;
     }
+
     private boolean checkIfAllEnemyPawnsBlocked() {
         for (int row = 0; row < board.getFields().length; row++) {
             for (int col = 0; col < board.getFields()[0].length; col++) {
@@ -133,12 +134,22 @@ public class Game {
     }
 
     private boolean isMovePossible(int row, int col, int enemyColDirection) {
-        int enemyRowDirection = currentPlayer == Color.WHITE ? 1 : -1;
+        Pawn pawn = new Pawn(row, col, currentPlayer);
+        if (!pawn.isCrowned()) {
+            int enemyRowDirection = currentPlayer == Color.WHITE ? 1 : -1;
+            if (isIndexOutOfBounds(row + enemyRowDirection) || isIndexOutOfBounds(col + enemyColDirection))
+                return false;
+            return isFieldEmpty(row + enemyRowDirection, col + enemyColDirection);
+        } else {
+            int enemyRowDirection = 1;
+            if (isIndexOutOfBounds(col + enemyColDirection)) {
+                return false;
+            }
 
-        if (isIndexOutOfBounds(row + enemyRowDirection) || isIndexOutOfBounds(col + enemyColDirection))
-            return false;
-
-        return isFieldEmpty(row + enemyRowDirection, col + enemyColDirection);
+            if (isFieldEmpty(row + enemyRowDirection, col + enemyColDirection)) {
+                return true;
+            } else return isFieldEmpty(row - enemyRowDirection, col + enemyColDirection);
+        }
     }
 
     private boolean isFieldEmpty(int row, int col) {
