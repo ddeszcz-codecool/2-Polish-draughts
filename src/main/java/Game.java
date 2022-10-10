@@ -231,6 +231,6 @@ public class Game {
     }
 
     private boolean validateCoordinatesAreInRange(int[] coordinates) {
-        return coordinates[1] >= 0 && coordinates[0] < board.getFields().length && coordinates[1] < board.getFields().length;
+        return coordinates[0] >= 0 && coordinates[0] < board.getFields().length && coordinates[1] < board.getFields().length;
     }
 }
