@@ -218,11 +218,11 @@ public class Game {
     }
 
     private int[] stringToCoordinates(String coordinates) {
-        char charRow = coordinates.charAt(0);
-        int row = charRow - 97;
-        int col = Integer.parseInt(coordinates.substring(1)) - 1;
+        char charCol = coordinates.charAt(0);
+        int col = charCol - 97;
+        int row = Integer.parseInt(coordinates.substring(1)) - 1;
 
-        return new int[]{col, row};
+        return new int[]{row, col};
     }
 
     private boolean validateCoordinatesAreOnlyLetterAndNumber(String coordinates) {
