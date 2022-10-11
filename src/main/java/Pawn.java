@@ -75,7 +75,7 @@ public class Pawn {
                 board.getFields()[possibleEnemyPawnCoords.getX()][possibleEnemyPawnCoords.getY()].getColor() != this.getColor();
     }
 
-    private boolean isCaptureAllowed(int[] newCoordinates) {
+    private boolean isCaptureAllowed(int[] newCoordinates) { //toRemove
         return (Math.abs(position.getX() - newCoordinates[0]) == 2) &&
                 (Math.abs(position.getY() - newCoordinates[1]) == 2);
     }
@@ -83,9 +83,9 @@ public class Pawn {
     private boolean isItQueenMove(MoveParameters moveParameters, Board board) {
         int currentCol = moveParameters.colStartingPoint;
         int currentRow = moveParameters.rowStartingPoint;
-        for (;currentRow < moveParameters.rowEndPoint; currentRow++) {
+        for (; currentRow < moveParameters.rowEndPoint; currentRow++) {
             currentCol += moveParameters.colDirection;
-            if(board.getFields()[currentRow][currentCol] != null)
+            if (board.getFields()[currentRow][currentCol] != null)
                 return false;
         }
         return true;
@@ -130,7 +130,7 @@ public class Pawn {
             }
 
             if (isItCapture(newCoordinates, board)) {
-                Coordinates pawnToRemoveCoords = calculateMiddlePoint(this.position , newCoordinates);
+                Coordinates pawnToRemoveCoords = calculateMiddlePoint(this.position, newCoordinates);
                 board.removePawn(board.getFields()[pawnToRemoveCoords.getX()][pawnToRemoveCoords.getY()]);
                 board.movePawn(this, newCoordinates[0], newCoordinates[1]);
                 verifyIfCanBeCrowned(board);
@@ -164,9 +164,8 @@ public class Pawn {
             if (position.getX() == 0) {
                 isCrowned = true;
             }
-        }else
-            if (position.getX() == board.getFields().length - 1)
-                isCrowned = true;
+        } else if (position.getX() == board.getFields().length - 1)
+            isCrowned = true;
     }
 
     public boolean isCrowned() {
@@ -177,14 +176,21 @@ public class Pawn {
         return color;
     }
 
+    private void whichPawnCanMove(Board board) {
+        for (int i = 0; i < board.getFields().length; i++) {
+            for (int j = 0; j < board.getFields()[0].length; j++) {
+                if(board.getFields()[i][j] != null){
 
-    private void canMakeAnotherCapture(Board board){
-        if(isCrowned){
-
+                }
+            }
         }
-        else {
-            if(board.getFields()[position.getX() + 1][position.getY() + 1].color != this.color ){
-                if(board.getFields()[position.getX() + 2][position.getY() + 2] == null){
+    }
+
+    private void canMakeAnotherCapture(Board board) {
+        if (isCrowned) {  //sprawdza wszystkie przekątne??
+        } else {
+            if (board.getFields()[position.getX() + 1][position.getY() + 1].color != this.color) {
+                if (board.getFields()[position.getX() + 2][position.getY() + 2] == null) {
 
                 }
             }
