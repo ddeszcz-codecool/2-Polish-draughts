@@ -47,7 +47,7 @@ public class Game {
         int[] pawnCoordinates = choosePawnToMove();
         int[] moveCoordinates = chooseCoordinatesToMoveTo();
 
-        if(!isMoveInAStraightLine(pawnCoordinates,moveCoordinates)){
+        if (!isMoveInAStraightLine(pawnCoordinates, moveCoordinates)) {
             System.out.println("Move not in a straight line. Please choose again");
             return false;
         }
@@ -58,7 +58,8 @@ public class Game {
         }
         return true;
     }
-    private boolean isMoveInAStraightLine(int[] pawnCoordinates, int[] moveCoordinates){
+
+    private boolean isMoveInAStraightLine(int[] pawnCoordinates, int[] moveCoordinates) {
         return Math.abs(pawnCoordinates[0] - moveCoordinates[0]) == Math.abs(pawnCoordinates[1] - moveCoordinates[1]);
     }
 
@@ -126,6 +127,7 @@ public class Game {
 
     private boolean checkForWinner() {
         if (checkForDraw()) {
+            System.out.println(board);
             System.out.println("It's a draw.");
             System.exit(0);
         }
@@ -138,7 +140,8 @@ public class Game {
         for (int i = 0; i < board.getFields().length; i++) {
             for (int j = 0; j < board.getFields()[0].length; j++) {
                 if (board.getFields()[i][j] != null) {
-                    if (!board.getFields()[i][j].isCrowned) return false;
+                    if (!board.getFields()[i][j].isCrowned)
+                        return false;
                     if (board.getFields()[i][j].getColor() == Color.WHITE) counterW++;
                     else counterB++;
                 }
@@ -189,7 +192,7 @@ public class Game {
     }
 
     private boolean isMovePossible(int row, int col, int enemyColDirection) {
-        Pawn pawn = new Pawn(row, col, currentPlayer);
+        Pawn pawn = board.getFields()[row][col];
         if (!pawn.isCrowned()) {
             int enemyRowDirection = currentPlayer == Color.WHITE ? 1 : -1;
             if (isIndexOutOfBounds(row + enemyRowDirection) || isIndexOutOfBounds(col + enemyColDirection))
@@ -201,9 +204,11 @@ public class Game {
                 return false;
             }
 
-            if (isFieldEmpty(row + enemyRowDirection, col + enemyColDirection)) {
+            if (!isIndexOutOfBounds(row + enemyRowDirection) &&
+                    isFieldEmpty(row + enemyRowDirection, col + enemyColDirection)) {
                 return true;
-            } else return isFieldEmpty(row - enemyRowDirection, col + enemyColDirection);
+            } else return !isIndexOutOfBounds(row - enemyRowDirection) &&
+                    isFieldEmpty(row - enemyRowDirection, col + enemyColDirection);
         }
     }
 
