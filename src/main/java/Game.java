@@ -47,11 +47,19 @@ public class Game {
         int[] pawnCoordinates = choosePawnToMove();
         int[] moveCoordinates = chooseCoordinatesToMoveTo();
 
+        if(!isMoveInAStraightLine(pawnCoordinates,moveCoordinates)){
+            System.out.println("Move not in a straight line. Please choose again");
+            return false;
+        }
+
         if (!board.getFields()[pawnCoordinates[0]][pawnCoordinates[1]].tryToMakeMove(moveCoordinates, board)) {
             System.out.println("Move is not valid. Please choose again");
             return false;
         }
         return true;
+    }
+    private boolean isMoveInAStraightLine(int[] pawnCoordinates, int[] moveCoordinates){
+        return Math.abs(pawnCoordinates[0] - moveCoordinates[0]) == Math.abs(pawnCoordinates[1] - moveCoordinates[1]);
     }
 
     private int[] choosePawnToMove() {
