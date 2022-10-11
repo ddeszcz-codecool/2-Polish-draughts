@@ -29,3 +29,16 @@ Board jest singletonem  --                         gotowe
 
 Kilka przeskokow pod rzad
 Przeniesienie displayBoarda do Game
+
+
+Multicapture:
+*Bez obowiązku bicia
+
+-Czy bicie jest możliwe dla start-lądowanie dla pionka którym się ruszasz.
+(4 kierunki)
+-Po zbiciu sprawdza (po usunięciu poprzedniego) sprawdź czy mozesz dalej zbić.
+Jeżeli true(zwróć ENUM z docelowych pozycji obecnego pionka) - pytaj gdzie dalej zbić.
+
+*Obowiązek bicia
+
+-Dodatnie treści o validacji zbicia przez gracza
