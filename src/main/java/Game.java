@@ -93,12 +93,13 @@ public class Game {
         }
         return pawnCoordinates;
     }
+
     private int[] chooseCoordinatesToMoveTo() {
         Scanner scanner = new Scanner(System.in);
         boolean coordinatesNotChosen = true;
         int[] chosenSpotCoordinates = new int[2];
 
-        while(coordinatesNotChosen) {
+        while (coordinatesNotChosen) {
 
             System.out.println("Where you want to move it ?");
             String placeToMove = scanner.nextLine().strip().toLowerCase();
@@ -124,8 +125,28 @@ public class Game {
     }
 
     private boolean checkForWinner() {
+        if (checkForDraw()) {
+            System.out.println("It's a draw.");
+            System.exit(0);
+        }
         return checkIfNoEnemyPawnsOnBoard() || checkIfAllEnemyPawnsBlocked();
     }
+
+    private boolean checkForDraw() {
+        int counterW = 0;
+        int counterB = 0;
+        for (int i = 0; i < board.getFields().length; i++) {
+            for (int j = 0; j < board.getFields()[0].length; j++) {
+                if (board.getFields()[i][j] != null) {
+                    if (!board.getFields()[i][j].isCrowned) return false;
+                    if (board.getFields()[i][j].getColor() == Color.WHITE) counterW++;
+                    else counterB++;
+                }
+            }
+        }
+        return (counterW == 1 && counterB == 1);
+    }
+
 
     private boolean checkIfNoEnemyPawnsOnBoard() {
 
