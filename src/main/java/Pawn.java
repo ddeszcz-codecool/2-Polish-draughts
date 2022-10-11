@@ -80,31 +80,7 @@ public class Pawn {
                 (Math.abs(position.getY() - newCoordinates[1]) == 2);
     }
 
-    private boolean validateAndMoveQueenIfPossible(int[] newCoordinates, Board board) {
-        if (board.getFields()[newCoordinates[0]][newCoordinates[1]] != null) {
-            return false;
-        }
-        if (Math.abs(position.getX() - newCoordinates[0]) != Math.abs(position.getY() - newCoordinates[1])) {
-            return false;
-        }
-
-        MoveParameters moveParameters = calculateMoveDirection(this, newCoordinates);
-
-        if (tryToMoveQueen(moveParameters, board)) {
-            board.movePawn(this, newCoordinates[0], newCoordinates[1]);
-            return true;
-        }
-
-        if (tryToCaptureWitHQueen(moveParameters, board)) {
-            board.removePawn(board.getFields()[enemyPawnCoordinatesForCapture[0]][enemyPawnCoordinatesForCapture[1]]);
-            board.movePawn(this, newCoordinates[0], newCoordinates[1]);
-            return true;
-        }
-
-        return false;
-    }
-
-    private boolean tryToMoveQueen(MoveParameters moveParameters, Board board) {
+    private boolean isItQueenMove(MoveParameters moveParameters, Board board) {
         int currentCol = moveParameters.colStartingPoint;
         int currentRow = moveParameters.rowStartingPoint;
         for (;currentRow < moveParameters.rowEndPoint; currentRow++) {
@@ -115,7 +91,7 @@ public class Pawn {
         return true;
     }
 
-    private boolean tryToCaptureWitHQueen(MoveParameters moveParameters, Board board) {
+    private boolean isItQueenCapture(MoveParameters moveParameters, Board board) {
         int currentCol = moveParameters.colStartingPoint;
         int currentRow = moveParameters.rowStartingPoint;
         int enemyPawnsInLine = 0;
@@ -147,7 +123,6 @@ public class Pawn {
 
     public boolean tryToMakeMove(int[] newCoordinates, Board board) {
         if (!isCrowned) {
-
             if (isItMove(newCoordinates, board)) {
                 board.movePawn(this, newCoordinates[0], newCoordinates[1]);
                 verifyIfCanBeCrowned(board);
@@ -162,10 +137,21 @@ public class Pawn {
                 return true;
             }
             return false;
-
         }
 
-        return validateAndMoveQueenIfPossible(newCoordinates, board);
+        MoveParameters moveParameters = calculateMoveDirection(this, newCoordinates);
+
+        if (isItQueenMove(moveParameters, board)) {
+            board.movePawn(this, newCoordinates[0], newCoordinates[1]);
+            return true;
+        }
+
+        if (isItQueenCapture(moveParameters, board)) {
+            board.removePawn(board.getFields()[enemyPawnCoordinatesForCapture[0]][enemyPawnCoordinatesForCapture[1]]);
+            board.movePawn(this, newCoordinates[0], newCoordinates[1]);
+            return true;
+        }
+        return false;
     }
 
     private Coordinates calculateMiddlePoint(Coordinates firstPoint, int[] secondPoint) {
@@ -177,12 +163,10 @@ public class Pawn {
         if (color == Color.WHITE) {
             if (position.getX() == 0) {
                 isCrowned = true;
-                return;
             }
-        }
-
-        if (position.getX() == board.getFields().length - 1)
-            isCrowned = true;
+        }else
+            if (position.getX() == board.getFields().length - 1)
+                isCrowned = true;
     }
 
     public boolean isCrowned() {
@@ -191,5 +175,19 @@ public class Pawn {
 
     public Color getColor() {
         return color;
+    }
+
+
+    private void canMakeAnotherCapture(Board board){
+        if(isCrowned){
+
+        }
+        else {
+            if(board.getFields()[position.getX() + 1][position.getY() + 1].color != this.color ){
+                if(board.getFields()[position.getX() + 2][position.getY() + 2] == null){
+
+                }
+            }
+        }
     }
 }
