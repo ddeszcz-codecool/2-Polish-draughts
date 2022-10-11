@@ -168,32 +168,68 @@ public class Pawn {
             isCrowned = true;
     }
 
+    private PawnMoveStatus canMakeAnotherCapture(Board board) {
+        if (!isCrowned) {
+            if (isAnotherCapturePossible(board)) {
+                return PawnMoveStatus.SUCCESFULLCANCAPTUREAGAIN;
+            }
+            return PawnMoveStatus.SUCCESFULLNOMOREMOVE;
+        }
+
+        return PawnMoveStatus.SUCCESFULLNOMOREMOVE;
+    }
+
+    private boolean isAnotherCapturePossible(Board board) {
+        int currentRowDir = 1;
+        int currentColDir = 1;
+        int numOfRowDirectionToCheck = 2;
+
+        for (; numOfRowDirectionToCheck > 0; numOfRowDirectionToCheck--) {
+            if (isCapturePossibleForPawnInSpecificDirection(currentRowDir, currentColDir, board)) {
+                return true;
+            }
+            currentColDir *= -1;
+            if (isCapturePossibleForPawnInSpecificDirection(currentRowDir, currentColDir, board)) {
+                return true;
+            }
+            currentRowDir *= -1;
+        }
+
+        return false;
+    }
+
+    private boolean isCapturePossibleForPawnInSpecificDirection(int currentRowDirection, int currentColDirection, Board board) {
+        int rowMoveJump = currentRowDirection * 2;
+        int rowColJump = currentColDirection * 2;
+
+        if (isIndexOutOfBounds(position.getX() + rowMoveJump, board) &&
+                isIndexOutOfBounds(position.getY() + rowColJump, board))
+            return false;
+
+        if (!isFieldEmpty(position.getX() + currentRowDirection, position.getY() + currentColDirection, board) &&
+                isThereEnemyPawn(position.getX() + currentRowDirection, position.getY() + currentColDirection, board)) {
+            return isFieldEmpty(position.getX() + rowMoveJump, position.getY() + rowColJump, board);
+        }
+        return false;
+    }
+
+    private boolean isFieldEmpty(int row, int col, Board board) {
+        return board.getFields()[row][col] == null;
+    }
+
+    private boolean isIndexOutOfBounds(int index, Board board) {
+        return (index < 0 || index >= board.getFields()[0].length);
+    }
+
+    private boolean isThereEnemyPawn(int row, int col, Board board) {
+        return board.getFields()[row][col].color != this.color;
+    }
+
     public boolean isCrowned() {
         return isCrowned;
     }
 
     public Color getColor() {
         return color;
-    }
-
-    private void whichPawnCanMove(Board board) {
-        for (int i = 0; i < board.getFields().length; i++) {
-            for (int j = 0; j < board.getFields()[0].length; j++) {
-                if(board.getFields()[i][j] != null){
-
-                }
-            }
-        }
-    }
-
-    private void canMakeAnotherCapture(Board board) {
-        if (isCrowned) {  //sprawdza wszystkie przekątne??
-        } else {
-            if (board.getFields()[position.getX() + 1][position.getY() + 1].color != this.color) {
-                if (board.getFields()[position.getX() + 2][position.getY() + 2] == null) {
-
-                }
-            }
-        }
     }
 }
