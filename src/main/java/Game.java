@@ -47,7 +47,7 @@ public class Game {
         int[] pawnCoordinates = choosePawnToMove();
         int[] moveCoordinates = chooseCoordinatesToMoveTo();
 
-        if(!isMoveInAStraightLine(pawnCoordinates,moveCoordinates)){
+        if (!isMoveInAStraightLine(pawnCoordinates, moveCoordinates)) {
             System.out.println("Move not in a straight line. Please choose again");
             return false;
         }
@@ -58,7 +58,8 @@ public class Game {
         }
         return true;
     }
-    private boolean isMoveInAStraightLine(int[] pawnCoordinates, int[] moveCoordinates){
+
+    private boolean isMoveInAStraightLine(int[] pawnCoordinates, int[] moveCoordinates) {
         return Math.abs(pawnCoordinates[0] - moveCoordinates[0]) == Math.abs(pawnCoordinates[1] - moveCoordinates[1]);
     }
 
@@ -93,12 +94,13 @@ public class Game {
         }
         return pawnCoordinates;
     }
+
     private int[] chooseCoordinatesToMoveTo() {
         Scanner scanner = new Scanner(System.in);
         boolean coordinatesNotChosen = true;
         int[] chosenSpotCoordinates = new int[2];
 
-        while(coordinatesNotChosen) {
+        while (coordinatesNotChosen) {
 
             System.out.println("Where you want to move it ?");
             String placeToMove = scanner.nextLine().strip().toLowerCase();
@@ -124,8 +126,30 @@ public class Game {
     }
 
     private boolean checkForWinner() {
+        if (checkForDraw()) {
+            System.out.println(board);
+            System.out.println("It's a draw.");
+            System.exit(0);
+        }
         return checkIfNoEnemyPawnsOnBoard() || checkIfAllEnemyPawnsBlocked();
     }
+
+    private boolean checkForDraw() {
+        int counterW = 0;
+        int counterB = 0;
+        for (int i = 0; i < board.getFields().length; i++) {
+            for (int j = 0; j < board.getFields()[0].length; j++) {
+                if (board.getFields()[i][j] != null) {
+                    if (!board.getFields()[i][j].isCrowned)
+                        return false;
+                    if (board.getFields()[i][j].getColor() == Color.WHITE) counterW++;
+                    else counterB++;
+                }
+            }
+        }
+        return (counterW == 1 && counterB == 1);
+    }
+
 
     private boolean checkIfNoEnemyPawnsOnBoard() {
 
@@ -168,12 +192,24 @@ public class Game {
     }
 
     private boolean isMovePossible(int row, int col, int enemyColDirection) {
-        int enemyRowDirection = currentPlayer == Color.WHITE ? 1 : -1;
+        Pawn pawn = board.getFields()[row][col];
+        if (!pawn.isCrowned()) {
+            int enemyRowDirection = currentPlayer == Color.WHITE ? 1 : -1;
+            if (isIndexOutOfBounds(row + enemyRowDirection) || isIndexOutOfBounds(col + enemyColDirection))
+                return false;
+            return isFieldEmpty(row + enemyRowDirection, col + enemyColDirection);
+        } else {
+            int enemyRowDirection = 1;
+            if (isIndexOutOfBounds(col + enemyColDirection)) {
+                return false;
+            }
 
-        if (isIndexOutOfBounds(row + enemyRowDirection) || isIndexOutOfBounds(col + enemyColDirection))
-            return false;
-
-        return isFieldEmpty(row + enemyRowDirection, col + enemyColDirection);
+            if (!isIndexOutOfBounds(row + enemyRowDirection) &&
+                    isFieldEmpty(row + enemyRowDirection, col + enemyColDirection)) {
+                return true;
+            } else return !isIndexOutOfBounds(row - enemyRowDirection) &&
+                    isFieldEmpty(row - enemyRowDirection, col + enemyColDirection);
+        }
     }
 
     private boolean isFieldEmpty(int row, int col) {

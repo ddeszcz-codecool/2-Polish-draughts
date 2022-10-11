@@ -21,9 +21,11 @@ GRACZ ma RUCH ............. sprawdzenie i zmień GRACZ (1>2>1>...)
 
 Rzeczy do zrobienia:
 Bug w walidacji coordinatesInRange - wybija 0 --   gotowe
-CheckForWinner - nie bierze pod uwage krolowki
-Kilka przeskokow pod rzad
+CheckForWinner - nie bierze pod uwage krolowki --  gotowe
+Remis w sytuacji krol vs krol                  --   gotowe
+Poprawa wydruku boarda(kiedy jest królówka na rogu, nie resetuje się kod ANSI) == gotowe
 Refactor metody verifyPlayerMove  --               gotowe
-Przeniesienie displayBoarda do Game
 Board jest singletonem  --                         gotowe
-Remis w sytuacji krol vs krol
+
+Kilka przeskokow pod rzad
+Przeniesienie displayBoarda do Game

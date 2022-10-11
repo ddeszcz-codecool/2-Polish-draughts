@@ -11,10 +11,10 @@ public class DisplayBoard {
     private final  String BLACK_FOREGROUND = "\033[38;2;0;0;0m";
     private final  String WHITE_BACKGROUND = "\033[48;2;234;240;174m";
     private final String WHITE_FOREGROUND = "\033[38;2;255;255;255m";
-    private final String WHITE_PIECE = BLACK_BACKGROUND + "\033[38;5;255m" + "(O)" + WHITE_FOREGROUND;
-    private final  String BLACK_PIECE = BLACK_BACKGROUND + "\033[38;5;232m" + "(O)" + BLACK_FOREGROUND;
-    private final  String WHITE_QUEEN = BLACK_BACKGROUND + "\033[38;5;255m" + "[+]" + WHITE_FOREGROUND;
-    private final String BLACK_QUEEN = BLACK_BACKGROUND + "\033[38;5;232m" + "[+]" + BLACK_FOREGROUND;//"[♚]"
+    private final String WHITE_PIECE = BLACK_BACKGROUND + WHITE_FOREGROUND + "(O)" + "\033[0m";
+    private final  String BLACK_PIECE = BLACK_BACKGROUND + BLACK_FOREGROUND + "(O)" + "\033[0m";
+    private final  String WHITE_QUEEN = BLACK_BACKGROUND + WHITE_FOREGROUND + "[+]" + "\033[0m";
+    private final String BLACK_QUEEN = BLACK_BACKGROUND + BLACK_FOREGROUND + "[+]" + "\033[0m";//"[♚]"
     private final  String BLACK_SQUARE = BLACK_BACKGROUND + "   " + "\033[0m";
     private final String WHITE_SQUARE = WHITE_BACKGROUND + "   " + "\033[0m";
     private final String letters = "ABCDEFGHIJKLMNOPQRST";
