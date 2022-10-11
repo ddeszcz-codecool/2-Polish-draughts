@@ -1,11 +1,12 @@
 class Board {
+    private static Board board;
     final private int initPawnRows = 4;
     final private int WHITE_STARTING_ROW;
     final private int BLACK_STARTING_ROW = 0;
     private Pawn[][] fields;
     private DisplayBoard dis;
 
-    Board(int n) {
+    private Board(int n) {
         this.fields = new Pawn[n][n];
         WHITE_STARTING_ROW = fields.length - 1;
         fields[4][3] = new Pawn(4, 3, Color.WHITE);
@@ -21,6 +22,12 @@ class Board {
          fields[1][4] = new Pawn(1, 4, Color.BLACK);
 // //       fields[1][2] = new Pawn(1, 2, Color.BLACK);
  //       setUpPawnsOnBoard();
+    }
+    public static Board getBoard(int n){
+        if (board == null){
+            board = new Board(n);
+        }
+        return board;
     }
 
     private void setUpPawnsOnBoard() {
