@@ -13,8 +13,8 @@ public class DisplayBoard {
     private final String WHITE_FOREGROUND = "\033[38;2;255;255;255m";
     private final String WHITE_PIECE = BLACK_BACKGROUND + WHITE_FOREGROUND + " \u26C0 " + "\033[0m";
     private final String BLACK_PIECE = BLACK_BACKGROUND + BLACK_FOREGROUND + " \u26C2 " + "\033[0m";
-    private final String WHITE_QUEEN = BLACK_BACKGROUND + WHITE_FOREGROUND + " \u26C1 " + "\033[0m";
-    private final String BLACK_QUEEN = BLACK_BACKGROUND + BLACK_FOREGROUND + " \u26C3 " + "\033[0m";//"[♚]"
+    private final String WHITE_QUEEN = BLACK_BACKGROUND + WHITE_FOREGROUND + " \u2655 " + "\033[0m";
+    private final String BLACK_QUEEN = BLACK_BACKGROUND + BLACK_FOREGROUND + " \u265B " + "\033[0m";//"[♚]"
     private final String BLACK_SQUARE = BLACK_BACKGROUND + "   \u2008\u200A" + "\033[0m";
     private final String WHITE_SQUARE = WHITE_BACKGROUND + "   \u2008\u200A" + "\033[0m";
     private final String letters = "ABCDEFGHIJKLMNOPQRST";
