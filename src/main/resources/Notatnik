@@ -27,9 +27,9 @@ Poprawa wydruku boarda(kiedy jest królówka na rogu, nie resetuje się kod ANSI
 Refactor metody verifyPlayerMove  --               gotowe
 Board jest singletonem  --                         gotowe
 
-Kilka przeskokow pod rzad
+Kilka przeskokow pod rzad                   --     gotowe
 Przeniesienie displayBoarda do Game
-
+Dodac wymuszenie zbijania przy pierwszym ruchu
 
 Multicapture:
 *Bez obowiązku bicia

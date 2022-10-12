@@ -120,38 +120,69 @@ public class Pawn {
 
     }
 
-
-    public boolean tryToMakeMove(int[] newCoordinates, Board board) {
-        if (!isCrowned) {
-            if (isItMove(newCoordinates, board)) {
-                board.movePawn(this, newCoordinates[0], newCoordinates[1]);
-                verifyIfCanBeCrowned(board);
-                return true;
-            }
-
-            if (isItCapture(newCoordinates, board)) {
-                Coordinates pawnToRemoveCoords = calculateMiddlePoint(this.position, newCoordinates);
-                board.removePawn(board.getFields()[pawnToRemoveCoords.getX()][pawnToRemoveCoords.getY()]);
-                board.movePawn(this, newCoordinates[0], newCoordinates[1]);
-                verifyIfCanBeCrowned(board);
-                return true;
-            }
-            return false;
+    public PawnMoveStatus tryToMakeMove(int[] newCoordinates, Board board) {
+        if (isCrowned) {
+            return tryToMoveQueen(newCoordinates, board);
+        } else {
+            return tryToMovePawn(newCoordinates, board);
         }
+    }
 
+    public PawnMoveStatus tryToCapture(int[] newCoordinates, Board board) {
+        if (isCrowned) {
+            MoveParameters moveParameters = calculateMoveDirection(this, newCoordinates);
+            return queenCapture(moveParameters, newCoordinates, board);
+        }else{
+            return pawnCapture(newCoordinates,board);
+        }
+    }
+
+    private PawnMoveStatus tryToMovePawn(int[] newCoordinates, Board board) {
+        if (isItMove(newCoordinates, board)) {
+            board.movePawn(this, newCoordinates[0], newCoordinates[1]);
+            verifyIfCanBeCrowned(board);
+            return PawnMoveStatus.SUCCESSFUL_NO_MORE_CAPTURE;
+        }
+        return pawnCapture(newCoordinates, board);
+
+    }
+
+    private PawnMoveStatus pawnCapture(int[] newCoordinates, Board board) {
+        if (isItCapture(newCoordinates, board)) {
+            Coordinates pawnToRemoveCoords = calculateMiddlePoint(this.position, newCoordinates);
+            board.removePawn(board.getFields()[pawnToRemoveCoords.getX()][pawnToRemoveCoords.getY()]);
+            board.movePawn(this, newCoordinates[0], newCoordinates[1]);
+            verifyIfCanBeCrowned(board);
+            if (canMakeAnotherCapture(board))
+                return PawnMoveStatus.SUCCESSFUL_CAN_CAPTURE_AGAIN;
+
+            return PawnMoveStatus.SUCCESSFUL_NO_MORE_CAPTURE;
+        }
+        return PawnMoveStatus.UNSUCCESSFUL;
+    }
+
+
+    private PawnMoveStatus tryToMoveQueen(int[] newCoordinates, Board board) {
         MoveParameters moveParameters = calculateMoveDirection(this, newCoordinates);
 
         if (isItQueenMove(moveParameters, board)) {
             board.movePawn(this, newCoordinates[0], newCoordinates[1]);
-            return true;
+            return PawnMoveStatus.SUCCESSFUL_NO_MORE_CAPTURE;
         }
+        return queenCapture(moveParameters, newCoordinates, board);
 
+    }
+
+    private PawnMoveStatus queenCapture(MoveParameters moveParameters, int[] newCoordinates, Board board) {
         if (isItQueenCapture(moveParameters, board)) {
             board.removePawn(board.getFields()[enemyPawnCoordinatesForCapture[0]][enemyPawnCoordinatesForCapture[1]]);
             board.movePawn(this, newCoordinates[0], newCoordinates[1]);
-            return true;
+            if (canMakeAnotherCapture(board))
+                return PawnMoveStatus.SUCCESSFUL_CAN_CAPTURE_AGAIN;
+
+            return PawnMoveStatus.SUCCESSFUL_NO_MORE_CAPTURE;
         }
-        return false;
+        return PawnMoveStatus.UNSUCCESSFUL;
     }
 
     private Coordinates calculateMiddlePoint(Coordinates firstPoint, int[] secondPoint) {
@@ -168,47 +199,54 @@ public class Pawn {
             isCrowned = true;
     }
 
-    private PawnMoveStatus canMakeAnotherCapture(Board board) {
-        if (!isCrowned) {
-            if (isAnotherCapturePossible(board)) {
-                return PawnMoveStatus.SUCCESFULLCANCAPTUREAGAIN;
+    private boolean canMakeAnotherCapture(Board board) {
+        int[] rowDirections = {1, -1, 1, -1};
+        int[] colDirections = {1, -1, -1, 1};
+
+        if (isCrowned) {
+            for (int i = 0; i < 4; i++) {
+                if (isCapturePossibleForQueenInSpecificDirection(rowDirections[i], colDirections[i], board))
+                    return true;
             }
-            return PawnMoveStatus.SUCCESFULLNOMOREMOVE;
+        } else {
+            for (int i = 0; i < 4; i++) {
+                if (isCapturePossibleForPawnInSpecificDirection(rowDirections[i], colDirections[i], board))
+                    return true;
+            }
         }
-
-        return PawnMoveStatus.SUCCESFULLNOMOREMOVE;
-    }
-
-    private boolean isAnotherCapturePossible(Board board) {
-        int currentRowDir = 1;
-        int currentColDir = 1;
-        int numOfRowDirectionToCheck = 2;
-
-        for (; numOfRowDirectionToCheck > 0; numOfRowDirectionToCheck--) {
-            if (isCapturePossibleForPawnInSpecificDirection(currentRowDir, currentColDir, board)) {
-                return true;
-            }
-            currentColDir *= -1;
-            if (isCapturePossibleForPawnInSpecificDirection(currentRowDir, currentColDir, board)) {
-                return true;
-            }
-            currentRowDir *= -1;
-        }
-
         return false;
     }
 
     private boolean isCapturePossibleForPawnInSpecificDirection(int currentRowDirection, int currentColDirection, Board board) {
-        int rowMoveJump = currentRowDirection * 2;
-        int rowColJump = currentColDirection * 2;
+        int rowJump = currentRowDirection * 2;
+        int colJump = currentColDirection * 2;
 
-        if (isIndexOutOfBounds(position.getX() + rowMoveJump, board) &&
-                isIndexOutOfBounds(position.getY() + rowColJump, board))
+        if (isIndexOutOfBounds(position.getX() + rowJump, board) &&
+                isIndexOutOfBounds(position.getY() + colJump, board))
             return false;
 
         if (!isFieldEmpty(position.getX() + currentRowDirection, position.getY() + currentColDirection, board) &&
-                isThereEnemyPawn(position.getX() + currentRowDirection, position.getY() + currentColDirection, board)) {
-            return isFieldEmpty(position.getX() + rowMoveJump, position.getY() + rowColJump, board);
+                isEnemyPawn(position.getX() + currentRowDirection, position.getY() + currentColDirection, board)) {
+            return isFieldEmpty(position.getX() + rowJump, position.getY() + colJump, board);
+        }
+        return false;
+    }
+
+    private boolean isCapturePossibleForQueenInSpecificDirection(int currentRowDirection, int currentColDirection, Board board) {
+        Coordinates coordsToCheck = new Coordinates(position.getX() + currentRowDirection, position.getY() + currentColDirection);
+
+        while (!isIndexOutOfBounds(coordsToCheck.getX(), board) && !isIndexOutOfBounds(coordsToCheck.getY(), board)) {
+            if (isFieldEmpty(coordsToCheck.getX(), coordsToCheck.getY(), board)) {
+                coordsToCheck.moveCoordinates(currentRowDirection, currentColDirection);
+                continue;
+            }
+            if (!isEnemyPawn(coordsToCheck.getX(), coordsToCheck.getY(), board))
+                return false;
+
+            coordsToCheck.moveCoordinates(currentRowDirection, currentColDirection);
+
+            return !isIndexOutOfBounds(coordsToCheck.getX(), board) && !isIndexOutOfBounds(coordsToCheck.getY(), board) &&
+                    isFieldEmpty(coordsToCheck.getX(), coordsToCheck.getY(), board);
         }
         return false;
     }
@@ -221,7 +259,7 @@ public class Pawn {
         return (index < 0 || index >= board.getFields()[0].length);
     }
 
-    private boolean isThereEnemyPawn(int row, int col, Board board) {
+    private boolean isEnemyPawn(int row, int col, Board board) {
         return board.getFields()[row][col].color != this.color;
     }
 

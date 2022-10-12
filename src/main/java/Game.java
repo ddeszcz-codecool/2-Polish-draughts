@@ -51,12 +51,44 @@ public class Game {
             System.out.println("Move not in a straight line. Please choose again");
             return false;
         }
+        PawnMoveStatus status = board.getFields()[pawnCoordinates[0]][pawnCoordinates[1]].tryToMakeMove(moveCoordinates, board);
 
-        if (!board.getFields()[pawnCoordinates[0]][pawnCoordinates[1]].tryToMakeMove(moveCoordinates, board)) {
+        if (status == PawnMoveStatus.SUCCESSFUL_NO_MORE_CAPTURE) {
+            return true;
+        }
+        else if (status == PawnMoveStatus.SUCCESSFUL_CAN_CAPTURE_AGAIN){
+            verifyNextCapture(moveCoordinates);
+            return true;
+        }
+        else {
             System.out.println("Move is not valid. Please choose again");
             return false;
         }
-        return true;
+    }
+
+    private void verifyNextCapture(int[] pawnCoordinates){
+        System.out.println(board);
+        System.out.println("There is another capture possible, please make another move");
+
+        boolean stillChoosing = true;
+        while(stillChoosing) {
+            int[] newMoveCoordinates = chooseCoordinatesToMoveTo();
+
+            if (!isMoveInAStraightLine(pawnCoordinates, newMoveCoordinates)) {
+                System.out.println("Move is not valid");
+                continue;
+            }
+            PawnMoveStatus status = board.getFields()[pawnCoordinates[0]][pawnCoordinates[1]].tryToCapture(newMoveCoordinates, board);
+
+            if (status == PawnMoveStatus.SUCCESSFUL_NO_MORE_CAPTURE) {
+                stillChoosing = false;
+            } else if (status == PawnMoveStatus.SUCCESSFUL_CAN_CAPTURE_AGAIN) {
+                verifyNextCapture(newMoveCoordinates);
+                stillChoosing = false;
+            } else {
+                System.out.println("Move is not valid. Please choose again");
+            }
+        }
     }
 
     private boolean isMoveInAStraightLine(int[] pawnCoordinates, int[] moveCoordinates) {
@@ -135,19 +167,25 @@ public class Game {
     }
 
     private boolean checkForDraw() {
-        int counterW = 0;
-        int counterB = 0;
-        for (int i = 0; i < board.getFields().length; i++) {
-            for (int j = 0; j < board.getFields()[0].length; j++) {
-                if (board.getFields()[i][j] != null) {
-                    if (!board.getFields()[i][j].isCrowned)
+        int numOfWhiteQueens = 0;
+        int numOfBlackQueens = 0;
+        for (int row = 0; row < board.getFields().length; row++) {
+            for (int col = 0; col < board.getFields()[0].length; col++) {
+                if (!isFieldEmpty(row,col)) {
+                    if (!board.getFields()[row][col].isCrowned)
                         return false;
-                    if (board.getFields()[i][j].getColor() == Color.WHITE) counterW++;
-                    else counterB++;
+                    if (board.getFields()[row][col].getColor() == Color.WHITE) {
+                        if(++numOfWhiteQueens > 1)
+                            return false;
+                    }
+                    else {
+                        if(++numOfBlackQueens > 1)
+                            return false;
+                    }
                 }
             }
         }
-        return (counterW == 1 && counterB == 1);
+        return numOfBlackQueens == numOfWhiteQueens;
     }
 
 
