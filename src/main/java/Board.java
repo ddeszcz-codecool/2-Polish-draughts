@@ -15,7 +15,7 @@ class Board {
 
 
 
-//       setUpPawnsOnBoard();
+       setUpPawnsOnBoard();
         fields[5][1] = new Pawn(5, 1, Color.BLACK);
         fields[5][1].isCrowned = true;
         fields[7][2] = new Pawn(7, 2, Color.WHITE);
