@@ -15,14 +15,15 @@ public class DisplayBoard {
     private final String BLACK_PIECE = BLACK_BACKGROUND + BLACK_FOREGROUND + " \u26C2 " + "\033[0m";
     private final String WHITE_QUEEN = BLACK_BACKGROUND + WHITE_FOREGROUND + " \u2655 " + "\033[0m";
     private final String BLACK_QUEEN = BLACK_BACKGROUND + BLACK_FOREGROUND + " \u265B " + "\033[0m";//"[♚]"
-    private final String BLACK_SQUARE = BLACK_BACKGROUND + "   \u2008\u200A" + "\033[0m";
-    private final String WHITE_SQUARE = WHITE_BACKGROUND + "   \u2008\u200A" + "\033[0m";
+    private final String BLACK_SQUARE = BLACK_BACKGROUND + "\033[38;2;127;66;40m \u26C0 " + "\033[0m";
+    private final String WHITE_SQUARE = WHITE_BACKGROUND + "\033[38;2;234;240;174m \u26C0 " + "\033[0m";
     private final String letters = "ABCDEFGHIJKLMNOPQRST";
+    private final String EMPTY_SPACE = "\033[38;2;43;43;43m \u26C0\033[0m";
 
     public void ShowMeBoard() {
-        System.out.print("      ");
+        System.out.print("      \u2009");
         for (int iCol = 0; iCol < boardLength; iCol++) {
-            System.out.print("\u2009" + letters.charAt(iCol) + "  \u2009");
+            System.out.print(letters.charAt(iCol) + EMPTY_SPACE);
         }
         System.out.print("\n");
 
@@ -69,9 +70,9 @@ public class DisplayBoard {
             System.out.print(formatted);
             System.out.print("\n");
         }
-        System.out.print("      ");
+        System.out.print("      \u2009");
         for (int iCol = 0; iCol < boardLength; iCol++) {
-            System.out.print("\u2009" + letters.charAt(iCol) + "  \u2009");
+            System.out.print(letters.charAt(iCol) + EMPTY_SPACE);
         }
         System.out.print("\n");
 
