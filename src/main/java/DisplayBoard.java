@@ -9,7 +9,6 @@ public class DisplayBoard {
 
     private final String DARK_BACKGROUND = "\033[48;2;127;66;40m";
     private final String BLACK_FOREGROUND = "\033[38;2;0;0;0m";
-    private final String BLACK_BACKGROUND = "\033[48;2;0;0;0m";
     private final String WHITE_BACKGROUND = "\033[48;2;234;240;174m";
     private final String WHITE_FOREGROUND = "\033[38;2;255;255;255m";
     private final String GOLD_FOREGROUND = "\033[38;2;213;194;62m";
@@ -24,7 +23,6 @@ public class DisplayBoard {
     private final String WHITE_SQUARE = WHITE_BACKGROUND + "\033[38;2;234;240;174m \u26C0 " + COLOR_RESET;
     private final String letters = "ABCDEFGHIJKLMNOPQRST";
     private final String EMPTY_SPACE = BOARD_COLOUR_FOREGROUND + " \u26C0";
-    private String sideNumber;
 
 
     public void ShowMeBoard() {
@@ -72,9 +70,5 @@ public class DisplayBoard {
         } else if (gameBoard[row][col].isCrowned())
             return WHITE_QUEEN;
         return WHITE_PIECE;
-    }
-
-    private String printSideNumber(int rowNumber) {
-        return "WTF";
     }
 }

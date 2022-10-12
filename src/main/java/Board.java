@@ -10,18 +10,13 @@ class Board {
         this.fields = new Pawn[n][n];
         WHITE_STARTING_ROW = fields.length - 1;
 
-
-
-
-
-
        setUpPawnsOnBoard();
-        fields[5][1] = new Pawn(5, 1, Color.BLACK);
-        fields[5][1].isCrowned = true;
-        fields[7][2] = new Pawn(7, 2, Color.WHITE);
-        fields[7][2].isCrowned = true;
-        fields[1][2] = new Pawn(1, 2, Color.BLACK);
-        fields[1][2].isCrowned = true;
+//        fields[5][1] = new Pawn(5, 1, Color.BLACK);
+//        fields[5][1].isCrowned = true;
+//        fields[7][2] = new Pawn(7, 2, Color.WHITE);
+//        fields[7][2].isCrowned = true;
+//        fields[1][2] = new Pawn(1, 2, Color.BLACK);
+//        fields[1][2].isCrowned = true;
     }
 
     public static Board getBoard(int n) {
