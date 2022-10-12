@@ -1,5 +1,5 @@
 
-public class Coordinates { //Dopytać Michała czy użyć int czy Integer
+public class Coordinates {
         private int x;
         private int y;
 
@@ -19,5 +19,9 @@ public class Coordinates { //Dopytać Michała czy użyć int czy Integer
         public void setNewCoordinates(int x, int y){
                 this.x = x;
                 this.y = y;
+        }
+        public void moveCoordinates(int stepX, int stepY){
+                this.x += stepX;
+                this.y += stepY;
         }
 }
