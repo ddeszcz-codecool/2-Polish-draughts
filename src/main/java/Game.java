@@ -37,6 +37,22 @@ public class Game {
         return result;
     }
 
+    private boolean checkIfAnyCapturePossible() {
+        for (int row = 0; row < board.getFields().length; row++) {
+            for (int col = 0; col < board.getFields()[0].length; col++) {
+                if (!isFieldEmpty(row, col)) {
+                    if (board.getFields()[row][col].getColor() == currentPlayer) {
+                        if (board.getFields()[row][col].canMakeAnotherCapture(board)) {
+                            return true;
+                        }
+
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
     private void changePlayer() {
         if (currentPlayer == Color.WHITE) {
             currentPlayer = Color.BLACK;
@@ -51,27 +67,30 @@ public class Game {
             System.out.println("Move not in a straight line. Please choose again");
             return false;
         }
-        PawnMoveStatus status = board.getFields()[pawnCoordinates[0]][pawnCoordinates[1]].tryToMakeMove(moveCoordinates, board);
+        PawnMoveStatus status;
+        if (checkIfAnyCapturePossible()) {
+            status = board.getFields()[pawnCoordinates[0]][pawnCoordinates[1]].tryToCapture(moveCoordinates, board);
+
+        } else
+            status = board.getFields()[pawnCoordinates[0]][pawnCoordinates[1]].tryToMakeMove(moveCoordinates, board);
 
         if (status == PawnMoveStatus.SUCCESSFUL_NO_MORE_CAPTURE) {
             return true;
-        }
-        else if (status == PawnMoveStatus.SUCCESSFUL_CAN_CAPTURE_AGAIN){
+        } else if (status == PawnMoveStatus.SUCCESSFUL_CAN_CAPTURE_AGAIN) {
             verifyNextCapture(moveCoordinates);
             return true;
-        }
-        else {
+        } else {
             System.out.println("Move is not valid. Please choose again");
             return false;
         }
     }
 
-    private void verifyNextCapture(int[] pawnCoordinates){
+    private void verifyNextCapture(int[] pawnCoordinates) {
         System.out.println(board);
         System.out.println("There is another capture possible, please make another move");
 
         boolean stillChoosing = true;
-        while(stillChoosing) {
+        while (stillChoosing) {
             int[] newMoveCoordinates = chooseCoordinatesToMoveTo();
 
             if (!isMoveInAStraightLine(pawnCoordinates, newMoveCoordinates)) {
@@ -171,15 +190,14 @@ public class Game {
         int numOfBlackQueens = 0;
         for (int row = 0; row < board.getFields().length; row++) {
             for (int col = 0; col < board.getFields()[0].length; col++) {
-                if (!isFieldEmpty(row,col)) {
+                if (!isFieldEmpty(row, col)) {
                     if (!board.getFields()[row][col].isCrowned)
                         return false;
                     if (board.getFields()[row][col].getColor() == Color.WHITE) {
-                        if(++numOfWhiteQueens > 1)
+                        if (++numOfWhiteQueens > 1)
                             return false;
-                    }
-                    else {
-                        if(++numOfBlackQueens > 1)
+                    } else {
+                        if (++numOfBlackQueens > 1)
                             return false;
                     }
                 }

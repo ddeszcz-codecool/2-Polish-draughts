@@ -199,7 +199,7 @@ public class Pawn {
             isCrowned = true;
     }
 
-    private boolean canMakeAnotherCapture(Board board) {
+    public boolean canMakeAnotherCapture(Board board) {
         int[] rowDirections = {1, -1, 1, -1};
         int[] colDirections = {1, -1, -1, 1};
 
