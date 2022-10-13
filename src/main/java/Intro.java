@@ -27,6 +27,7 @@ public class Intro {
 
     private static final Random DRAWN = new Random();
     private static Clip clip;
+    private static String currentTheme = "Default";
 
     public void Intro1(String[] options) {
 
@@ -136,7 +137,7 @@ public class Intro {
     public void startThatBrutalGame() {
         fakeCLS();
         playSound("sounds/quite_sure.wav");
-        printItSlow("  Tu coś na sekundę max można mignąć");
+        printItSlow("");
         fakeCLS();
     }
 
@@ -451,20 +452,21 @@ public class Intro {
                 BLUE_BOLD_BRIGHT_FOREGROUND + "\n\n");
         System.out.println("          Please choose your board template:\n" + RESET);
         System.out.println("         ▞▞▞▞▞▞▞▞▞▞▞▞▞▞▞▞▞▞▞▞▞▞▞▞▞▞▞▞▞▞▞▞▞▞▞\n" + RESET);
-
         int option = 1;
         String[] subOptions = {
-                "    (1) - Red leather style",
+                "    (1) - Red leather",
                 "    (2) - Black and White",
                 "    (3) - Winter edition",
                 "    (4) - Green",
-                "    (5) - Default board with black frame",
-                "    (6) - Default Board",
+                "    (5) - Default with black frame",
+                "    (6) - Default",
                 "    (7) - Exit",
         };
         Scanner subScanner = new Scanner(System.in);
         int subMenu = 1;
         while (subMenu != 7) {
+            System.out.println("          Current theme is: " + currentTheme);
+            waitFor(100);
             for (String subOption : subOptions) {
                 System.out.println(subOption);
                 waitFor(100);
@@ -475,33 +477,39 @@ public class Intro {
                 switch (subMenu) {
                     case 1: {
                         DisplayBoard.chooseTemplate(1);
+                        currentTheme = "Red leather";
                         break;
                     }
                     case 2: {
                         DisplayBoard.chooseTemplate(2);
+                        currentTheme = "Black and White";
                         break;
                     }
                     case 3: {
                         DisplayBoard.chooseTemplate(3);
+                        currentTheme = "Winter Edition";
                         break;
                     }
                     case 4: {
                         DisplayBoard.chooseTemplate(4);
+                        currentTheme = "Green";
                         break;
                     }
                     case 5: {
                         DisplayBoard.chooseTemplate(5);
+                        currentTheme = "Default with black frame";
                         break;
                     }
                     case 6: {
                         DisplayBoard.chooseTemplate(6);
+                        currentTheme = "Default";
                         break;
                     }
                     case 7: {
                         break;
                     }
                     default: {
-                        System.out.println("   Please choose an option (number between 1 and 8");
+                        System.out.println("   Please choose an option (number between 1 and 7");
                     }
 
                 }
