@@ -45,7 +45,6 @@ public class Game {
                         if (board.getFields()[row][col].canMakeAnotherCapture(board)) {
                             return true;
                         }
-
                     }
                 }
             }
