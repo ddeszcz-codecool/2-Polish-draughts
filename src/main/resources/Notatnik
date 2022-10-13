@@ -28,8 +28,8 @@ Refactor metody verifyPlayerMove  --               gotowe
 Board jest singletonem  --                         gotowe
 
 Kilka przeskokow pod rzad                   --     gotowe
-Przeniesienie displayBoarda do Game
-Dodac wymuszenie zbijania przy pierwszym ruchu
+Przeniesienie displayBoarda do Game         -- po co?
+Dodac wymuszenie zbijania przy pierwszym ruchu  --  gotowe
 
 Multicapture:
 *Bez obowiązku bicia
