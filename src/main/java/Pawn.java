@@ -5,14 +5,18 @@ public class Pawn {
         int rowEndPoint;
         int colStartingPoint;
         int colEndPoint;
-        int colDirection;
+        int colVerifyDirection;
+        int colCaptureDirection;
+        int rowCaptureDirection;
 
-        public MoveParameters(int rowStartingPoint, int rowEndPoint, int colStartingPoint, int colEndPoint, int colDirection) {
+        public MoveParameters(int rowStartingPoint, int rowEndPoint, int colStartingPoint, int colEndPoint, int colVerifyDirection, int rowCaptureDirection, int colCaptureDirection) {
             this.rowStartingPoint = rowStartingPoint;
             this.rowEndPoint = rowEndPoint;
             this.colStartingPoint = colStartingPoint;
             this.colEndPoint = colEndPoint;
-            this.colDirection = colDirection;
+            this.colVerifyDirection = colVerifyDirection;
+            this.colCaptureDirection = colCaptureDirection;
+            this.rowCaptureDirection = rowCaptureDirection;
         }
     }
 
@@ -28,15 +32,17 @@ public class Pawn {
 
     public MoveParameters calculateMoveDirection(Pawn currentPawn, int[] newCoordinates) {
         Coordinates position = currentPawn.position;
+        int rowCaptureDirection = position.getX() > newCoordinates[0] ? -1 : 1;
+        int colCaptureDirection = position.getY() > newCoordinates[1] ? -1 : 1;
         int rowStartingPoint = Math.min(position.getX(), newCoordinates[0]) + 1;
         int rowEndPoint = Math.max(position.getX(), newCoordinates[0]);
 
         int colStartingPoint = rowStartingPoint == newCoordinates[0] + 1 ? newCoordinates[1] : position.getY();
         int colEndPoint = rowEndPoint == newCoordinates[0] ? newCoordinates[1] : position.getY();
 
-        int colDirection = colStartingPoint < colEndPoint ? 1 : -1;
+        int colCheckDirection = colStartingPoint < colEndPoint ? 1 : -1;
 
-        return new MoveParameters(rowStartingPoint, rowEndPoint, colStartingPoint, colEndPoint, colDirection);
+        return new MoveParameters(rowStartingPoint, rowEndPoint, colStartingPoint, colEndPoint, colCheckDirection, rowCaptureDirection, colCaptureDirection);
     }
 
     private boolean isItMove(int[] newCoordinates, Board board) {
@@ -75,7 +81,7 @@ public class Pawn {
                 board.getFields()[possibleEnemyPawnCoords.getX()][possibleEnemyPawnCoords.getY()].getColor() != this.getColor();
     }
 
-    private boolean isCaptureAllowed(int[] newCoordinates) { //toRemove
+    private boolean isCaptureAllowed(int[] newCoordinates) {
         return (Math.abs(position.getX() - newCoordinates[0]) == 2) &&
                 (Math.abs(position.getY() - newCoordinates[1]) == 2);
     }
@@ -84,20 +90,20 @@ public class Pawn {
         int currentCol = moveParameters.colStartingPoint;
         int currentRow = moveParameters.rowStartingPoint;
         for (; currentRow < moveParameters.rowEndPoint; currentRow++) {
-            currentCol += moveParameters.colDirection;
+            currentCol += moveParameters.colVerifyDirection;
             if (board.getFields()[currentRow][currentCol] != null)
                 return false;
         }
         return true;
     }
 
-    private boolean isItQueenCapture(MoveParameters moveParameters, Board board) {
+    private boolean isItQueenCapture(MoveParameters moveParameters, Board board, int[] movePosition) {
         int currentCol = moveParameters.colStartingPoint;
         int currentRow = moveParameters.rowStartingPoint;
         int enemyPawnsInLine = 0;
 
         for (; currentRow < moveParameters.rowEndPoint; currentRow++) {
-            currentCol += moveParameters.colDirection;
+            currentCol += moveParameters.colVerifyDirection;
 
             if (board.getFields()[currentRow][currentCol] == null) {
                 continue;
@@ -116,8 +122,14 @@ public class Pawn {
                 enemyPawnCoordinatesForCapture[1] = currentCol;
             }
         }
-        return enemyPawnsInLine != 0;
-
+        if(enemyPawnsInLine != 1)
+            return false;
+        if (movePosition[0] != enemyPawnCoordinatesForCapture[0] + moveParameters.rowCaptureDirection &&
+                movePosition[1] != enemyPawnCoordinatesForCapture[1] + moveParameters.colCaptureDirection) {
+            System.out.println("You must land behind captured pawn");
+            return false;
+        }
+        return true;
     }
 
     public PawnMoveStatus tryToMakeMove(int[] newCoordinates, Board board) {
@@ -132,8 +144,8 @@ public class Pawn {
         if (isCrowned) {
             MoveParameters moveParameters = calculateMoveDirection(this, newCoordinates);
             return queenCapture(moveParameters, newCoordinates, board);
-        }else{
-            return pawnCapture(newCoordinates,board);
+        } else {
+            return pawnCapture(newCoordinates, board);
         }
     }
 
@@ -174,7 +186,7 @@ public class Pawn {
     }
 
     private PawnMoveStatus queenCapture(MoveParameters moveParameters, int[] newCoordinates, Board board) {
-        if (isItQueenCapture(moveParameters, board)) {
+        if (isItQueenCapture(moveParameters, board, newCoordinates)) {
             board.removePawn(board.getFields()[enemyPawnCoordinatesForCapture[0]][enemyPawnCoordinatesForCapture[1]]);
             board.movePawn(this, newCoordinates[0], newCoordinates[1]);
             if (canMakeAnotherCapture(board))
