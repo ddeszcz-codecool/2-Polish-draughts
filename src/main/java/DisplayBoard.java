@@ -13,8 +13,8 @@ public class DisplayBoard {
     private final String WHITE_FOREGROUND = "\033[38;2;255;255;255m";
     private final String GOLD_FOREGROUND = "\033[38;2;213;194;62m";
     private final String COLOR_RESET = "\033[0m";
-    private final String BOARD_COLOUR_BACKGROUND = "\033[48;2;130;70;40m";  //"\033[48;2;51;121;29m";
-    private final String BOARD_COLOUR_FOREGROUND = "\033[38;2;130;70;40m";  //"\033[38;2;51;121;29m";
+    private final String BOARD_COLOUR_BACKGROUND = "\033[48;2;130;70;40m";
+    private final String BOARD_COLOUR_FOREGROUND = "\033[38;2;130;70;40m";
     private final String WHITE_PIECE = DARK_BACKGROUND + WHITE_FOREGROUND + " \u26C2 " + COLOR_RESET;
     private final String BLACK_PIECE = DARK_BACKGROUND + BLACK_FOREGROUND + " \u26C2 " + COLOR_RESET;
     private final String WHITE_QUEEN = DARK_BACKGROUND + WHITE_FOREGROUND + " \u265B " + COLOR_RESET;
