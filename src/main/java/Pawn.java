@@ -46,10 +46,6 @@ public class Pawn {
     }
 
     private boolean isItMove(int[] newCoordinates, Board board) {
-        return pawnMove(newCoordinates, board);
-    }
-
-    private boolean pawnMove(int[] newCoordinates, Board board) {
         if (this.color == Color.WHITE)
             return whitePawnMove(newCoordinates, board);
         else

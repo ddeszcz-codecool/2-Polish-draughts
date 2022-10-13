@@ -4,10 +4,16 @@ import java.util.regex.Pattern;
 public class Game {
     private Color currentPlayer = Color.WHITE;
     private Board board;
+    private boolean isBlackAI = false;
+    private AiPlayer ai;
 
     void start() {
         System.out.println("Hello !!");
         board = Board.getBoard(askUserForBoardSize());
+        if(askUserForAiOpponent()){
+            isBlackAI = true;
+            ai = new AiPlayer(Color.BLACK, board);
+        }
         System.out.println(board);
         System.out.println("Current player for - " + currentPlayer.name());
         while (playRound()) {
@@ -18,11 +24,38 @@ public class Game {
         System.out.println(board);
         System.out.println("The Winner is " + currentPlayer + " player !!");
     }
+    private boolean askUserForAiOpponent(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Do you want to play against AI ?");
+        System.out.println("1: Yes");
+        System.out.println("2: No");
+        String answer = scanner.nextLine().strip();
+        switch (answer){
+            case "1":
+                System.out.println("AI enabled");
+                System.out.println("AI will play BLACK");
+                return true;
+            case "2":
+                System.out.println("AI disabled");
+                return false;
+            default:
+                System.out.println("Incorrect input, AI disabled");
+        }
+        return false;
+    }
 
     private boolean playRound() {
-
+        if(currentPlayer == Color.BLACK && isBlackAI){
+            ai.playTurn();
+            if (checkForWinner()) {
+                return false;
+            }
+            changePlayer();
+            return true;
+        }
         boolean result = true;
         while (result) {
+
             if (!verifyPlayerMove()) {
                 continue;
             }
