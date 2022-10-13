@@ -233,7 +233,7 @@ public class Pawn {
         int rowJump = currentRowDirection * 2;
         int colJump = currentColDirection * 2;
 
-        if (isIndexOutOfBounds(position.getX() + rowJump, board) &&
+        if (isIndexOutOfBounds(position.getX() + rowJump, board) ||
                 isIndexOutOfBounds(position.getY() + colJump, board))
             return false;
 
@@ -247,7 +247,7 @@ public class Pawn {
     private boolean isCapturePossibleForQueenInSpecificDirection(int currentRowDirection, int currentColDirection, Board board) {
         Coordinates coordsToCheck = new Coordinates(position.getX() + currentRowDirection, position.getY() + currentColDirection);
 
-        while (!isIndexOutOfBounds(coordsToCheck.getX(), board) && !isIndexOutOfBounds(coordsToCheck.getY(), board)) {
+        while (!isIndexOutOfBounds(coordsToCheck.getX(), board) || !isIndexOutOfBounds(coordsToCheck.getY(), board)) {
             if (isFieldEmpty(coordsToCheck.getX(), coordsToCheck.getY(), board)) {
                 coordsToCheck.moveCoordinates(currentRowDirection, currentColDirection);
                 continue;
