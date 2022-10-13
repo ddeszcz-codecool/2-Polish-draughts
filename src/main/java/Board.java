@@ -10,6 +10,7 @@ class Board {
         this.fields = new Pawn[n][n];
         WHITE_STARTING_ROW = fields.length - 1;
 
+
        setUpPawnsOnBoard();
 //        fields[5][1] = new Pawn(5, 1, Color.BLACK);
 //        fields[5][1].isCrowned = true;
