@@ -9,7 +9,9 @@ class Board {
     private Board(int n) {
         this.fields = new Pawn[n][n];
         WHITE_STARTING_ROW = fields.length - 1;
+
         setUpPawnsOnBoard();
+
     }
 
     public static Board getBoard(int n) {

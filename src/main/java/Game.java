@@ -4,25 +4,58 @@ import java.util.regex.Pattern;
 public class Game {
     private Color currentPlayer = Color.WHITE;
     private Board board;
+    private boolean isBlackAI = false;
+    private AiPlayer ai;
 
     void start() {
-        System.out.println("Hello !!");
+        System.out.println(" Hello !!");
         board = Board.getBoard(askUserForBoardSize());
+        if(askUserForAiOpponent()){
+            isBlackAI = true;
+            ai = new AiPlayer(Color.BLACK, board);
+        }
         System.out.println(board);
-        System.out.println("Current player for - " + currentPlayer.name());
+        System.out.println(" Current player for - " + currentPlayer.name());
         while (playRound()) {
             System.out.println(board);
             System.out.println("Current player for - " + currentPlayer.name());
         }
 
         System.out.println(board);
-        System.out.println("The Winner is " + currentPlayer + " player !!");
+        System.out.println(" The Winner is " + currentPlayer + " player !!");
+    }
+    private boolean askUserForAiOpponent(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println(" Do you want to play against AI ?");
+        System.out.println(" [1] - Yes");
+        System.out.println(" [2] - No");
+        String answer = scanner.nextLine().strip();
+        switch (answer){
+            case "1":
+                System.out.println(" AI enabled");
+                System.out.println(" AI will play BLACK");
+                return true;
+            case "2":
+                System.out.println(" AI disabled");
+                return false;
+            default:
+                System.out.println(" Incorrect input, AI disabled");
+        }
+        return false;
     }
 
     private boolean playRound() {
-
+        if(currentPlayer == Color.BLACK && isBlackAI){
+            ai.playTurn();
+            if (checkForWinner()) {
+                return false;
+            }
+            changePlayer();
+            return true;
+        }
         boolean result = true;
         while (result) {
+
             if (!verifyPlayerMove()) {
                 continue;
             }
@@ -63,7 +96,7 @@ public class Game {
         int[] moveCoordinates = chooseCoordinatesToMoveTo();
 
         if (!isMoveInAStraightLine(pawnCoordinates, moveCoordinates)) {
-            System.out.println("Move not in a straight line. Please choose again");
+            System.out.println(" The move is not diagonal. Please choose again");
             return false;
         }
         PawnMoveStatus status;
@@ -79,21 +112,21 @@ public class Game {
             verifyNextCapture(moveCoordinates);
             return true;
         } else {
-            System.out.println("Move is not valid. Please choose again");
+            System.out.println(" Move is not valid. Please choose again");
             return false;
         }
     }
 
     private void verifyNextCapture(int[] pawnCoordinates) {
         System.out.println(board);
-        System.out.println("There is another capture possible, please make another move");
+        System.out.println(" There is another capture possible, please make another move");
 
         boolean stillChoosing = true;
         while (stillChoosing) {
             int[] newMoveCoordinates = chooseCoordinatesToMoveTo();
 
             if (!isMoveInAStraightLine(pawnCoordinates, newMoveCoordinates)) {
-                System.out.println("Move is not valid");
+                System.out.println(" Move is not valid");
                 continue;
             }
             PawnMoveStatus status = board.getFields()[pawnCoordinates[0]][pawnCoordinates[1]].tryToCapture(newMoveCoordinates, board);
@@ -121,11 +154,11 @@ public class Game {
 
         while (pawnNotChosen) {
             System.out.println();
-            System.out.println("Which pawn do you want to move?");
+            System.out.println(" Which pawn do you want to move ?");
             String pawnPlaceOnBoard = scanner.nextLine().strip().toLowerCase();
 
             if (!validateCoordinatesAreOnlyLetterAndNumber(pawnPlaceOnBoard)) {
-                System.out.println("Your coordinates are not correct, please use a following format - letter + number - e.g. A2, B4");
+                System.out.println(" Your coordinates are not correct, please use a following format - letter + number - e.g. A2, B4");
                 continue;
             }
             int[] chosenCoordinates = stringToCoordinates(pawnPlaceOnBoard);
@@ -133,7 +166,7 @@ public class Game {
             if (!validateCoordinatesAreInRange(chosenCoordinates)) {
                 int boardWidth = board.getFields().length;
                 char boardHeight = (char) (board.getFields().length + 64);
-                System.out.println("Your coordinates are out of range please use coordinates from 1 to " + boardWidth + " and from A to " + boardHeight);
+                System.out.println(" Your coordinates are out of range, please use coordinates from 1 to " + boardWidth + " and from A to " + boardHeight);
                 continue;
             }
             if (!validateUserChosenPawnNotNullAndNotDifferentColor(chosenCoordinates)) {
@@ -152,7 +185,7 @@ public class Game {
 
         while (coordinatesNotChosen) {
 
-            System.out.println("Where you want to move it ?");
+            System.out.println(" Where do you want to move it ?");
             String placeToMove = scanner.nextLine().strip().toLowerCase();
             if (!validateCoordinatesAreOnlyLetterAndNumber(placeToMove)) {
                 System.out.println("Your coordinates are not correct, please use format letter plus number e.g. A2, B4");
@@ -163,7 +196,7 @@ public class Game {
             if (!validateCoordinatesAreInRange(moveCoordinates)) {
                 int boardWidth = board.getFields().length;
                 char boardHeight = (char) (board.getFields().length + 64);
-                System.out.println("Your coordinates are out of range please use coordinates from 1 to " + boardWidth + " and from A to " + boardHeight);
+                System.out.println(" Your coordinates are out of range, please use coordinates from 1 to " + boardWidth + " and from A to " + boardHeight);
                 continue;
             }
             if (!validateUserChosenMoveCoordinatesAreNull(moveCoordinates)) {
@@ -178,7 +211,7 @@ public class Game {
     private boolean checkForWinner() {
         if (checkForDraw()) {
             System.out.println(board);
-            System.out.println("It's a draw.");
+            System.out.println(" It's a draw.");
             System.exit(0);
         }
         return checkIfNoEnemyPawnsOnBoard() || checkIfAllEnemyPawnsBlocked();
@@ -303,16 +336,16 @@ public class Game {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
-            System.out.println("What size do you want to play on ? ");
+            System.out.println(" How wide of a board do you want to play on ? ");
             String size = scanner.nextLine().strip();
             if (validateUserChoicePattern(size)) {
                 int boardSize = Integer.parseInt(size);
                 if (boardSize >= 10 && boardSize <= 20 && boardSize % 2 == 0)
                     return boardSize;
                 else
-                    System.out.println("The board size entered is incorrect, try between 10 and 20 (only even numbers)");
+                    System.out.println(" The specified width of the board is incorrect, try between 10 and 20 (only even numbers)");
             } else
-                System.out.println("The input format incorrect, try numbers between 10 and 20 (only even numbers)");
+                System.out.println(" Incorrect input format, try numbers between 10 and 20 (only even numbers)");
         }
     }
 
@@ -324,12 +357,12 @@ public class Game {
 
     private boolean validateUserChosenPawnNotNullAndNotDifferentColor(int[] pawnPlace) {
         if (board.getFields()[pawnPlace[0]][pawnPlace[1]] == null) {
-            System.out.println("There is no pawn on this field");
+            System.out.println(" There is no pawn on this field");
             return false;
         }
 
         if (currentPlayer != board.getFields()[pawnPlace[0]][pawnPlace[1]].getColor()) {
-            System.out.println("This is Yours opponent pawn, please use your pawn");
+            System.out.println(" This is yours opponent's pawn, please use your own");
             return false;
         }
         return true;
@@ -337,7 +370,7 @@ public class Game {
 
     private boolean validateUserChosenMoveCoordinatesAreNull(int[] pawnPlace) {
         if (board.getFields()[pawnPlace[0]][pawnPlace[1]] != null) {
-            System.out.println("You cannot move here, this field is occupied by another pawn");
+            System.out.println(" You cannot move here, this field is occupied by another pawn");
             return false;
         }
         return true;
