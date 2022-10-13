@@ -420,6 +420,7 @@ public class Intro {
                     case 666:
                         consoleHelper.printDocumentation();
                         waitForEnter();
+                        stopSound();
                         break;
                     default: {
                         System.out.println(RED_FOREGROUND + "   Hey, that's not how we get along. Follow the instructions below." + RESET);
