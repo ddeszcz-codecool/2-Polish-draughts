@@ -121,14 +121,14 @@ public class Intro {
                 RESET + "       ===========================================================================\n");
         System.out.println(WHITE_BOLD_BRIGHT_FOREGROUND +
                 "       The goal of Polish Draughts Game is to remove all your opponent's pieces\n" +
-                        "        from the board or block its ability to move with the remaining pawns.\n\n" +
-                        "       Your pieces can only move forward one tile diagonally.\n\n" +
-                        "       To capture an opponent's piece and remove it from the board,\n" +
-                        "        you need to jump over their piece with one of yours.\n\n" +
-                        "       If one of your pieces gets to the opposite side of the board (the last row),\n" +
-                        "        it will turn into a Queen.\n" +
-                        "       Queens can move and jump diagonally in any direction at any distance.\n\n" + RED_FOREGROUND +
-                        "                               The marvellous Team ONE wish you good luck!\n" + RESET);
+                "        from the board or block its ability to move with the remaining pawns.\n\n" +
+                "       Your pieces can only move forward one tile diagonally.\n\n" +
+                "       To capture an opponent's piece and remove it from the board,\n" +
+                "        you need to jump over their piece with one of yours.\n\n" +
+                "       If one of your pieces gets to the opposite side of the board (the last row),\n" +
+                "        it will turn into a Queen.\n" +
+                "       Queens can move and jump diagonally in any direction at any distance.\n\n" + RED_FOREGROUND +
+                "                               The marvellous Team ONE wish you good luck!\n" + RESET);
 
     }
 
@@ -291,8 +291,6 @@ public class Intro {
     }
 
 
-
-
     public static void printItSlow(String sayWhat) {
         for (int i = 0; i < sayWhat.length(); i++) {
             System.out.print(sayWhat.charAt(i));
@@ -310,6 +308,7 @@ public class Intro {
         }
 
     }
+
     public void printDocumentation() {
         playSound(("sounds/chimera.wav"));
         fakeCLS();
@@ -372,13 +371,14 @@ public class Intro {
                 " [3] - History of polish draughts",
                 " [4] - The great team behind",
                 " [5] - Random quote of the day",
-                " [6] - Exit"
+                " [6] - Board theme selection",
+                " [7] - Exit"
         };
 
         playSound("sounds/just_a_moment.wav");
         consoleHelper.printTitle2();
         int option = 1;
-        while (option != 6) {
+        while (option != 7) {
             consoleHelper.Intro1(options);
             try {
                 option = scanner.nextInt();
@@ -407,6 +407,9 @@ public class Intro {
                         consoleHelper.quoteOfTheDay();
                         break;
                     case 6:
+                        selectBoardTheme();
+                        break;
+                    case 7:
                         exit(0);
                     case 666:
                         consoleHelper.printDocumentation();
@@ -423,6 +426,87 @@ public class Intro {
                 System.out.println("   Please choose an option (number between 1 and " + options.length + ")...\n");
                 playSound("sounds/enough_info.wav");
                 scanner.next();
+            }
+        }
+    }
+
+    private static void selectBoardTheme() {
+        fakeCLS();
+        System.out.println("\n\n " +
+                GREEN_BOLD_BRIGHT_FOREGROUND + "       ███        ▄█    █▄       ▄████████ " + CYAN_BOLD_BRIGHT_FOREGROUND + "  ▄▄▄▄███▄▄▄▄      ▄████████    ▄████████ \n" +
+                GREEN_BOLD_BRIGHT_FOREGROUND + "   ▀█████████▄   ███    ███     ███    ███ " + CYAN_BOLD_BRIGHT_FOREGROUND + "▄██▀▀▀███▀▀▀██▄   ███    ███   ███    ███ \n" +
+                GREEN_BOLD_BRIGHT_FOREGROUND + "      ▀███▀▀██   ███    ███     ███    █▀  " + CYAN_BOLD_BRIGHT_FOREGROUND + "███   ███   ███   ███    █▀    ███    █▀  \n" +
+                GREEN_BOLD_BRIGHT_FOREGROUND + "       ███   ▀  ▄███▄▄▄▄███▄▄  ▄███▄▄▄     " + CYAN_BOLD_BRIGHT_FOREGROUND + "███   ███   ███  ▄███▄▄▄       ███        \n" +
+                WHITE_BOLD_BRIGHT_FOREGROUND + "       ███     ▀▀███▀▀▀▀███▀  ▀▀███▀▀▀     " + PURPLE_BOLD_BRIGHT_FOREGROUND + "███   ███   ███ ▀▀███▀▀▀     ▀███████████ \n" +
+                WHITE_BOLD_BRIGHT_FOREGROUND + "       ███       ███    ███     ███    █▄  " + PURPLE_BOLD_BRIGHT_FOREGROUND + "███   ███   ███   ███    █▄           ███ \n" +
+                WHITE_BOLD_BRIGHT_FOREGROUND + "       ███       ███    ███     ███    ███ " + PURPLE_BOLD_BRIGHT_FOREGROUND + "███   ███   ███   ███    ███    ▄█    ███ \n" +
+                WHITE_BOLD_BRIGHT_FOREGROUND + "      ▄████▀     ███    █▀      ██████████ " + PURPLE_BOLD_BRIGHT_FOREGROUND + " ▀█   ███   █▀    ██████████  ▄████████▀  \n" +
+                BLUE_BOLD_BRIGHT_FOREGROUND + "\n\n");
+        System.out.println("          Please choose your board template:\n" + RESET);
+        System.out.println("         ▞▞▞▞▞▞▞▞▞▞▞▞▞▞▞▞▞▞▞▞▞▞▞▞▞▞▞▞▞▞▞▞▞▞▞\n" + RESET);
+
+        int option = 1;
+        String[] subOptions = {
+                "    (1) - Leather style",
+                "    (2) - Sea",
+                "    (3) - nazwa",
+                "    (4) - The great team behind",
+                "    (5) - Random quote of the day",
+                "    (6) - Board theme selection",
+                "    (7) - Board theme selection",
+                "    (8) - Exit"
+        };
+        Scanner subScanner = new Scanner(System.in);
+        int subMenu = 1;
+        while (subMenu != 8) {
+            for (String subOption : subOptions) {
+                System.out.println(subOption);
+                waitFor(100);
+            }
+            try {
+                subMenu = subScanner.nextInt();
+                switch (subMenu) {
+                    case 1: {
+                        // odpal Leather
+                        break;
+                    }
+                    case 2: {
+                        System.exit(1);
+                        break;
+                    }
+                    case 3: {
+                        System.exit(1);
+                        break;
+                    }
+                    case 4: {
+                        System.exit(0);
+                        break;
+                    }
+                    case 5: {
+                        System.exit(0);
+                        break;
+                    }
+                    case 6: {
+                        System.exit(0);
+                        break;
+                    }
+                    case 7: {
+                        System.exit(0);
+                        break;
+                    }
+                    case 8: {
+                        break;
+                    }
+                    default: {
+                        System.out.println("   Please choose an option (number between 1 and 8");
+                    }
+
+                }
+
+            } catch (Exception ex) {
+                System.out.println(RED_FOREGROUND + "   Digits 1 to 8 are allowed only\n" + RESET);
+                playSound("sounds/enough_info.wav");
+                subScanner.next();
             }
         }
     }
