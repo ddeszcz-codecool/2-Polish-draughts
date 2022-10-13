@@ -233,7 +233,7 @@ public class Pawn {
         int rowJump = currentRowDirection * 2;
         int colJump = currentColDirection * 2;
 
-        if (isIndexOutOfBounds(position.getX() + rowJump, board) &&
+        if (isIndexOutOfBounds(position.getX() + rowJump, board) ||
                 isIndexOutOfBounds(position.getY() + colJump, board))
             return false;
 
