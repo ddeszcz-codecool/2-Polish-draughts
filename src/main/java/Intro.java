@@ -475,32 +475,26 @@ public class Intro {
                 switch (subMenu) {
                     case 1: {
                         DisplayBoard.chooseTemplate(1);
-                        subMenu = 7;
                         break;
                     }
                     case 2: {
                         DisplayBoard.chooseTemplate(2);
-                        subMenu = 7;
                         break;
                     }
                     case 3: {
                         DisplayBoard.chooseTemplate(3);
-                        subMenu = 7;
                         break;
                     }
                     case 4: {
                         DisplayBoard.chooseTemplate(4);
-                        subMenu = 7;
                         break;
                     }
                     case 5: {
                         DisplayBoard.chooseTemplate(5);
-                        subMenu = 7;
                         break;
                     }
                     case 6: {
                         DisplayBoard.chooseTemplate(6);
-                        subMenu = 7;
                         break;
                     }
                     case 7: {
