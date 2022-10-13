@@ -122,7 +122,7 @@ public class Pawn {
             return false;
         if (movePosition[0] != enemyPawnCoordinatesForCapture[0] + moveParameters.rowCaptureDirection &&
                 movePosition[1] != enemyPawnCoordinatesForCapture[1] + moveParameters.colCaptureDirection) {
-            System.out.println("You must land behind captured pawn");
+            System.out.println(" You must finish the move exactly behind the captured pawn");
             return false;
         }
         return true;
