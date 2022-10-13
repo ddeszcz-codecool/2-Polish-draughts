@@ -31,7 +31,7 @@ public class DisplayBoard {
 
 
     public void ShowMeBoard() {
-        chooseTemplate(5); //Only for test
+//        chooseTemplate(); //TEST
         System.out.print("\u2004" + BOARD_COLOUR_BACKGROUND + "     \u2008");
         for (int iCol = 0; iCol < boardLength; iCol++) {
             System.out.print(SIDE_FOREGROUND + letters.charAt(iCol) + EMPTY_SPACE);
@@ -78,7 +78,7 @@ public class DisplayBoard {
         return WHITE_PIECE;
     }
 
-    public void chooseTemplate(int theme) {
+    public static void chooseTemplate(int theme) {
         switch (theme) {
             case 1: {
                 SIDE_FOREGROUND = "\033[38;2;232;9;57m";
@@ -102,24 +102,32 @@ public class DisplayBoard {
                 WHITE_QUEEN = DARK_BACKGROUND + WHITE_PAWN_FOREGROUND + " \u265B " + COLOR_RESET;
                 BLACK_QUEEN = DARK_BACKGROUND + BLACK_PAWN_FOREGROUND + " \u265B " + COLOR_RESET;
                 break;
-            }   //Red leather Style //TODO
+            }   //Red leather Style
             case 2: {
+                SIDE_FOREGROUND = "\033[38;2;255;255;255m";
 
-                BOARD_COLOUR_BACKGROUND = "\033[48;2;69;114;172m";
-                BOARD_COLOUR_FOREGROUND = "\033[38;2;69;114;172m";
+                BOARD_COLOUR_FOREGROUND = "\033[38;2;49;52;58m";
+                BOARD_COLOUR_BACKGROUND = "\033[48;2;49;52;58m";
                 EMPTY_SPACE = BOARD_COLOUR_FOREGROUND + " \u26C0";
 
+                DARK_FOREGROUND = "\033[38;2;5;5;5m";
+                DARK_BACKGROUND = "\033[48;2;5;5;5m";
+                BLACK_SQUARE = DARK_BACKGROUND + DARK_FOREGROUND + " \u26C0 " + COLOR_RESET;
+
+                EMPTY_FOREGROUND = "\033[38;2;250;250;250m";
+                EMPTY_BACKGROUND = "\033[48;2;250;250;250m";
+                WHITE_SQUARE = EMPTY_BACKGROUND + EMPTY_FOREGROUND + " \u26C0 " + COLOR_RESET;
+
+                BLACK_PAWN_FOREGROUND = "\033[38;2;217;17;17m";
+                WHITE_PAWN_FOREGROUND = "\033[38;2;60;128;216m";
+
+                WHITE_PIECE = DARK_BACKGROUND + WHITE_PAWN_FOREGROUND + " \u26C2 " + COLOR_RESET;
+                BLACK_PIECE = DARK_BACKGROUND + BLACK_PAWN_FOREGROUND + " \u26C2 " + COLOR_RESET;
+                WHITE_QUEEN = DARK_BACKGROUND + WHITE_PAWN_FOREGROUND + " \u265B " + COLOR_RESET;
+                BLACK_QUEEN = DARK_BACKGROUND + BLACK_PAWN_FOREGROUND + " \u265B " + COLOR_RESET;
                 break;
-            }   //Sea //TODO
+            }   //Black and White
             case 3: {
-
-                BOARD_COLOUR_BACKGROUND = "\033[48;2;0;0;0m";
-                BOARD_COLOUR_FOREGROUND = "\033[38;2;0;0;0m";
-                EMPTY_SPACE = BOARD_COLOUR_FOREGROUND + " \u26C0";
-
-                break;
-            }   //Default board with black frame
-            case 4: {
                 SIDE_FOREGROUND = "\033[38;2;232;235;239m";
 
                 BOARD_COLOUR_FOREGROUND = "\033[38;2;0;74;158m";
@@ -140,31 +148,60 @@ public class DisplayBoard {
                 BLACK_QUEEN = DARK_BACKGROUND + BLACK_PAWN_FOREGROUND + " \u265B " + COLOR_RESET;
                 break;
             }   //Winter edition
-            case 5: {
-                SIDE_FOREGROUND = "\033[38;2;255;255;255m";
+            case 4: {
+                SIDE_FOREGROUND = "\033[38;2;67;139;121m";
 
                 BOARD_COLOUR_FOREGROUND = "\033[38;2;49;52;58m";
                 BOARD_COLOUR_BACKGROUND = "\033[48;2;49;52;58m";
                 EMPTY_SPACE = BOARD_COLOUR_FOREGROUND + " \u26C0";
 
-                DARK_FOREGROUND = "\033[38;2;5;5;5m";
-                DARK_BACKGROUND = "\033[48;2;5;5;5m";
+                DARK_FOREGROUND = "\033[38;2;67;139;121m";
+                DARK_BACKGROUND = "\033[48;2;67;139;121m";
                 BLACK_SQUARE = DARK_BACKGROUND + DARK_FOREGROUND + " \u26C0 " + COLOR_RESET;
 
-                EMPTY_FOREGROUND = "\033[38;2;250;250;250m";
-                EMPTY_BACKGROUND = "\033[48;2;250;250;250m";
+                EMPTY_FOREGROUND = "\033[38;2;186;186;186m";
+                EMPTY_BACKGROUND = "\033[48;2;186;186;186m";
                 WHITE_SQUARE = EMPTY_BACKGROUND + EMPTY_FOREGROUND + " \u26C0 " + COLOR_RESET;
+
+                BLACK_PAWN_FOREGROUND = "\033[38;2;15;15;15m";
+                WHITE_PAWN_FOREGROUND = "\033[38;2;220;220;220m";
 
                 WHITE_PIECE = DARK_BACKGROUND + WHITE_PAWN_FOREGROUND + " \u26C2 " + COLOR_RESET;
                 BLACK_PIECE = DARK_BACKGROUND + BLACK_PAWN_FOREGROUND + " \u26C2 " + COLOR_RESET;
                 WHITE_QUEEN = DARK_BACKGROUND + WHITE_PAWN_FOREGROUND + " \u265B " + COLOR_RESET;
                 BLACK_QUEEN = DARK_BACKGROUND + BLACK_PAWN_FOREGROUND + " \u265B " + COLOR_RESET;
                 break;
-            }  //Black and White //TODO
-            case 6: {} //TODO
-            case 7: {} //TODO
+            }   //Green
+            case 5: {
+
+                BOARD_COLOUR_BACKGROUND = "\033[48;2;0;0;0m";
+                BOARD_COLOUR_FOREGROUND = "\033[38;2;0;0;0m";
+                EMPTY_SPACE = BOARD_COLOUR_FOREGROUND + " \u26C0";
+
+                break;
+            }   //Default board with black frame
+            case 6: {
+                DARK_BACKGROUND = "\033[48;2;127;66;40m";
+                DARK_FOREGROUND = "\033[38;2;127;66;40m";
+                BLACK_PAWN_FOREGROUND = "\033[38;2;0;0;0m";
+                EMPTY_BACKGROUND = "\033[48;2;234;240;174m";
+                EMPTY_FOREGROUND = "\033[38;2;234;240;174m";
+                WHITE_PAWN_FOREGROUND = "\033[38;2;255;255;255m";
+                SIDE_FOREGROUND = "\033[38;2;213;194;62m";
+                BOARD_COLOUR_BACKGROUND = "\033[48;2;130;70;40m";
+                BOARD_COLOUR_FOREGROUND = "\033[38;2;130;70;40m";
+
+                WHITE_PIECE = DARK_BACKGROUND + WHITE_PAWN_FOREGROUND + " \u26C2 " + COLOR_RESET;
+                BLACK_PIECE = DARK_BACKGROUND + BLACK_PAWN_FOREGROUND + " \u26C2 " + COLOR_RESET;
+                WHITE_QUEEN = DARK_BACKGROUND + WHITE_PAWN_FOREGROUND + " \u265B " + COLOR_RESET;
+                BLACK_QUEEN = DARK_BACKGROUND + BLACK_PAWN_FOREGROUND + " \u265B " + COLOR_RESET;
+                BLACK_SQUARE = DARK_BACKGROUND + DARK_FOREGROUND + " \u26C0 " + COLOR_RESET;
+                WHITE_SQUARE = EMPTY_BACKGROUND + EMPTY_FOREGROUND + " \u26C0 " + COLOR_RESET;
+                EMPTY_SPACE = BOARD_COLOUR_FOREGROUND + " \u26C0";
+
+
+            }   //Default
         }
+
     }
-
-
 }

@@ -454,54 +454,56 @@ public class Intro {
 
         int option = 1;
         String[] subOptions = {
-                "    (1) - Leather style",
-                "    (2) - Sea",
-                "    (3) - nazwa",
-                "    (4) - The great team behind",
-                "    (5) - Random quote of the day",
-                "    (6) - Board theme selection",
-                "    (7) - Board theme selection",
-                "    (8) - Exit"
+                "    (1) - Red leather style",
+                "    (2) - Black and White",
+                "    (3) - Winter edition",
+                "    (4) - Green",
+                "    (5) - Default board with black frame",
+                "    (6) - Default Board",
+                "    (7) - Exit",
         };
         Scanner subScanner = new Scanner(System.in);
         int subMenu = 1;
-        while (subMenu != 8) {
+        while (subMenu != 7) {
             for (String subOption : subOptions) {
                 System.out.println(subOption);
                 waitFor(100);
             }
             try {
                 subMenu = subScanner.nextInt();
+
                 switch (subMenu) {
                     case 1: {
-                        // odpal Leather
+                        DisplayBoard.chooseTemplate(1);
+                        subMenu = 7;
                         break;
                     }
                     case 2: {
-                        System.exit(1);
+                        DisplayBoard.chooseTemplate(2);
+                        subMenu = 7;
                         break;
                     }
                     case 3: {
-                        System.exit(1);
+                        DisplayBoard.chooseTemplate(3);
+                        subMenu = 7;
                         break;
                     }
                     case 4: {
-                        System.exit(0);
+                        DisplayBoard.chooseTemplate(4);
+                        subMenu = 7;
                         break;
                     }
                     case 5: {
-                        System.exit(0);
+                        DisplayBoard.chooseTemplate(5);
+                        subMenu = 7;
                         break;
                     }
                     case 6: {
-                        System.exit(0);
+                        DisplayBoard.chooseTemplate(6);
+                        subMenu = 7;
                         break;
                     }
                     case 7: {
-                        System.exit(0);
-                        break;
-                    }
-                    case 8: {
                         break;
                     }
                     default: {
