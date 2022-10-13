@@ -26,6 +26,7 @@ public class Intro {
 
 
     private static final Random DRAWN = new Random();
+    private static Clip clip;
 
     public void Intro1(String[] options) {
 
@@ -170,7 +171,7 @@ public class Intro {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        Clip clip = null;
+        clip = null;
         try {
             clip = AudioSystem.getClip();
         } catch (LineUnavailableException e) {
@@ -185,7 +186,11 @@ public class Intro {
         }
         clip.start();
     }
-
+    public static void stopSound() {
+        clip.stop();
+        clip.flush();
+        clip.close();
+    }
     private static String lastLine = "";
 
     public static void print(String line) {
@@ -402,6 +407,7 @@ public class Intro {
                         System.out.println(BLUER_FOREGROUND + "              " +
                                 "     Press [ENTER] if you love Team ONE..." + RESET);
                         waitForEnter();
+                        stopSound();
                         break;
                     case 5:
                         consoleHelper.quoteOfTheDay();
