@@ -16,8 +16,14 @@ public class Intro {
     public static final String CYAN_FOREGROUND = "\u001B[36m";
     public static final String RED_FOREGROUND = "\u001B[31m";
     public static final String BLUER_FOREGROUND = "\033[1;34m";
+    public static final String BLUE_BOLD_BRIGHT_FOREGROUND = "\033[1;94m";
     public static final String YELLOWER_FOREGROUND = "\033[1;33m";
     public static final String PURPLE_BRIGHT_FOREGROUND = "\033[0;95m";
+    public static final String GREEN_BOLD_BRIGHT_FOREGROUND = "\033[1;92m";
+    public static final String CYAN_BOLD_BRIGHT_FOREGROUND = "\033[1;96m";
+    public static final String WHITE_BOLD_BRIGHT_FOREGROUND = "\033[1;97m";
+    public static final String PURPLE_BOLD_BRIGHT_FOREGROUND = "\033[1;95m";
+
 
     private static final Random DRAWN = new Random();
 
@@ -88,15 +94,15 @@ public class Intro {
                 "   /--/ o _   /  __ __  __  ,   __ //    __/ __  __.  . . _,  /_  /  _  \n" +
                 "  /  (_<_/_)_<__(_)/ (_/ (_/_  (_)//_   (_/_/ (_(_/|_(_/_(_)_/ /_<__/_)_\n" +
                 "                          /      />                       /|            \n" +
-                "                         '      </                       |/     \n\n" + BLUER_FOREGROUND);
+                "                         '      </                       |/     \n\n" + BLUE_BOLD_BRIGHT_FOREGROUND);
 
 
         System.out.println(
                 "    A board resembling a draughts board was found  in Ur, an important\n" +
                         "      Sumerain city-state in ancient Mesopotamia dating from 3000 BC.\n\n" +
-                        "    Polish Draughts are larger than standard draughts (100 instead of 64 fields) " +
+                        "    Polish Draughts are larger than standard draughts (100 instead of 64 fields)\n" +
                         "      and have 4 rows of pawns instead of 3 rows of pawns (20 pawns vs. 12 pawns in standard draughts).\n\n" +
-                        "    Polish Draughts were invented by Polish officer Franciszek Żubr," +
+                        "    Polish Draughts were invented by Polish officer Franciszek Żubr,\n" +
                         "      a member of the Maria Leszczyńska and Louis XV royal court .\n" +
                         "      ( Maria Leszczyńska was Stanisław Leszczyński's - Polish king - daughter. )\n\n" +
                         "    In Poland this draughts type until XIX century was called the French Draughts.\n\n" +
@@ -107,13 +113,13 @@ public class Intro {
 
     public void showInstructions() {
         playSound("sounds/mind_is_going.wav");
-        System.out.println(BLUER_FOREGROUND + "\n" + YELLOWER_FOREGROUND);
+        System.out.println(BLUER_FOREGROUND + "\n\n\n\n\n\n\n" + YELLOWER_FOREGROUND);
         System.out.println("       __ __  __  __  ______ ____  __ __   ___ ______ __   ___   __  __  __ \n" +
                 "       || ||\\ || (( \\ | || | || \\\\ || ||  //   | || | ||  // \\\\  ||\\ || (( \\\n" +
                 "       || ||\\\\||  \\\\    ||   ||_// || || ((      ||   || ((   )) ||\\\\||  \\\\ \n" +
                 "       || || \\|| \\_))   ||   || \\\\ \\\\_//  \\\\__   ||   ||  \\\\_//  || \\|| \\_))\n\n" +
                 RESET + "       ===========================================================================\n");
-        System.out.println(
+        System.out.println(WHITE_BOLD_BRIGHT_FOREGROUND +
                 "       The goal of Polish Draughts Game is to remove all your opponent's pieces\n" +
                         "        from the board or block its ability to move with the remaining pawns.\n\n" +
                         "       Your pieces can only move forward one tile diagonally.\n\n" +
@@ -226,18 +232,18 @@ public class Intro {
 
     public void printTitle1() {
         fakeCLS();
-        System.out.println(
+        System.out.println(GREEN_BOLD_BRIGHT_FOREGROUND +
                 "8888888b.          888 d8b          888           8888888b.                                    888      888             \n" +
-                        "888   Y88b         888 Y8P          888           888  \"Y88b                                   888      888             \n" +
-                        "888    888         888              888           888    888                                   888      888             \n" +
-                        "888   d88P .d88b.  888 888 .d8888b  88888b.       888    888 888d888 8888b.  888  888  .d88b.  88888b.  888888 .d8888b  \n" +
-                        "8888888P\" d88\"\"88b 888 888 88K      888 \"88b      888    888 888P\"      \"88b 888  888 d88P\"88b 888 \"88b 888    88K      \n" +
-                        "888       888  888 888 888 \"Y8888b. 888  888      888    888 888    .d888888 888  888 888  888 888  888 888    \"Y8888b. \n" +
-                        "888       Y88..88P 888 888      X88 888  888      888  .d88P 888    888  888 Y88b 888 Y88b 888 888  888 Y88b.       X88 \n" +
-                        "888        \"Y88P\"  888 888  88888P' 888  888      8888888P\"  888    \"Y888888  \"Y88888  \"Y88888 888  888  \"Y888  88888P' \n" +
-                        "                              _                      ___             _     __              888                          \n" +
-                        "   _    |_  __   _|_ _  |    (_| _ __  _    |_  \\/    |  _  _ __    / \\|\\||_          Y8b d88P                          \n" +
-                        "  (_|   |_) | |_| |_(_| |    __|(_||||(/_   |_) /     | (/_(_||||   \\_/| ||__          \"Y88P\"                           ");
+                "888   Y88b         888 Y8P          888           888  \"Y88b                                   888      888             \n" +
+                "888    888         888              888           888    888                                   888      888             \n" +
+                "888   d88P .d88b.  888 888 .d8888b  88888b.       888    888 888d888 8888b.  888  888  .d88b.  88888b.  888888 .d8888b  \n" +
+                "8888888P\" d88\"\"88b 888 888 88K      888 \"88b      888    888 888P\"      \"88b 888  888 d88P\"88b 888 \"88b 888    88K      \n" +
+                "888       888  888 888 888 \"Y8888b. 888  888      888    888 888    .d888888 888  888 888  888 888  888 888    \"Y8888b. \n" +
+                "888       Y88..88P 888 888      X88 888  888      888  .d88P 888    888  888 Y88b 888 Y88b 888 888  888 Y88b.       X88 \n" +
+                "888        \"Y88P\"  888 888  88888P' 888  888      8888888P\"  888    \"Y888888  \"Y88888  \"Y88888 888  888  \"Y888  88888P' \n" +
+                "                              _                      ___             _     __              888                          \n" +
+                "   _    |_  __   _|_ _  |    (_| _ __  _    |_  \\/    |  _  _ __    / \\|\\||_          Y8b d88P                          \n" +
+                "  (_|   |_) | |_| |_(_| |    __|(_||||(/_   |_) /     | (/_(_||||   \\_/| ||__          \"Y88P\"\n" + RESET);
     }
 
     public void printTitle2() {
@@ -265,19 +271,27 @@ public class Intro {
         System.out.println(BLUER_FOREGROUND);
         printItSlow("      ╚═╝   ╚══════╝╚═╝  ╚═╝╚═╝     ╚═╝     ╚═════╝ ╚═╝  ╚═══╝╚══════╝");
         System.out.println("");
-        System.out.println(RED_FOREGROUND);
-        printItSlow("         ..... tu czekam na pomysuy od Was (tylko imiona/nicki/role/co chcecie?");
+        System.out.println(PURPLE_BOLD_BRIGHT_FOREGROUND + "\n");
+        printItSlow("             ..... M A G D A L E N A .. O C H ...............");
+        System.out.println(GREEN_BOLD_BRIGHT_FOREGROUND + "\n");
+        printItSlow("             ...... D A W I D .. D E S Z C Z ................");
+        System.out.println(CYAN_BOLD_BRIGHT_FOREGROUND + "\n");
+        printItSlow("             ....... B A R T O S Z .. K A W A L E R .........");
+        System.out.println(GREEN_BOLD_BRIGHT_FOREGROUND + "\n");
+        printItSlow("             ........ S E B A S T I A N .. S O S I N ........");
+        System.out.println(PURPLE_BOLD_BRIGHT_FOREGROUND + "\n");
+        printItSlow("             ......... M A R C I N .. S Z U W A L S K I .....");
+        System.out.println(RESET + '\n');
+
+
         for (int i = 0; i < 5; i++) {
             System.out.println("");
-            waitFor(333);
+            waitFor(220 * i);
         }
-        System.out.println(CYAN_FOREGROUND + " na razie wracam do mejnmenjó" + RESET);
-        for (int i = 0; i < 5; i++) {
-            System.out.println("");
-            waitFor(333);
-        }
-        waitFor(321);
     }
+
+
+
 
     public static void printItSlow(String sayWhat) {
         for (int i = 0; i < sayWhat.length(); i++) {
@@ -288,6 +302,14 @@ public class Intro {
 
     }
 
+    public static void printItFast(String sayWhat) {
+        for (int i = 0; i < sayWhat.length(); i++) {
+            System.out.print(sayWhat.charAt(i));
+            if (sayWhat.charAt(i) == ' ') continue;
+            waitFor(5);
+        }
+
+    }
     public void printDocumentation() {
         playSound(("sounds/chimera.wav"));
         fakeCLS();
@@ -377,7 +399,8 @@ public class Intro {
                         break;
                     case 4:
                         teamInfo();
-                        System.out.println("       Press Enter if you love Team ONE.");
+                        System.out.println(BLUER_FOREGROUND + "              " +
+                                "     Press [ENTER] if you love Team ONE..." + RESET);
                         waitForEnter();
                         break;
                     case 5:
