@@ -41,8 +41,6 @@ public class AiPlayer {
 
     private void doCapture() {
         doMove();
-        System.out.println(possiblePawnToRemoveFromBoard.getX() + "  " + possiblePawnToRemoveFromBoard.getY());
-        System.out.println(placeToMove.getX() + "  " + placeToMove.getY());
         Pawn pawnToRemove = board.getFields()[possiblePawnToRemoveFromBoard.getX()][possiblePawnToRemoveFromBoard.getY()];
         board.removePawn(pawnToRemove);
     }
@@ -59,7 +57,6 @@ public class AiPlayer {
                     }
     }
     private void doMove(){
-        System.out.println(placeToMove.getX() + "  " + placeToMove.getY());
         Pawn currentPawn = board.getFields()[position.getX()][position.getY()];
         board.movePawn(currentPawn, placeToMove.getX(), placeToMove.getY());
     }
